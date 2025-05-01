@@ -4,7 +4,7 @@
   <title>Login</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+  <link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -25,7 +25,8 @@
         <input type="email" name="email" placeholder="Mailaddresse" required><br>
         <input type="password" name="password" placeholder="Adgangskode" required><br>
         <!-- restorepassword -->
-        <a href="/" class="button">Log ud</a>
+        <div class = "left-aligned"><a href="/" >Har du glemt din adgangskode?</a></div>
+
         <button type="submit">Log på</button>
         <p th:if="${error}" th:text="${error}" class="error"></p>
       </form>
