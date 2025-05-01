@@ -16,7 +16,7 @@ public class UserMapper {
 
     public static User addUserByObject(User user) throws DatabaseException
     {
-        String sql = "insert into users (email,password,role,credit) VALUES (?,?,?,?) returning id ;";
+        String sql = "insert into users (email,password,role) VALUES (?,?,?) returning id ;";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql))

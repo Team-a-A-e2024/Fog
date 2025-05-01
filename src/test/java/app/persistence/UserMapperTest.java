@@ -17,6 +17,7 @@ class UserMapperTest {
 
     @BeforeAll
     public static void beforeAll() {
+        UserMapper.setConnectionPool(SetupDatabase.getConnectionPool());
         try {
             SetupDatabase.createTables();
         } catch (DatabaseException e) {
@@ -45,7 +46,7 @@ class UserMapperTest {
     @Test
     void createUser() throws DatabaseException {
         // Arrange
-        User expected = new User(6, "test", "test", null);
+        User expected = new User(6, "test", "test", "salesman");
 
         // Act
         User actual = UserMapper.addUserByObject(expected);
@@ -56,12 +57,13 @@ class UserMapperTest {
 
     @Test
     void getEmailValidUser() throws DatabaseException {
-        String email = "cph-ab632@cphbusiness.dk";
+        String email = "test1";
 
         User user = UserMapper.getUserByEmail(email);
 
         assertNotNull(user);
         assertEquals(email, user.getEmail());
+        assertEquals("Test1", user.getPassword());
         assertEquals("salesman", user.getRole());
     }
 
@@ -76,7 +78,7 @@ class UserMapperTest {
 
     @Test
     void testLoginValidUser() throws DatabaseException {
-        String email = "cph-ab632@cphbusiness.dk";
+        String email = "test1";
         String password = "Test1";
 
         User user = UserMapper.getUserByEmail(email);
@@ -89,22 +91,20 @@ class UserMapperTest {
 
     @Test
     void testLoginWrongPassword() throws DatabaseException {
-        String email = "admin@olsker.dk";
+        String email = "admin";
         String wrongPassword = "WrongPass";
 
         User user = UserMapper.getUserByEmail(email);
 
-        assertTrue(PasswordUtil.checkPassword(wrongPassword,user.getPassword()));
+        assertFalse(PasswordUtil.checkPassword(wrongPassword,user.getPassword()));
     }
 
     @Test
     void testLoginUnknownUser() throws DatabaseException {
         String email = "Fake";
-        String password = "Test";
 
         User user = UserMapper.getUserByEmail(email);
 
         assertNull(user);
-        assertTrue(PasswordUtil.checkPassword(password,user.getPassword()));
     }
 }
