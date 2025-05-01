@@ -27,17 +27,17 @@ public class SetupDatabase {
 
             try (Statement stmt = connection.createStatement()) {
                 // Drop tables
-                // stmt.execute("DROP TABLE IF EXISTS test.users CASCADE");;
+                stmt.execute("DROP TABLE IF EXISTS test.users CASCADE");;
 
                 // Drop sequences
-                // stmt.execute("DROP SEQUENCE IF EXISTS test.users_id_seq");
+                stmt.execute("DROP SEQUENCE IF EXISTS test.users_id_seq");
 
                 // Recreate test tables based on public tables
-                // stmt.execute("CREATE TABLE test.users AS (SELECT * FROM public.users) WITH NO DATA");
+                stmt.execute("CREATE TABLE test.users AS (SELECT * FROM public.users) WITH NO DATA");
 
                 // Recreate sequences
-                // stmt.execute("CREATE SEQUENCE test.users_id_seq");
-                // stmt.execute("ALTER TABLE test.users ALTER COLUMN id SET DEFAULT nextval('test.users_id_seq')");
+                stmt.execute("CREATE SEQUENCE test.users_id_seq");
+                stmt.execute("ALTER TABLE test.users ALTER COLUMN id SET DEFAULT nextval('test.users_id_seq')");
             }
             catch (SQLException e) {
                 throw new DatabaseException(e.getMessage());
@@ -52,23 +52,23 @@ public class SetupDatabase {
         try (Connection connection = connectionPool.getConnection()) {
             try (Statement stmt = connection.createStatement()) {
                 // Delete data
-                // stmt.execute("DELETE FROM test.users CASCADE");
+                stmt.execute("DELETE FROM test.users CASCADE");
 
                 // Reset sequence
-                // stmt.execute("SELECT setval('test.users_id_seq', 1, false)");
+                stmt.execute("SELECT setval('test.users_id_seq', 1, false)");
 
                 // Insert test data
-                /* stmt.execute("INSERT INTO test.users (id, email, password, role, credit) " +
+                stmt.execute("INSERT INTO test.users (id, email, password, role) " +
                         "VALUES " +
-                        "(DEFAULT, 'admin@olsker.dk', 'Cupc4k3!', 'admin', 999999999), " +
-                        "(DEFAULT, 'cph-ab632@cphbusiness.dk', 'Test1', null, 0), " +
-                        "(DEFAULT, 'cph-ea178@cphbusiness.dk', 'Test2', null, 0), " +
-                        "(DEFAULT, 'cph-fb157@cphbusiness.dk', 'Test3', null, 0), " +
-                        "(DEFAULT, 'cph-ta241@cphbusiness.dk', 'Test4', null, 0);");
-                 */
+                        "(DEFAULT, 'admin', 'admin', 'admin'), " +
+                        "(DEFAULT, 'test1', 'Test1', 'salesman'), " +
+                        "(DEFAULT, 'test2', 'Test2', 'salesman'), " +
+                        "(DEFAULT, 'test3', 'Test3', 'salesman'), " +
+                        "(DEFAULT, 'test4', 'Test4', 'salesman');");
+
 
                 // Update sequence to row number + 1
-                // stmt.execute("SELECT setval('test.users_id_seq', COALESCE((SELECT MAX(id) FROM test.users)+1, 1), false)");
+                stmt.execute("SELECT setval('test.users_id_seq', COALESCE((SELECT MAX(id) FROM test.users)+1, 1), false)");
 
             } catch (SQLException e) {
                 throw new DatabaseException(e.getMessage());

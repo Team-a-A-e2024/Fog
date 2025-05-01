@@ -4,26 +4,34 @@
   <title>Login</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 
 <body>
-<div class="wrapper">
-  <!-- Hvis bruger er logget ind -->
-  <div th:if="${email != null}" class="logged-in-info">
-    <p>Logged in as: <strong th:text="${email}">[email]</strong></p>
-    <a href="/logout">Log out</a>
+<div class="login-blue">
+  <div class="login-field">
+    <img src="../public/images/Fog_logo.png" alt="Fog">
+    <h1>Log på</h1>
+    <!-- Hvis bruger er logget ind -->
+    <div th:if="${email != null}" class="logged-in-info">
+      <p>Logget ind som: <strong th:text="${email}">[email]</strong></p>
+        <a href="/logout" class="button">Log ud</a>
+    </div>
+
+    <!-- Hvis bruger ikke er logget ind -->
+    <div th:if="${email == null}" class="auth-form-wrapper">
+      <form action="/login" method="post" class="auth-form">
+
+        <input type="email" name="email" placeholder="Mailaddresse" required><br>
+        <input type="password" name="password" placeholder="Adgangskode" required><br>
+        <!-- restorepassword -->
+        <a href="/" class="button">Log ud</a>
+        <button type="submit">Log på</button>
+        <p th:if="${error}" th:text="${error}" class="error"></p>
+      </form>
+    </div>
   </div>
 
-  <!-- Hvis bruger ikke er logget ind -->
-  <div th:if="${email == null}" class="auth-form-wrapper">
-    <form action="/login" method="post" class="auth-form">
-      <h2>Login</h2>
-      <input type="email" name="email" placeholder="Email" required><br>
-      <input type="password" name="password" placeholder="Password" required><br>
-      <button type="submit">Log in</button>
-      <p th:if="${error}" th:text="${error}" class="error"></p>
-    </form>
-  </div>
 </div>
 </body>
 </html>
