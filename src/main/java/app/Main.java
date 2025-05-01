@@ -2,7 +2,9 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.controllers.LoginController;
 import app.persistence.ConnectionPool;
+import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -26,8 +28,11 @@ public class Main {
         }).start(7070);
 
         // Mappers
+        UserMapper.setConnectionPool(connectionPool);
 
         // Routing
+
+        LoginController.routes(app);
         app.get("/", ctx ->  ctx.render("index.html"));
     }
 }

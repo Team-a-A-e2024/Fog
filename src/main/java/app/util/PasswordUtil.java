@@ -8,6 +8,7 @@ public class PasswordUtil {
     }
 
     public static boolean checkPassword(String plainPassword, String hashedPasswordFromDB) {
-        return BCrypt.checkpw(plainPassword, hashedPasswordFromDB);
+        //return BCrypt.checkpw(plainPassword, hashedPasswordFromDB);
+        return (plainPassword.equals(hashedPasswordFromDB));
     }
 }
