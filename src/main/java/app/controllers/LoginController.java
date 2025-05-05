@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.util.CheckUserUtil;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -23,7 +24,7 @@ public class LoginController {
 
     public static void showLoginPage(Context ctx) {
         User user = ctx.sessionAttribute("user");
-        if (user != null) {
+        if (CheckUserUtil.loginCheck(ctx)) {
             ctx.attribute("email", user.getEmail());
         }
         ctx.render("login.html");
@@ -35,7 +36,7 @@ public class LoginController {
 
         try{
             User user = UserMapper.getUserByEmail(email);
-            if (user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
+            if (CheckUserUtil.loginCheck(ctx) && PasswordUtil.checkPassword(password, user.getPassword())) {
                 ctx.sessionAttribute("user", user);
                 ctx.redirect("/");
                 return;
