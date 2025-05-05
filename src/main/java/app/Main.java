@@ -2,6 +2,7 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.controllers.ErrorController;
 import app.controllers.LoginController;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
@@ -31,7 +32,7 @@ public class Main {
         UserMapper.setConnectionPool(connectionPool);
 
         // Routing
-
+        ErrorController.routes(app);
         LoginController.routes(app);
         app.get("/", ctx ->  ctx.render("index.html"));
     }
