@@ -32,18 +32,32 @@ class CustomerMapperTest {
     }
 
     @Test
-    void returnUser() throws DatabaseException {
-        int userId = 1; // skal matche en kunde i testdata
+    void getCustomersWithoutSalesRep_shouldReturnExpectedCustomers() throws DatabaseException {
+        // Test: should return customers where user_id is null OR user_id = 2 AND order status is not 'Afventer'
+        int userId = 2;
         List<Customers> result = CustomerMapper.getCustomersWithoutSalesRep(userId);
+
         assertNotNull(result);
-        assertFalse(result.isEmpty(), "Forventer at få mindst én kunde");
+        assertEquals(3, result.size());
+
+        List<String> names = result.stream().map(Customers::getName).toList();
+
+        assertTrue(names.contains("Customer1"));
+        assertTrue(names.contains("Customer3"));
+        assertTrue(names.contains("Customer4"));
     }
 
     @Test
-    void noUserReturned() throws DatabaseException {
-        int userId = 999; // bruger ID der ikke har nogen kunder
+    void customerWithAfventerOrder_shouldNotBeIncluded() throws DatabaseException {
+        // Test: Customer2 has user_id = 3 and status = 'Afventer', so should NOT be included
+        int userId = 3;
         List<Customers> result = CustomerMapper.getCustomersWithoutSalesRep(userId);
-        assertNotNull(result);
-        assertTrue(result.isEmpty(), "Forventer tom liste for userId 999");
+
+        // Make sure Customer2 is not in the list
+        for (Customers customer : result) {
+            assertNotEquals("Customer2", customer.getName());
+        }
     }
 }
+
+
