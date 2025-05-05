@@ -18,7 +18,7 @@ public class CustomerController {
     }
 
     public static void routes(Javalin app) {
-    app.get("customer-overview", CustomerController::customerOverview);
+    app.get("/customer-overview", CustomerController::customerOverview);
     }
 
     public static void customerOverview(Context ctx) {
@@ -35,7 +35,7 @@ public class CustomerController {
             ctx.render("customer-overview.html");
         } catch (DatabaseException e) {
             ctx.attribute("message", "Noget gik galt: " + e.getMessage());
-            ctx.render("index.html");
+            ctx.redirect("error.html");
         }
     }
 }

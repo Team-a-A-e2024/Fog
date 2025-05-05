@@ -130,6 +130,4 @@ public class SetupDatabase {
             throw new DatabaseException(e.getMessage());
         }
     }
-
-
 }

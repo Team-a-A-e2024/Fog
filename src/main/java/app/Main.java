@@ -26,8 +26,6 @@ public class Main {
     public static void main(String[] args) throws DatabaseException {
         // Initializing Javalin and Jetty webserver
 
-
-
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/");
             config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
@@ -43,6 +41,5 @@ public class Main {
         app.get("/", ctx ->  ctx.render("index.html"));
         CustomerController.routes(app);
         app.get("/customer-overview", ctx -> ctx.render("customer-overview.html"));
-
     }
 }
