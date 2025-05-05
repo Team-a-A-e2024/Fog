@@ -23,11 +23,11 @@ public class CustomerController {
 
     public static void customerOverview(Context ctx) {
         User currentUser = ctx.sessionAttribute("currentUser");
-
         if (currentUser == null) {
             ctx.redirect("/login");
             return;
         }
+        ctx.attribute("user", currentUser);
         try {
             int userId = currentUser.getId();
             List<Customers> customerList = CustomerMapper.getCustomersWithoutSalesRep(userId);
@@ -39,4 +39,3 @@ public class CustomerController {
         }
     }
 }
-

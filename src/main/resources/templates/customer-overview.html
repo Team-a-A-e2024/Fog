@@ -6,18 +6,38 @@
     <link rel="stylesheet" href="/public/css/styles.css" th:href="@{/public/css/styles.css}">
 </head>
 <body>
+<div class="costumer-background">
+    <header>
+        <div class="customer-header">
+            <a href="index.html" th:href="@{/}">
+                <img src="../public/images/Fog_logo.png" alt="Fog">
+            </a>
+            <h4>Byg selv carport</h4>
+            <div class="customer-overview-dropdown">
+                <button class="customer-profile-dropdown" th:text="${user.email.substring(0,1).toUpperCase()}">A</button>
+                <div class="customer-dropdown-content">
+                    <a href="#">Kunder</a>
+                    <a href="#">Ordre</a>
+                    <a href="#">Log ud</a>
+                </div>
+            </div>
+        </div>
 
-    <div class="customer-header">
-        <a href="index.html" th:href="@{/}">
-            <img src="../public/images/Fog_logo.png" alt="Fog">
-        </a>
-        <h4>Byg selv carport</h4>
+    </header>
+    <div class="customer-box">
+        <h1>Kunder</h1>
     </div>
-
-
-
-    <h1>Kunder</h1>
-
-
+    <div class="customer-pageview">
+        <table class="customer-table">
+            <tr th:each="customer : ${customers}">
+                <td th:text="${customer.id}">ID</td>
+                <td th:text="${customer.name + ' ' + customer.surname}">Navn</td>
+                <td th:text="${customer.email}">Email</td>
+                <td th:text="${customer.phone}">Tlf. nummer</td>
+                <td th:text="${user.email}">Salgsrep</td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>

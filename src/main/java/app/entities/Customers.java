@@ -2,7 +2,7 @@ package app.entities;
 
 public class Customers {
 
-    private int customerId;
+    private int id;
     private String name;
     private String surname;
     private String email;
@@ -11,8 +11,8 @@ public class Customers {
     private int userId;
     private int postalCode;
 
-    public Customers(int customerId, String name, String surname, String email, String address, int phoneNumber, int userId, int postalCode) {
-        this.customerId = customerId;
+    public Customers(int id, String name, String surname, String email, String address, int phoneNumber, int userId, int postalCode) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -32,12 +32,12 @@ public class Customers {
         this.postalCode = postalCode;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getId() {
+        return id;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -99,7 +99,7 @@ public class Customers {
     @Override
     public String toString() {
         return "Customers{" +
-                "customerId=" + customerId +
+                "customerId=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +

@@ -19,11 +19,11 @@ public class CustomerMapper {
 
     public static List<Customers> getCustomersWithoutSalesRep(int userId) throws DatabaseException {
         List<Customers> customerList = new ArrayList<>();
-        String sql = "SELECT DISTINCT c.*" +
-                "FROM customers c" +
-                "LEFT JOIN orders o ON C.id = o.customer_id" +
-                "WHERE c.user_id is NULL" +
-                "OR (c.user_id = ? AND o.status != 'Godkendt')";
+        String sql = "SELECT DISTINCT c.* " +
+                "FROM customers c " +
+                "LEFT JOIN orders o ON c.id = o.customer_id " +
+                "WHERE c.user_id IS NULL " +
+                "OR (c.user_id = ? AND o.status != 'Afventer')";
         try {
             Connection connec = connectionPool.getConnection();
             PreparedStatement ps = connec.prepareStatement(sql);
@@ -37,7 +37,7 @@ public class CustomerMapper {
                     String address = rs.getString("address");
                     int phoneNumber = rs.getInt("phone_number");
                     int assignedSalesRepId = rs.getInt("user_id");
-                    int postalCode = rs.getInt("zip_code");
+                    int postalCode = rs.getInt("postal_code");
 
                     Customers customer = new Customers(customerId, name, surname, email, address, phoneNumber, assignedSalesRepId, postalCode);
                     customerList.add(customer);
