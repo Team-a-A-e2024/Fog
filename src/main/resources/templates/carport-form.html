@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Byg selv carport</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<main class="container">
+    <div class="card form-card">
+        <h1>Byg selv carport</h1>
+        <form th:action="@{/carport}" method="post" novalidate>
+
+            <!-- Carport bredde -->
+            <div class="form-group">
+                <label for="widthCm">Carport bredde <span class="required">*</span></label>
+                <select id="widthCm" name="widthCm" th:value="${order.widthCm}">
+                    <option disabled selected value="">Vælg bredde</option>
+                    <option th:each="w : ${#numbers.sequence(240,600,30)}"
+                            th:value="${w}"
+                            th:text="${w + ' cm'}"></option>
+                </select>
+                <div class="error" th:if="${errors['widthCm']}" th:text="${errors['widthCm']}"></div>
+            </div>
+
+            <!-- Carport længde -->
+            <div class="form-group">
+                <label for="lengthCm">Carport længde <span class="required">*</span></label>
+                <select id="lengthCm" name="lengthCm" th:value="${order.lengthCm}">
+                    <option disabled selected value="">Vælg længde</option>
+                    <option th:each="l : ${#numbers.sequence(240,780,30)}"
+                            th:value="${l}"
+                            th:text="${l + ' cm'}"></option>
+                </select>
+                <div class="error" th:if="${errors['lengthCm']}" th:text="${errors['lengthCm']}"></div>
+            </div>
+
+            <!-- Bemærkninger -->
+            <div class="form-group">
+                <label for="remarks">Evt. bemærkning / særlige ønsker</label>
+                <textarea id="remarks" name="remarks" rows="4"
+                          th:text="${order.remarks}"></textarea>
+                <div class="error" th:if="${errors['remarks']}" th:text="${errors['remarks']}"></div>
+            </div>
+
+            <h2 class="section-title">Kontaktoplysninger</h2>
+
+            <!-- Navn -->
+            <div class="form-group">
+                <label for="fullName">Navn <span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName"
+                       th:value="${customer.fullName}"/>
+                <div class="error" th:if="${errors['fullName']}" th:text="${errors['fullName']}"></div>
+            </div>
+
+            <!-- Adresse -->
+            <div class="form-group">
+                <label for="streetAddress">Adresse <span class="required">*</span></label>
+                <input type="text" id="streetAddress" name="streetAddress"
+                       th:value="${customer.streetAddress}"/>
+                <div class="error" th:if="${errors['streetAddress']}" th:text="${errors['streetAddress']}"></div>
+            </div>
+
+            <!-- Postnummer -->
+            <div class="form-group">
+                <label for="postalCode">Postnummer <span class="required">*</span></label>
+                <input type="text" id="postalCode" name="postalCode" maxlength="4"
+                       th:value="${customer.postalCode}"/>
+                <div class="error" th:if="${errors['postalCode']}" th:text="${errors['postalCode']}"></div>
+            </div>
+
+            <!-- E-mail -->
+            <div class="form-group">
+                <label for="email">E-mail <span class="required">*</span></label>
+                <input type="email" id="email" name="email"
+                       th:value="${customer.email}"/>
+                <div class="error" th:if="${errors['email']}" th:text="${errors['email']}"></div>
+            </div>
+
+            <!-- Telefonnummer -->
+            <div class="form-group">
+                <label for="phoneNumber">Telefonnummer <span class="required">*</span></label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="\d{8}"
+                       th:value="${customer.phone}"/>
+                <div class="error" th:if="${errors['phone']}" th:text="${errors['phone']}"></div>
+            </div>
+
+            <!-- Samtykke -->
+            <div class="form-group checkbox-group">
+                <label>
+                    <input type="checkbox" name="consent"
+                           th:checked="${customer.consent}"/>
+                    Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse med tilbud på en skræddersyet carport
+                </label>
+                <div class="error" th:if="${errors['consent']}" th:text="${errors['consent']}"></div>
+            </div>
+
+            <!-- Submit-knap -->
+            <div class="form-group">
+                <button type="submit" class="btn-primary">Bestil tilbud</button>
+            </div>
+
+        </form>
+    </div>
+</main>
+</body>
+</html>
+

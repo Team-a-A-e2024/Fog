@@ -1,5 +1,6 @@
 package app.test;
 
+import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 

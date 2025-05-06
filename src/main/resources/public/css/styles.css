@@ -66,3 +66,129 @@ html, body{
 .left-aligned{
     text-align: left;
 }
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #004080;
+}
+
+.topbar {
+    background: #fff;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+    height: 32px;
+}
+
+.page-title {
+    margin: 0 0 0 16px;
+    font-size: 20px;
+    color: #004080;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 32px;
+}
+
+.card {
+    background: #f0f0f0;
+    padding: 32px;
+    border-radius: 4px;
+    max-width: 480px;
+    width: 100%;
+}
+
+.form-card .row {
+    display: flex;
+    gap: 16px;
+}
+
+.form-card .col {
+    flex: 1;
+}
+
+.full-width {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.section-title {
+    margin: 32px 0 16px;
+    font-size: 24px;
+    color: #004080;
+}
+
+.error {
+    color: #c00;
+    font-size: 14px;
+}
+
+.required {
+    color: #c00;
+}
+
+.checkbox-wrapper {
+    margin-top: 16px;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #004080;
+    color: #fff;
+    margin-top: 24px;
+}
+
+.btn-secondary {
+    background: #ddd;
+    color: #004080;
+    margin-top: 32px;
+}
+/* Gør hver form-group til en lodret stak */
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label øverst med lidt luft under */
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+/* Input, select og textarea fylder boksen under label */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccd6dd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Fejl-tekst lige under feltet */
+.form-group .error {
+    margin-top: 4px;
+    color: #d0454c;
+    font-size: 13px;
+}
