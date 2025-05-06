@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class Customers {
 
     private int id;
@@ -7,25 +9,25 @@ public class Customers {
     private String email;
     private String address;
     private int phoneNumber;
-    private int userId;
+    private User salesRep;
     private int postalCode;
 
-    public Customers(int id, String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
+    public Customers(int id, String fullname,  String email, String address, int phoneNumber, User salesRep, int postalCode) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.userId = userId;
+        this.salesRep = salesRep;
         this.postalCode = postalCode;
     }
 
-    public Customers(String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
+    public Customers(String fullname,  String email, String address, int phoneNumber,   User salesRep, int postalCode) {
         this.fullname = fullname;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.userId = userId;
+        this.salesRep = salesRep;
         this.postalCode = postalCode;
     }
 
@@ -69,12 +71,12 @@ public class Customers {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getSalesRep() {
+        return salesRep;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setSalesRep(User salesRep) {
+        this.salesRep = salesRep;
     }
 
     public int getPostalCode() {
@@ -86,15 +88,27 @@ public class Customers {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Customers customers = (Customers) o;
+        return id == customers.id && phoneNumber == customers.phoneNumber && postalCode == customers.postalCode && Objects.equals(fullname, customers.fullname) && Objects.equals(email, customers.email) && Objects.equals(address, customers.address) && Objects.equals(salesRep, customers.salesRep);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, fullname, email, address, phoneNumber, salesRep, postalCode);
+    }
+
+    @Override
     public String toString() {
         return "Customers{" +
-                "postalCode=" + postalCode +
-                ", userId=" + userId +
-                ", phoneNumber=" + phoneNumber +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
+                "id=" + id +
                 ", fullname='" + fullname + '\'' +
-                ", id=" + id +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", salesRep=" + salesRep +
+                ", postalCode=" + postalCode +
                 '}';
     }
 }

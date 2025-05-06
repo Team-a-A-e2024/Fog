@@ -28,12 +28,19 @@
     </div>
     <div class="customer-pageview">
         <table class="customer-table" th:if="${customers != null}">
+            <tr>
+                <th>ID</th>
+                <th>Navn</th>
+                <th>Email</th>
+                <th>Tlf. nummer</th>
+                <th>Salgsrep</th>
+            </tr>
             <tr th:each="customer : ${customers}">
                 <td th:text="${customer.id}">ID</td>
                 <td th:text="${customer.fullname}">Navn</td>
                 <td th:text="${customer.email}">Email</td>
-                <td th:text="${customer.phone}">Tlf. nummer</td>
-                <td th:text="${customer.userId}">Salgsrep</td>
+                <td th:text="${customer.phoneNumber}">Tlf. nummer</td>
+                <td th:if="${customer.salesRep != null}" th:text="${customer.salesRep.email}">Salgsrep</td>
             </tr>
         </table>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>

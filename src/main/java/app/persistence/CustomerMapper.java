@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.Customers;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -19,11 +20,12 @@ public class CustomerMapper {
 
     public static List<Customers> getCustomersWithoutSalesRep(int userId) throws DatabaseException {
         List<Customers> customerList = new ArrayList<>();
-        String sql = "SELECT DISTINCT c.* " +
+        String sql = "SELECT c.*, o.*, u.* " +
                 "FROM customers c " +
-                "LEFT JOIN orders o ON c.id = o.customer_id " +
-                "WHERE c.user_id IS NULL " +
-                "OR (c.user_id = ? AND o.status != 'Afventer')";
+                "JOIN orders o ON c.id = o.customer_id " +
+                "LEFT JOIN users u ON c.user_id = u.id " +
+                "WHERE (c.user_id IS NULL OR c.user_id = ?) " +
+                "AND o.status = 'Afventer';";
         try {
             Connection connec = connectionPool.getConnection();
             PreparedStatement ps = connec.prepareStatement(sql);
@@ -35,10 +37,14 @@ public class CustomerMapper {
                     String email = rs.getString("email");
                     String address = rs.getString("address");
                     int phoneNumber = rs.getInt("phone_number");
-                    int assignedSalesRepId = rs.getInt("user_id");
+                    int salesRepId = rs.getInt("user_id");
                     int postalCode = rs.getInt("postal_code");
 
-                    Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
+                    Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, null, postalCode);
+                    if (salesRepId != 0) {
+                        User user = new User(salesRepId, rs.getString("email"), rs.getString("password"), rs.getString("role"));
+                        customer = new Customers(customerId, fullname, email, address, phoneNumber, user, postalCode);
+                    }
                     customerList.add(customer);
                 }
             }
