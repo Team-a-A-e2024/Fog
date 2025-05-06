@@ -25,8 +25,9 @@ public class CustomerController {
     public static void customerOverview(Context ctx) {
         CheckUserUtil.usersOnlyCheck(ctx);
         try {
-            User currentUser = ctx.sessionAttribute("currentUser");
-            int userId = currentUser.getId();
+            User user = ctx.sessionAttribute("user");
+            ctx.attribute("email", user.getEmail());
+            int userId = user.getId();
             List<Customers> customerList = CustomerMapper.getCustomersWithoutSalesRep(userId);
             ctx.attribute("customers", customerList);
             ctx.render("customer-overview.html");
