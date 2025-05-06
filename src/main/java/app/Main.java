@@ -37,6 +37,7 @@ public class Main {
         // Routing
         ErrorController.routes(app);
         LoginController.routes(app);
+        CustomerController.routes(app);
         app.get("/", ctx ->  ctx.render("index.html"));
     }
 }
