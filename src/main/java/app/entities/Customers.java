@@ -88,14 +88,13 @@ public class Customers {
     @Override
     public String toString() {
         return "Customers{" +
-                "customerId=" + id +
-                ", name='" + fullname + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber=" + phoneNumber +
+                "postalCode=" + postalCode +
                 ", userId=" + userId +
-                ", postalCode=" + postalCode +
+                ", phoneNumber=" + phoneNumber +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

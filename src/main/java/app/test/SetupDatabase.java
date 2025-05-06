@@ -94,7 +94,7 @@ public class SetupDatabase {
                         "(DEFAULT, 'test4', 'Test4', 'salesman');");
 
                 // Insert test data into customer
-                stmt.execute("INSERT INTO test.customers (id, name, surname, email, address, phone_number, user_id, postal_code) " +
+                stmt.execute("INSERT INTO test.customers (id, fullname, email, address, phone_number, user_id, postal_code) " +
                         "VALUES " +
                         "(DEFAULT, 'Customer1', 'Customer1', 'test1@test.dk', 'testaddress1', 12245678, 2, 1234), " +
                         "(DEFAULT, 'Customer2', 'Customer2', 'test2@test.dk', 'testaddress2', 13345678, 3, 1234), " +
