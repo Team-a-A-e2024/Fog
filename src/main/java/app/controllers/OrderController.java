@@ -5,6 +5,7 @@ import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
+import app.util.CheckUserUtil;
 import app.util.PasswordUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -18,15 +19,37 @@ public class OrderController {
 
     public static void routes(Javalin app) {
         app.get("/orders", OrderController::showOrdersPage);
+        app.get("/orders/manageOrder/{id}", OrderController::manageOrderPage);
+        app.post("/orders/manageOrder/{id}", OrderController::updateOrderPage);
     }
 
+
     public static void showOrdersPage(Context ctx) {
-        User user = ctx.sessionAttribute("user");
-        if (user == null) {
-            ctx.redirect("/login");
+        CheckUserUtil.usersOnlyCheck(ctx);
+        try{
+            ctx.attribute("orderlist", OrderMapper.getListofOrders());
+        }catch (DatabaseException e){
+            ctx.attribute("error", e.toString());
         }
-        //todo: call db to get a list of all orders newest to older
-        ctx.attribute("orderlist", OrderMapper.getListofOrders());
         ctx.render("orders.html");
+    }
+
+    public static void manageOrderPage(Context ctx) {
+        CheckUserUtil.usersOnlyCheck(ctx);
+        int orderId = Integer.parseInt(ctx.pathParam("id"));
+        try{
+            ctx.attribute("order", OrderMapper.getOrderByid(orderId));
+        }catch (DatabaseException e){
+            ctx.attribute("error", e.toString());
+        }
+    }
+    public static void updateOrderPage(Context ctx) {
+        CheckUserUtil.usersOnlyCheck(ctx);
+        int orderId = Integer.parseInt(ctx.pathParam("id"));
+        try{
+            ctx.attribute("order", OrderMapper.getOrderByid(orderId));
+        }catch (DatabaseException e){
+            ctx.attribute("error", e.toString());
+        }
     }
 }

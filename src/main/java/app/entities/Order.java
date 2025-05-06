@@ -1,12 +1,12 @@
 package app.entities;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 public class Order {
     int id;
-    String createdAt;
-    String total;
+    Date createdAt;
+    Double total;
     String status;
     int customerId;
     int partslist_id;
@@ -14,7 +14,7 @@ public class Order {
     int width;
     String comment;
 
-    public Order(int id, String createdAt, String total, String status, int customerId, int partslist_id, int length, int width, String comment) {
+    public Order(int id, Date createdAt, Double total, String status, int customerId, int partslist_id, int length, int width, String comment) {
         this.id = id;
         this.createdAt = createdAt;
         this.total = total;
@@ -34,19 +34,19 @@ public class Order {
         this.id = id;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 

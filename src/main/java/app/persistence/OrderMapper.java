@@ -26,8 +26,26 @@ public class OrderMapper {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                // todo do
-                return null;
+                Date createdAt = rs.getDate("created_at");
+                Double total = rs.getDouble("total");
+                String status = rs.getString("status");
+                int customerId = rs.getInt("customerId");
+                int partslistId = rs.getInt("partslistId");
+                int length = rs.getInt("length");
+                int width = rs.getInt("width");
+                String comment = rs.getString("comment");
+
+                return new Order(id
+                        , createdAt
+                        , total
+                        , status
+                        , customerId
+                        , partslistId
+                        , length
+                        , width
+                        , comment
+                );
+
             }
 
         } catch (SQLException e) {
@@ -39,19 +57,18 @@ public class OrderMapper {
     }
 
     public static List<Order> getListofOrders() throws DatabaseException{
-        String sql = "SELECT * FROM Order WHERE id = ?";
+        String sql = "SELECT * FROM orders o JOIN customers c ON o.customer_id=c.id;";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ArrayList<Order> orders = new ArrayList();
-
-
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+                //todo: get customer object
                 int id = rs.getInt("id");
-                String createdAt = rs.getString("created_at");
-                String total = rs.getString("total");
+                Date createdAt = rs.getDate("created_at");
+                Double total = rs.getDouble("total");
                 String status = rs.getString("status");
                 int customerId = rs.getInt("customerId");
                 int partslistId = rs.getInt("partslistId");
@@ -78,23 +95,27 @@ public class OrderMapper {
         }
     }
 
-    public static int UpdateOrderByObject(Order order) throws DatabaseException
+    //requires a object with an id
+    public static void UpdateOrderByObject(Order order) throws DatabaseException
     {
-        String sql = "";
+        String sql = "UPDATE orders SET created_at = ?, total = ?, status = ?, customer_id = ?, partslist_id = ?, length = ?, width = ?, comment = ? WHERE id = ?;";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql))
             {
-                ps.setInt(1,order.getId());
+                //updated variables
+                ps.setDate(1,order.getCreatedAt());
+                ps.setDouble(2,order.getTotal());
+                ps.setString(3,order.getStatus());
+                ps.setInt(4,order.getCustomerId());
+                ps.setInt(5,order.getPartslist_id());
+                ps.setInt(6,order.getLength());
+                ps.setInt(7,order.getWidth());
+                ps.setString(8,order.getComment());
+                //where
+                ps.setInt(9,order.getId());
 
-                try (var rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getInt("id");
-                    }
-                    else {
-                        throw new DatabaseException("Failed to insert user");
-                    }
-                }
+                ps.executeQuery();
             }
         }
         catch (SQLException e)
