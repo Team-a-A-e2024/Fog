@@ -93,8 +93,6 @@ public class SetupDatabase {
                         "(DEFAULT, 'test3', 'Test3', 'salesman'), " +
                         "(DEFAULT, 'test4', 'Test4', 'salesman');");
 
-                //Som Sælger skal jeg kunne se alle de kunder hvor user_id er null eller hvor ordren ikke er afventer
-
                 // Insert test data into customer
                 stmt.execute("INSERT INTO test.customers (id, name, surname, email, address, phone_number, user_id, postal_code) " +
                         "VALUES " +
