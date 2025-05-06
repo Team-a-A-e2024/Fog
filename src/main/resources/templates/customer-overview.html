@@ -14,7 +14,7 @@
             </a>
             <h4>Byg selv carport</h4>
             <div class="customer-overview-dropdown">
-                <button class="customer-profile-dropdown" th:text="${user.email.substring(0,1).toUpperCase()}">A</button>
+                <button class="customer-profile-dropdown" th:text="${currentuser.email.substring(0,1).toUpperCase()}">A</button>
                 <div class="customer-dropdown-content">
                     <a href="#">Kunder</a>
                     <a href="#">Ordre</a>
@@ -30,7 +30,7 @@
         <table class="customer-table" th:if="${customers != null}">
             <tr th:each="customer : ${customers}">
                 <td th:text="${customer.id}">ID</td>
-                <td th:text="${customer.name + ' ' + customer.surname}">Navn</td>
+                <td th:text="${customer.fullname}">Navn</td>
                 <td th:text="${customer.email}">Email</td>
                 <td th:text="${customer.phone}">Tlf. nummer</td>
                 <td th:text="${currentuser.email}">Salgsrep</td>

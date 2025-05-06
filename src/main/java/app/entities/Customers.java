@@ -3,18 +3,16 @@ package app.entities;
 public class Customers {
 
     private int id;
-    private String name;
-    private String surname;
+    private String fullname;
     private String email;
     private String address;
     private int phoneNumber;
     private int userId;
     private int postalCode;
 
-    public Customers(int id, String name, String surname, String email, String address, int phoneNumber, int userId, int postalCode) {
+    public Customers(int id, String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
+        this.fullname = fullname;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -22,9 +20,8 @@ public class Customers {
         this.postalCode = postalCode;
     }
 
-    public Customers(String name, String surname, String email, String address, int phoneNumber, int userId, int postalCode) {
-        this.name = name;
-        this.surname = surname;
+    public Customers(String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
+        this.fullname = fullname;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -40,20 +37,12 @@ public class Customers {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getEmail() {
@@ -100,7 +89,7 @@ public class Customers {
     public String toString() {
         return "Customers{" +
                 "customerId=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + fullname + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +

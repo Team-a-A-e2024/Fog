@@ -31,15 +31,14 @@ public class CustomerMapper {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int customerId = rs.getInt("id");
-                    String name = rs.getString("name");
-                    String surname = rs.getString("surname");
+                    String fullname = rs.getString("fullname");
                     String email = rs.getString("email");
                     String address = rs.getString("address");
                     int phoneNumber = rs.getInt("phone_number");
                     int assignedSalesRepId = rs.getInt("user_id");
                     int postalCode = rs.getInt("postal_code");
 
-                    Customers customer = new Customers(customerId, name, surname, email, address, phoneNumber, assignedSalesRepId, postalCode);
+                    Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
                     customerList.add(customer);
                 }
             }

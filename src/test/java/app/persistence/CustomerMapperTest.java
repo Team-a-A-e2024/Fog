@@ -40,7 +40,7 @@ class CustomerMapperTest {
         assertNotNull(result);
         assertEquals(3, result.size());
 
-        List<String> names = result.stream().map(Customers::getName).toList();
+        List<String> names = result.stream().map(Customers::getFullname).toList();
 
         assertTrue(names.contains("Customer1"));
         assertTrue(names.contains("Customer3"));
@@ -55,7 +55,7 @@ class CustomerMapperTest {
 
         // Make sure Customer2 is not in the list
         for (Customers customer : result) {
-            assertNotEquals("Customer2", customer.getName());
+            assertNotEquals("Customer2", customer.getFullname());
         }
     }
 }
