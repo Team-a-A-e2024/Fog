@@ -5,6 +5,7 @@ import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.CustomerMapper;
+import app.util.CheckUserUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -22,20 +23,16 @@ public class CustomerController {
     }
 
     public static void customerOverview(Context ctx) {
-        User currentUser = ctx.sessionAttribute("currentUser");
-        if (currentUser == null) {
-            ctx.redirect("/login");
-            return;
-        }
-        ctx.attribute("user", currentUser);
+        CheckUserUtil.usersOnlyCheck(ctx);
         try {
+            User currentUser = ctx.sessionAttribute("currentUser");
             int userId = currentUser.getId();
             List<Customers> customerList = CustomerMapper.getCustomersWithoutSalesRep(userId);
             ctx.attribute("customers", customerList);
             ctx.render("customer-overview.html");
         } catch (DatabaseException e) {
-            ctx.attribute("message", "Noget gik galt: " + e.getMessage());
-            ctx.redirect("error.html");
+            ctx.attribute("message", "Noget gik galt, prøv igen senere. " + e.getMessage());
+            ctx.render("customer-overview.html");
         }
     }
 }

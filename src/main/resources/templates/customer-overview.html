@@ -22,21 +22,21 @@
                 </div>
             </div>
         </div>
-
     </header>
     <div class="customer-box">
         <h1>Kunder</h1>
     </div>
     <div class="customer-pageview">
-        <table class="customer-table">
+        <table class="customer-table" th:if="${customers != null}">
             <tr th:each="customer : ${customers}">
                 <td th:text="${customer.id}">ID</td>
                 <td th:text="${customer.name + ' ' + customer.surname}">Navn</td>
                 <td th:text="${customer.email}">Email</td>
                 <td th:text="${customer.phone}">Tlf. nummer</td>
-                <td th:text="${user.email}">Salgsrep</td>
+                <td th:text="${currentuser.email}">Salgsrep</td>
             </tr>
         </table>
+        <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </div>
 </div>
 </body>
