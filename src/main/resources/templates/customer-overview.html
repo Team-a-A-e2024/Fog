@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kunder</title>
+    <link rel="stylesheet" href="/public/css/styles.css" th:href="@{/public/css/styles.css}">
+</head>
+<body>
+<div class="costumer-background">
+    <header>
+        <div class="customer-header">
+            <a href="index.html" th:href="@{/}">
+                <img src="../public/images/Fog_logo.png" alt="Fog">
+            </a>
+            <h4>Byg selv carport</h4>
+            <div class="customer-overview-dropdown">
+                <button class="customer-profile-dropdown" th:text="${email.substring(0,1).toUpperCase()}">A</button>
+                <div class="customer-dropdown-content">
+                    <a th:href="@{/customer-overview}">Kunder</a>
+                    <a th:href="@{/}">Ordre</a>
+                    <a th:href="@{/logout}">Log ud</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="customer-box">
+        <h1>Kunder</h1>
+    </div>
+    <div class="customer-pageview">
+        <table class="customer-table" th:if="${customers != null}">
+            <tr th:each="customer : ${customers}">
+                <td th:text="${customer.id}">ID</td>
+                <td th:text="${customer.fullname}">Navn</td>
+                <td th:text="${customer.email}">Email</td>
+                <td th:text="${customer.phone}">Tlf. nummer</td>
+                <td th:text="${customer.userId}">Salgsrep</td>
+            </tr>
+        </table>
+        <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
+    </div>
+</div>
+</body>
+</html>
