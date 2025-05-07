@@ -41,7 +41,7 @@ public class CustomerMapper {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) c.setId(rs.getInt("id"));
-                else throw new DatabaseException("Kunne ikke oprette kunde");
+                else throw new DatabaseException("Could not register customer");
             }
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());

@@ -10,10 +10,10 @@ public class Customer {
     private String phoneNumber;
     private int userId;
 
-    /** Bruges af tests, frameworks */
+    // used by tests, frameworks
     public Customer() {
     }
-    /** Bruges af controller/mapper */
+    // used by controller
     public Customer(int id, String fullName,String address, int postalCode, String email, String phoneNumber, int userId) {
         this.id = id;
         this.fullName = fullName;

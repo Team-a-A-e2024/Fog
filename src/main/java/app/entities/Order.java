@@ -13,12 +13,12 @@ public class Order {
     private String comments;
     private LocalDateTime createdAt;
 
-    // Bruges af tests, frameworks
+    // used by tests, frameworks
 
     public Order() {
     }
 
-    // Bruges af controller/mapper
+    // used by controller
     public Order(int id, int customerId, double total, String status, int widthCm, int lengthCm, String comments, LocalDateTime createdAt) {
         this.createdAt = LocalDateTime.now();
     }

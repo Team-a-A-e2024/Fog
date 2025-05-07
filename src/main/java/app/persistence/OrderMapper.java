@@ -43,7 +43,7 @@ public class OrderMapper {
                 if (rs.next()) {
                     o.setId(rs.getInt("id"));
                 } else {
-                    throw new DatabaseException("Kunne ikke oprette ordre");
+                    throw new DatabaseException("Could not register order");
                 }
             }
 
