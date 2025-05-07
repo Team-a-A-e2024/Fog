@@ -7,8 +7,10 @@ public class PasswordUtil {
         return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
     }
 
-    public static boolean checkPassword(String plainPassword, String hashedPasswordFromDB) {
-        //return BCrypt.checkpw(plainPassword, hashedPasswordFromDB);
-        return (plainPassword.equals(hashedPasswordFromDB));
+    public static boolean checkPlainPassword(String plainPassword, String PasswordFromDB) {
+        return plainPassword.equals(PasswordFromDB);
+    }
+    public static boolean checkHashedPassword(String plainPassword, String hashedPasswordFromDB) {
+        return BCrypt.checkpw(plainPassword, hashedPasswordFromDB);
     }
 }

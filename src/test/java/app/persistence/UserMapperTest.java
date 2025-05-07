@@ -6,6 +6,7 @@ import app.util.PasswordUtil;
 import org.junit.jupiter.api.*;
 import app.test.SetupDatabase;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ class UserMapperTest {
     @Test
     void createUser() throws DatabaseException {
         // Arrange
-        User expected = new User(6, "test", "test", "salesman");
+        User expected = new User(6, "test", "test", "salesman", new Date(12,12,12));
 
         // Act
         User actual = UserMapper.addUserByObject(expected);
@@ -86,7 +87,7 @@ class UserMapperTest {
         assertNotNull(user);
         assertEquals(email, user.getEmail());
         assertEquals("salesman", user.getRole());
-        assertTrue(PasswordUtil.checkPassword(password,user.getPassword()));
+        assertTrue(PasswordUtil.checkPlainPassword(password,user.getPassword()));
     }
 
     @Test
@@ -96,7 +97,7 @@ class UserMapperTest {
 
         User user = UserMapper.getUserByEmail(email);
 
-        assertFalse(PasswordUtil.checkPassword(wrongPassword,user.getPassword()));
+        assertFalse(PasswordUtil.checkPlainPassword(wrongPassword,user.getPassword()));
     }
 
     @Test

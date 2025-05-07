@@ -28,7 +28,7 @@ public class UserMapper {
                     if (rs.next()) {
                         int id = rs.getInt("id");
 
-                        return new User(id, user.getEmail(), user.getPassword(), user.getRole());
+                        return new User(id, user.getEmail(), user.getPassword(), user.getRole(), user.getPasswordChangeDate());
                     }
                     else {
                         throw new DatabaseException("Failed to insert user");
@@ -53,7 +53,7 @@ public class UserMapper {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
+                return new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getDate("passwordChangeDate"));
             }
 
         } catch (SQLException e) {

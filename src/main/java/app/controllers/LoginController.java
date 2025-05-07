@@ -36,7 +36,14 @@ public class LoginController {
 
         try{
             User user = UserMapper.getUserByEmail(email);
-            if (user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
+            if(user.getPasswordChangeDate() == null){
+                if(PasswordUtil.checkPlainPassword(password,user.getPassword())){
+                    //todo: slop
+                    ctx.redirect("/");
+                    return;
+                }
+            }
+            if (user != null && PasswordUtil.checkHashedPassword(password, user.getPassword())) {
                 ctx.sessionAttribute("user", user);
                 ctx.redirect("/customer-overview");
                 return;
