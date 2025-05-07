@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Byg selv carport</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
 <main class="container">
@@ -38,10 +38,10 @@
 
             <!-- Bemærkninger -->
             <div class="form-group">
-                <label for="remarks">Evt. bemærkning / særlige ønsker</label>
-                <textarea id="remarks" name="remarks" rows="4"
-                          th:text="${order.remarks}"></textarea>
-                <div class="error" th:if="${errors['remarks']}" th:text="${errors['remarks']}"></div>
+                <label for="comments">Evt. bemærkning / særlige ønsker</label>
+                <textarea id="comments" name="comments" rows="4"
+                          th:text="${order.comments}"></textarea>
+                <div class="error" th:if="${errors['comments']}" th:text="${errors['comments']}"></div>
             </div>
 
             <h2 class="section-title">Kontaktoplysninger</h2>
@@ -56,10 +56,10 @@
 
             <!-- Adresse -->
             <div class="form-group">
-                <label for="streetAddress">Adresse <span class="required">*</span></label>
-                <input type="text" id="streetAddress" name="streetAddress"
-                       th:value="${customer.streetAddress}"/>
-                <div class="error" th:if="${errors['streetAddress']}" th:text="${errors['streetAddress']}"></div>
+                <label for="address">Adresse <span class="required">*</span></label>
+                <input type="text" id="address" name="address"
+                       th:value="${customer.address}"/>
+                <div class="error" th:if="${errors['address']}" th:text="${errors['address']}"></div>
             </div>
 
             <!-- Postnummer -->
@@ -82,16 +82,16 @@
             <div class="form-group">
                 <label for="phoneNumber">Telefonnummer <span class="required">*</span></label>
                 <input type="tel" id="phoneNumber" name="phoneNumber" pattern="\d{8}"
-                       th:value="${customer.phone}"/>
-                <div class="error" th:if="${errors['phone']}" th:text="${errors['phone']}"></div>
+                       th:value="${customer.phoneNumber}"/>
+                <div class="error" th:if="${errors['phoneNumber']}" th:text="${errors['phoneNumber']}"></div>
             </div>
 
             <!-- Samtykke -->
             <div class="form-group checkbox-group">
                 <label>
-                    <input type="checkbox" name="consent"
-                           th:checked="${customer.consent}"/>
-                    Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse med tilbud på en skræddersyet carport
+                    <input type="checkbox" name="consent"/>
+                    Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse med tilbud på en
+                    skræddersyet carport
                 </label>
                 <div class="error" th:if="${errors['consent']}" th:text="${errors['consent']}"></div>
             </div>

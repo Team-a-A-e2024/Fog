@@ -3,6 +3,7 @@ package app.test;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import org.thymeleaf.processor.comment.ICommentStructureHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,19 +29,29 @@ public class SetupDatabase {
 
             try (Statement stmt = connection.createStatement()) {
                 // Drop tables
-                stmt.execute("DROP TABLE IF EXISTS test.users CASCADE");;
+                stmt.execute("DROP TABLE IF EXISTS test.users CASCADE");
+                ;
+                stmt.execute("DROP TABLE IF EXISTS test.customers CASCADE");
+                stmt.execute("DROP TABLE IF EXISTS test.orders CASCADE");
 
                 // Drop sequences
                 stmt.execute("DROP SEQUENCE IF EXISTS test.users_id_seq");
+                stmt.execute("DROP SEQUENCE IF EXISTS test.customers_id_seq");
+                stmt.execute("DROP SEQUENCE IF EXISTS test.orders_id_seq");
 
                 // Recreate test tables based on public tables
                 stmt.execute("CREATE TABLE test.users AS (SELECT * FROM public.users) WITH NO DATA");
+                stmt.execute("CREATE TABLE test.customers AS (SELECT * FROM public.customers) WITH NO DATA");
+                stmt.execute("CREATE TABLE test.orders AS (SELECT * FROM public.orders)WITH NO DATA");
 
                 // Recreate sequences
                 stmt.execute("CREATE SEQUENCE test.users_id_seq");
                 stmt.execute("ALTER TABLE test.users ALTER COLUMN id SET DEFAULT nextval('test.users_id_seq')");
-            }
-            catch (SQLException e) {
+                stmt.execute("CREATE SEQUENCE test.customers_id_seq");
+                stmt.execute("ALTER TABLE test.customers ALTER COLUMN id SET DEFAULT nextval('test.customers_id_seq')");
+                stmt.execute("CREATE SEQUENCE test.orders_id_seq");
+                stmt.execute("ALTER TABLE test.orders ALTER COLUMN id SET DEFAULT nextval('test.orders_id_seq')");
+            } catch (SQLException e) {
                 throw new DatabaseException(e.getMessage());
             }
 
@@ -54,9 +65,14 @@ public class SetupDatabase {
             try (Statement stmt = connection.createStatement()) {
                 // Delete data
                 stmt.execute("DELETE FROM test.users CASCADE");
+                stmt.execute("DELETE FROM test.customers CASCADE");
+                stmt.execute("DELETE FROM test.orders CASCADE");
 
                 // Reset sequence
                 stmt.execute("SELECT setval('test.users_id_seq', 1, false)");
+                stmt.execute("SELECT setval('test.customers_id_seq',1, false)");
+                stmt.execute("SELECT setval('test.orders_id_seq',1, false)");
+
 
                 // Insert test data
                 stmt.execute("INSERT INTO test.users (id, email, password, role) " +
@@ -67,10 +83,29 @@ public class SetupDatabase {
                         "(DEFAULT, 'test3', 'Test3', 'salesman'), " +
                         "(DEFAULT, 'test4', 'Test4', 'salesman');");
 
+                stmt.execute("""
+                          INSERT INTO test.customers
+                            (fullname, address, postal_code, email, phone_number, user_id)
+                          VALUES
+                            ('Peter Nielsen',      'Theisvej 7',        2300, 'peter@nielsen.dk',   22331122, 1),
+                            ('Lone Larsen',        'Grækenlandsvej 3',  2300, 'lone@larsen.dk',     22118833, 2),
+                            ('Elias Christensen',  'Kinavej 2',         2300, 'elias@chr.dk',       22993355, 3)
+                        """);
 
-                // Update sequence to row number + 1
+                stmt.execute(""" 
+                                INSERT INTO test.orders
+                                (id,customer_id,total,created_at,status, comments,width,length)
+                                VALUES
+                        (1,1,45.0,'2025-07-05','awaiting','fast delivery',240,360)
+                        """);
+
                 stmt.execute("SELECT setval('test.users_id_seq', COALESCE((SELECT MAX(id) FROM test.users)+1, 1), false)");
-
+                stmt.execute("""
+                        SELECT setval('test.customers_id_seq',COALESCE( (SELECT MAX(id) FROM test.customers) + 1, 1 ),false);
+                        """);
+                stmt.execute("""
+                            SELECT setval('test.orders_id_seq',COALESCE((SELECT MAX(id) FROM test.orders) + 1, 1),false);
+                        """);
             } catch (SQLException e) {
                 throw new DatabaseException(e.getMessage());
             }

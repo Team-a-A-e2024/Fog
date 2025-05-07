@@ -3,15 +3,24 @@ package app.entities;
 import java.time.LocalDateTime;
 
 public class Order {
+
     private int id;
     private int customerId;
+    private double total;
+    private String status;
     private int widthCm;
     private int lengthCm;
-    private String remarks;
-    private LocalDateTime createdTs;
+    private String comments;
+    private LocalDateTime createdAt;
+
+    // Bruges af tests, frameworks
 
     public Order() {
-        this.createdTs = LocalDateTime.now();
+    }
+
+    // Bruges af controller/mapper
+    public Order(int id, int customerId, double total, String status, int widthCm, int lengthCm, String comments, LocalDateTime createdAt) {
+        this.createdAt = LocalDateTime.now();
     }
 
     public int getId() {
@@ -30,6 +39,22 @@ public class Order {
         this.customerId = customerId;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public int getWidthCm() {
         return widthCm;
     }
@@ -46,20 +71,21 @@ public class Order {
         this.lengthCm = lengthCm;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getComments() {
+        return comments;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
-    public LocalDateTime getCreatedTs() {
-        return createdTs;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedTs(LocalDateTime createdTs) {
-        this.createdTs = createdTs;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
+
 

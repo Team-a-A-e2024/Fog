@@ -1,15 +1,27 @@
 package app.entities;
 
 public class Customer {
+
     private int id;
     private String fullName;
-    private String streetAddress;
-    private String postalCode;
+    private String address;
+    private int postalCode;
     private String email;
-    private String phone;
-    private boolean consent;
+    private String phoneNumber;
+    private int userId;
 
+    /** Bruges af tests, frameworks */
     public Customer() {
+    }
+    /** Bruges af controller/mapper */
+    public Customer(int id, String fullName,String address, int postalCode, String email, String phoneNumber, int userId) {
+        this.id = id;
+        this.fullName = fullName;
+        this.postalCode = postalCode;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.userId = userId;
+        this.address = address;
     }
 
     public int getId() {
@@ -28,19 +40,19 @@ public class Customer {
         this.fullName = fullName;
     }
 
-    public String getStreetAddress() {
-        return streetAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getPostalCode() {
+    public int getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+    public void setPostalCode(int postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -52,20 +64,20 @@ public class Customer {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isConsent() {
-        return consent;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setConsent(boolean consent) {
-        this.consent = consent;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
 

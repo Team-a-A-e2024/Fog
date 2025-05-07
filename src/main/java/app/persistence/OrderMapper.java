@@ -2,31 +2,31 @@ package app.persistence;
 
 import app.entities.Order;
 import app.exceptions.DatabaseException;
-import io.javalin.http.Context;
+
 import java.sql.*;
 
 public class OrderMapper {
 
-    public static ConnectionPool connectionPool;
+    private static ConnectionPool connectionPool;
 
     public static void setConnectionPool(ConnectionPool pool) {
         OrderMapper.connectionPool = pool;
     }
 
-    public static Order toOrderAndSave(Context ctx, int customerId) throws DatabaseException {
-        Order o = new Order();
-        o.setCustomerId(customerId);
-        o.setWidthCm(parseInt(ctx.formParam("widthCm")));
-        o.setLengthCm(parseInt(ctx.formParam("lengthCm")));
-        o.setRemarks(ctx.formParam("remarks"));
+    public static Order toOrderAndSave(Order o) throws DatabaseException {
 
-
-        String sql = """
-            INSERT INTO carport_order(
-              customer_id, width_cm, length_cm, remarks
-            ) VALUES (?,?,?,?)
-            RETURNING id
-        """;
+        final String sql = """
+                    INSERT INTO orders (
+                      customer_id,
+                      width,
+                      length,
+                      total,
+                      status,
+                      comments,
+                      created_at
+                    ) VALUES (?,?,?,?,?,?,?)
+                    RETURNING id
+                """;
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -34,7 +34,10 @@ public class OrderMapper {
             ps.setInt(1, o.getCustomerId());
             ps.setInt(2, o.getWidthCm());
             ps.setInt(3, o.getLengthCm());
-            ps.setString(4, o.getRemarks());
+            ps.setDouble(4, o.getTotal());
+            ps.setString(5, o.getStatus());
+            ps.setString(6, o.getComments());
+            ps.setTimestamp(7, Timestamp.valueOf(o.getCreatedAt()));
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -43,15 +46,12 @@ public class OrderMapper {
                     throw new DatabaseException("Kunne ikke oprette ordre");
                 }
             }
-        } catch (SQLException | DatabaseException e) {
+
+        } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
 
         return o;
     }
-
-    private static int parseInt(String s) {
-        try { return Integer.parseInt(s); }
-        catch (Exception e) { return 0; }
-    }
 }
+
