@@ -1,4 +1,5 @@
 package app.persistence;
+import app.entities.Customers;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
@@ -16,7 +17,7 @@ public class OrderMapper {
     }
 
     public static Order getOrderByid(int id) throws DatabaseException{
-        String sql = "SELECT * FROM Order WHERE id = ?";
+        String sql = "SELECT * FROM Order JOIN customers c ON o.customer_id=c.id WHERE id = ?";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -29,17 +30,26 @@ public class OrderMapper {
                 Date createdAt = rs.getDate("created_at");
                 Double total = rs.getDouble("total");
                 String status = rs.getString("status");
-                int customerId = rs.getInt("customerId");
-                int partslistId = rs.getInt("partslistId");
+                int customerId = rs.getInt("customer_Id");
+                int partslistId = rs.getInt("partslist_Id");
                 int length = rs.getInt("length");
                 int width = rs.getInt("width");
-                String comment = rs.getString("comment");
+                String comment = rs.getString("comments");
+
+                String fullname = rs.getString("fullname");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String phoneNumber = rs.getString("phone_number");
+                int assignedSalesRepId = rs.getInt("user_id");
+                int postalCode = rs.getInt("postal_code");
+
+                Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
 
                 return new Order(id
                         , createdAt
                         , total
                         , status
-                        , customerId
+                        , customer
                         , partslistId
                         , length
                         , width
@@ -57,7 +67,7 @@ public class OrderMapper {
     }
 
     public static List<Order> getListofOrders() throws DatabaseException{
-        String sql = "SELECT * FROM orders o JOIN customers c ON o.customer_id=c.id;";
+        String sql = "SELECT * FROM orders o JOIN customers c ON o.customer_id=c.id";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -70,17 +80,26 @@ public class OrderMapper {
                 Date createdAt = rs.getDate("created_at");
                 Double total = rs.getDouble("total");
                 String status = rs.getString("status");
-                int customerId = rs.getInt("customerId");
-                int partslistId = rs.getInt("partslistId");
+                int customerId = rs.getInt("customer_Id");
+                int partslistId = rs.getInt("partslist_Id");
                 int length = rs.getInt("length");
                 int width = rs.getInt("width");
-                String comment = rs.getString("comment");
+                String comment = rs.getString("comments");
+
+                String fullname = rs.getString("fullname");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String phoneNumber = rs.getString("phone_number");
+                int assignedSalesRepId = rs.getInt("user_id");
+                int postalCode = rs.getInt("postal_code");
+
+                Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
 
                 orders.add(new Order(id
                         , createdAt
                         , total
                         , status
-                        , customerId
+                        , customer
                         , partslistId
                         , length
                         , width
@@ -107,7 +126,7 @@ public class OrderMapper {
                 ps.setDate(1,order.getCreatedAt());
                 ps.setDouble(2,order.getTotal());
                 ps.setString(3,order.getStatus());
-                ps.setInt(4,order.getCustomerId());
+                ps.setInt(4,order.getCustomer().getId());
                 ps.setInt(5,order.getPartslist_id());
                 ps.setInt(6,order.getLength());
                 ps.setInt(7,order.getWidth());

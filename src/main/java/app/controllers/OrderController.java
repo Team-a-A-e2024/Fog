@@ -25,31 +25,37 @@ public class OrderController {
 
 
     public static void showOrdersPage(Context ctx) {
-        CheckUserUtil.usersOnlyCheck(ctx);
-        try{
-            ctx.attribute("orderlist", OrderMapper.getListofOrders());
-        }catch (DatabaseException e){
-            ctx.attribute("error", e.toString());
+        if(CheckUserUtil.usersOnlyCheck(ctx)) {
+            try {
+                ctx.attribute("orders", OrderMapper.getListofOrders());
+            } catch (DatabaseException e) {
+                ctx.attribute("error", e.toString());
+            }
+            User user = ctx.sessionAttribute("user");
+            ctx.attribute("email", user.getEmail());
+            ctx.render("orders.html");
         }
-        ctx.render("orders.html");
     }
 
     public static void manageOrderPage(Context ctx) {
-        CheckUserUtil.usersOnlyCheck(ctx);
-        int orderId = Integer.parseInt(ctx.pathParam("id"));
-        try{
-            ctx.attribute("order", OrderMapper.getOrderByid(orderId));
-        }catch (DatabaseException e){
-            ctx.attribute("error", e.toString());
+        if(CheckUserUtil.usersOnlyCheck(ctx)) {
+            int orderId = Integer.parseInt(ctx.pathParam("id"));
+            try {
+                ctx.attribute("order", OrderMapper.getOrderByid(orderId));
+            } catch (DatabaseException e) {
+                ctx.attribute("error", e.toString());
+            }
         }
     }
     public static void updateOrderPage(Context ctx) {
-        CheckUserUtil.usersOnlyCheck(ctx);
-        int orderId = Integer.parseInt(ctx.pathParam("id"));
-        try{
-            ctx.attribute("order", OrderMapper.getOrderByid(orderId));
-        }catch (DatabaseException e){
-            ctx.attribute("error", e.toString());
+        if(CheckUserUtil.usersOnlyCheck(ctx)) {
+
+            int orderId = Integer.parseInt(ctx.pathParam("id"));
+            try {
+                ctx.attribute("order", OrderMapper.getOrderByid(orderId));
+            } catch (DatabaseException e) {
+                ctx.attribute("error", e.toString());
+            }
         }
     }
 }

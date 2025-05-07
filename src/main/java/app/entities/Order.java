@@ -8,18 +8,18 @@ public class Order {
     Date createdAt;
     Double total;
     String status;
-    int customerId;
+    Customers customer;
     int partslist_id;
     int length;
     int width;
     String comment;
 
-    public Order(int id, Date createdAt, Double total, String status, int customerId, int partslist_id, int length, int width, String comment) {
+    public Order(int id, Date createdAt, Double total, String status, Customers customer, int partslist_id, int length, int width, String comment) {
         this.id = id;
         this.createdAt = createdAt;
         this.total = total;
         this.status = status;
-        this.customerId = customerId;
+        this.customer = customer;
         this.partslist_id = partslist_id;
         this.length = length;
         this.width = width;
@@ -58,12 +58,12 @@ public class Order {
         this.status = status;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customers getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customers customer) {
+        this.customer = customer;
     }
 
     public int getPartslist_id() {
@@ -103,11 +103,11 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && customerId == order.customerId && partslist_id == order.partslist_id && length == order.length && width == order.width && Objects.equals(createdAt, order.createdAt) && Objects.equals(total, order.total) && Objects.equals(status, order.status) && Objects.equals(comment, order.comment);
+        return id == order.id && customer == order.customer && partslist_id == order.partslist_id && length == order.length && width == order.width && Objects.equals(createdAt, order.createdAt) && Objects.equals(total, order.total) && Objects.equals(status, order.status) && Objects.equals(comment, order.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, total, status, customerId, partslist_id, length, width, comment);
+        return Objects.hash(id, createdAt, total, status, customer, partslist_id, length, width, comment);
     }
 }

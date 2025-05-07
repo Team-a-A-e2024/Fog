@@ -6,11 +6,11 @@ public class Customers {
     private String fullname;
     private String email;
     private String address;
-    private int phoneNumber;
+    private String phoneNumber;
     private int userId;
     private int postalCode;
 
-    public Customers(int id, String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
+    public Customers(int id, String fullname,  String email, String address, String phoneNumber, int userId, int postalCode) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
@@ -20,7 +20,7 @@ public class Customers {
         this.postalCode = postalCode;
     }
 
-    public Customers(String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
+    public Customers(String fullname,  String email, String address, String phoneNumber, int userId, int postalCode) {
         this.fullname = fullname;
         this.email = email;
         this.address = address;
@@ -61,11 +61,11 @@ public class Customers {
         this.address = address;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

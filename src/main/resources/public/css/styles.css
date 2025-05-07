@@ -75,7 +75,6 @@ html, body{
     display: flex;
     gap: 15px;
     align-items: center;
-    border-radius: 10px;
 }
 
 .costumer-background {
@@ -83,22 +82,18 @@ html, body{
     min-height: 100vh;
 }
 
-.customer-box {
+.customer-box, .customer-pageview {
     background-color: var(--fog-white);
-    max-width: 600px;
+    width: 70vw;
+    min-width: 100em;
+
     margin: 2em auto 1em auto;
-    padding: 1em;
+    padding: 2em;
     text-align: center;
     border-radius: 10px;
 }
 
-.customer-pageview {
-    background-color: var(--fog-white);
-    max-width: 700em;
-    margin: 2em auto;
-    padding: 2em;
-    border-radius: 10px;
-}
+
 
 .customer-table {
     width: 100%;

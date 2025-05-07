@@ -34,7 +34,7 @@ public class CustomerMapper {
                     String fullname = rs.getString("fullname");
                     String email = rs.getString("email");
                     String address = rs.getString("address");
-                    int phoneNumber = rs.getInt("phone_number");
+                    String phoneNumber = rs.getString("phone_number");
                     int assignedSalesRepId = rs.getInt("user_id");
                     int postalCode = rs.getInt("postal_code");
 

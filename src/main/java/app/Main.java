@@ -5,8 +5,10 @@ import app.config.ThymeleafConfig;
 import app.controllers.ErrorController;
 import app.controllers.CustomerController;
 import app.controllers.LoginController;
+import app.controllers.OrderController;
 import app.persistence.ConnectionPool;
 import app.persistence.CustomerMapper;
+import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -33,11 +35,14 @@ public class Main {
         // Mappers
         UserMapper.setConnectionPool(connectionPool);
         CustomerMapper.SetConnectionPool(connectionPool);
+        OrderMapper.setConnectionPool(connectionPool);
 
         // Routing
         ErrorController.routes(app);
         LoginController.routes(app);
         CustomerController.routes(app);
+        OrderController.routes(app);
         app.get("/", ctx ->  ctx.render("index.html"));
+
     }
 }
