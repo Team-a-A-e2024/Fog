@@ -2,7 +2,7 @@ package app.entities;
 
 import java.util.Objects;
 
-public class Customers {
+public class Customer {
 
     private int id;
     private String fullname;
@@ -12,7 +12,7 @@ public class Customers {
     private User salesRep;
     private int postalCode;
 
-    public Customers(int id, String fullname,  String email, String address, int phoneNumber, User salesRep, int postalCode) {
+    public Customer(int id, String fullname,  String email, String address, int phoneNumber, User salesRep, int postalCode) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
@@ -22,7 +22,7 @@ public class Customers {
         this.postalCode = postalCode;
     }
 
-    public Customers(String fullname,  String email, String address, int phoneNumber,   User salesRep, int postalCode) {
+    public Customer(String fullname,  String email, String address, int phoneNumber,   User salesRep, int postalCode) {
         this.fullname = fullname;
         this.email = email;
         this.address = address;
@@ -90,8 +90,8 @@ public class Customers {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Customers customers = (Customers) o;
-        return id == customers.id && phoneNumber == customers.phoneNumber && postalCode == customers.postalCode && Objects.equals(fullname, customers.fullname) && Objects.equals(email, customers.email) && Objects.equals(address, customers.address) && Objects.equals(salesRep, customers.salesRep);
+        Customer customer = (Customer) o;
+        return id == customer.id && phoneNumber == customer.phoneNumber && postalCode == customer.postalCode && Objects.equals(fullname, customer.fullname) && Objects.equals(email, customer.email) && Objects.equals(address, customer.address) && Objects.equals(salesRep, customer.salesRep);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class Customers {
 
     @Override
     public String toString() {
-        return "Customers{" +
+        return "Customer{" +
                 "id=" + id +
                 ", fullname='" + fullname + '\'' +
                 ", email='" + email + '\'' +

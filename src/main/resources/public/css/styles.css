@@ -85,6 +85,7 @@ html, body{
 
 .customer-box {
     background-color: var(--fog-white);
+    color: var(--fog-blue);
     max-width: 600px;
     margin: 2em auto 1em auto;
     padding: 1em;
@@ -108,6 +109,17 @@ html, body{
     padding: 12px 16px;
     border-bottom: 1px solid var(--fog-blue);
     text-align: left;
+}
+
+.customer-table-header {
+    color: var(--fog-blue);
+    font-size: 18px;
+    text-align: center;
+}
+
+.customer-table-row:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
 }
 
 .customer-profile-dropdown {
@@ -148,6 +160,17 @@ html, body{
     color: var(--fog-white);
 }
 
-.customer-overview-dropdown:hover .customer-dropdown-content {
-    display: block;
+.customer-add-salesrep-button {
+    background-color: var(--fog-offwhite);
+    color: var(--fog-blue);
+    border: none;
+    border-radius: 10%;
+    text-align: center;
+    aspect-ratio: 1;
+    font-size: 17px;
+}
+
+.customer-add-salesrep-button:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
 }
