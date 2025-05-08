@@ -108,4 +108,18 @@ class UserMapperTest {
 
         assertNull(user);
     }
+
+    @Test
+    void updateUser() throws DatabaseException {
+        //arrange
+        String email = "updated";
+        User expected = new User(1, email, "huwdhuaiw", "wdjkawdb hkjlb", new Date(2312,2,12));
+
+        UserMapper.updateUserByObject(expected);
+        User actual = UserMapper.getUserByEmail(email);
+
+        assertEquals(expected,actual);
+
+    }
+
 }
