@@ -79,18 +79,23 @@ public class LoginController {
         String password2 = ctx.formParam("password-repeat");
 
         if(password.equals(password2)){
-            User user = ctx.sessionAttribute("user");
-            user.setPassword(PasswordUtil.hashPassword(password));
-            user.setPasswordChangeDate(Date.valueOf(LocalDate.now()));
+            if(password.length()<51 && password.length()>15){
+                User user = ctx.sessionAttribute("user");
+                user.setPassword(PasswordUtil.hashPassword(password));
+                user.setPasswordChangeDate(Date.valueOf(LocalDate.now()));
 
-            try{
-                UserMapper.updateUserByObject(user);
-                ctx.sessionAttribute("user");
-                ctx.redirect("/customer-overview");
-                return;
+                try{
+                    UserMapper.updateUserByObject(user);
+                    ctx.sessionAttribute("user");
+                    ctx.redirect("/customer-overview");
+                    return;
+                }
+                catch (DatabaseException e){
+                    ctx.attribute("error", "failed to update db: " + e);
+                }
             }
-            catch (DatabaseException e){
-                ctx.attribute("error", "failed to update db: " + e);
+            else {
+                ctx.attribute("error", "Password skal være mellem 16 og 50 tegn");
             }
         }else{
             ctx.attribute("error", "Password skal være ens");
