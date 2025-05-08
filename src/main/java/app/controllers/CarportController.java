@@ -15,24 +15,25 @@ import java.util.Map;
 
 public class CarportController {
 
+    public static void routes(Javalin app) {
+        app.get ("/",      CarportController::showForm);
+        app.post("/",      CarportController::submitForm);
+        app.get ("/confirmation", CarportController::showConfirmation);    }
     // Register routes when application starts
     public CarportController(Javalin app) {
-        app.get ("/carport",      this::showForm);
-        app.post("/carport",      this::submitForm);
-        app.get ("/confirmation", this::showConfirmation);
     }
 
     // GET  /carport – render an empty form
-    private void showForm(Context ctx) {
+    private static void showForm(Context ctx) {
         ctx.render("carport-form.html", Map.of(
-                "customer", new Customer(),          // blank DTOs for binding
+                "customer", new Customer(),
                 "order",    new Order(),
                 "errors",   new HashMap<String,String>()
         ));
     }
 
     // POST /carport – save customer + order, then redirect
-    private void submitForm(Context ctx) {
+    private static void submitForm(Context ctx) {
 
         Map<String,String> errors = new HashMap<>();
 
@@ -84,7 +85,7 @@ public class CarportController {
         ctx.redirect("/confirmation");
     }
 
-    private void showConfirmation(Context ctx) {
+    private static void showConfirmation(Context ctx) {
         ctx.render("carport-confirm.html");
     }
 

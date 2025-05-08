@@ -6,6 +6,7 @@ import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +15,7 @@ class CustomerMapperTest {
 
     @BeforeAll
     public static void beforeAll() {
-        CustomerMapper.SetConnectionPool(SetupDatabase.getConnectionPool());
+        CustomerMapper.setConnectionPool(SetupDatabase.getConnectionPool());
         try {
             SetupDatabase.createTables();
         } catch (DatabaseException e) {
@@ -40,7 +41,7 @@ class CustomerMapperTest {
         assertNotNull(result);
         assertEquals(3, result.size());
 
-        List<String> names = result.stream().map(Customer::getFullname).toList();
+        List<String> names = result.stream().map(Customer::getFullName).toList();
 
         assertTrue(names.contains("Customer1"));
         assertTrue(names.contains("Customer3"));
@@ -48,27 +49,25 @@ class CustomerMapperTest {
     }
 
     @Test
-    void customerWithAfventerOrder_shouldNotBeIncluded() throws DatabaseException {
-        // Test: Customer2 has user_id = 3 and status = 'Afventer', so should NOT be included
-        int userId = 3;
-        List<Customer> result = CustomerMapper.getCustomersWithoutSalesRep(userId);
-        List<Customer> result = CustomerMapper.getCustomersWithoutSalesRep(userId);
-        void saveCustomers () throws DatabaseException {
-            // arrange
-            Customer in = new Customer();
-            in.setFullName("Peter Nielsen");
-            in.setAddress("Theisvej 7");
-            in.setPostalCode(2300);
-            in.setEmail("peter@nielsen.dk");
-            in.setPhoneNumber("22331122");
-            in.setUserId(1);
+    void saveCustomers() throws DatabaseException {
+        // arrange
+        Customer in = new Customer();
+        in.setFullName("Peter Nielsen");
+        in.setAddress("Theisvej 7");
+        in.setPostalCode(2300);
+        in.setEmail("peter@nielsen.dk");
+        in.setPhoneNumber("22331122");
+        in.setUserId(1);
 
-            //act
-            Customer out = CustomerMapper.save(in);
+        //act
+        Customer out = CustomerMapper.save(in);
 
-        // Make sure Customer2 is not in the list
-        for (Customer customer : result) {
-            assertNotEquals("Customer2", customer.getFullname());
-        }
+        // assert
+        assertTrue(in.getId() > 0);
+        assertEquals("Peter Nielsen", out.getFullName());
+        assertEquals("Theisvej 7", out.getAddress());
+        assertEquals(2300, out.getPostalCode());
+        assertEquals("peter@nielsen.dk", out.getEmail());
+        assertEquals("22331122", out.getPhoneNumber());
     }
 }

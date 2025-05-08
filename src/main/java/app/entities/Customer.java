@@ -13,8 +13,9 @@ public class Customer {
     // used by tests, frameworks
     public Customer() {
     }
+
     // used by controller
-    public Customer(int id, String fullName,String address, int postalCode, String email, String phoneNumber, int userId) {
+    public Customer(int id, String fullName, String address, int postalCode, String email, String phoneNumber, int userId) {
         this.id = id;
         this.fullName = fullName;
         this.postalCode = postalCode;
@@ -79,19 +80,19 @@ public class Customer {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-}
 
 
     @Override
     public String toString() {
-        return "Customers{" +
+        return "Customers" +
                 "postalCode=" + postalCode +
                 ", userId=" + userId +
                 ", phoneNumber=" + phoneNumber +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
-                ", fullname='" + fullname + '\'' +
+                ", fullname='" + fullName + '\'' +
                 ", id=" + id +
                 '}';
     }
 }
+
