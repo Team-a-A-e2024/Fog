@@ -1,6 +1,6 @@
 package app.entities;
 
-public class Customers {
+public class Customer {
 
     private int id;
     private String fullname;
@@ -10,7 +10,7 @@ public class Customers {
     private int userId;
     private int postalCode;
 
-    public Customers(int id, String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
+    public Customer(int id, String fullname, String email, String address, int phoneNumber, int userId, int postalCode) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
@@ -20,7 +20,7 @@ public class Customers {
         this.postalCode = postalCode;
     }
 
-    public Customers(String fullname,  String email, String address, int phoneNumber, int userId, int postalCode) {
+    public Customer(String fullname, String email, String address, int phoneNumber, int userId, int postalCode) {
         this.fullname = fullname;
         this.email = email;
         this.address = address;

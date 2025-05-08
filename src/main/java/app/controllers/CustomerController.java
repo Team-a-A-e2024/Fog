@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.entities.Customers;
+import app.entities.Customer;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -28,7 +28,7 @@ public class CustomerController {
             User user = ctx.sessionAttribute("user");
             ctx.attribute("email", user.getEmail());
             int userId = user.getId();
-            List<Customers> customerList = CustomerMapper.getCustomersWithoutSalesRep(userId);
+            List<Customer> customerList = CustomerMapper.getCustomersWithoutSalesRep(userId);
             ctx.attribute("customers", customerList);
             ctx.render("customer-overview.html");
         } catch (DatabaseException e) {
