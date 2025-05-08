@@ -64,7 +64,6 @@ public class CustomerMapper {
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
-
         return customerList;
     }
 

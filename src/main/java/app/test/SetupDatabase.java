@@ -85,32 +85,32 @@ public class SetupDatabase {
                 stmt.execute("SELECT setval('test.partslist_id_seq', 1, false)");
 
                 // Insert test data into user
-                stmt.execute("INSERT INTO test.users (id, email, password, role) " +
+                stmt.execute("INSERT INTO test.users (id, email, password, role, password_changed_date) " +
                         "VALUES " +
-                        "(DEFAULT, 'admin', 'admin', 'admin'), " +
-                        "(DEFAULT, 'test1', 'Test1', 'salesman'), " +
-                        "(DEFAULT, 'test2', 'Test2', 'salesman'), " +
-                        "(DEFAULT, 'test3', 'Test3', 'salesman'), " +
-                        "(DEFAULT, 'test4', 'Test4', 'salesman');");
+                        "(DEFAULT, 'admin', 'admin', 'admin', null), " +
+                        "(DEFAULT, 'test1', 'Test1', 'salesman', null), " +
+                        "(DEFAULT, 'test2', 'Test2', 'salesman', null), " +
+                        "(DEFAULT, 'test3', 'Test3', 'salesman', null), " +
+                        "(DEFAULT, 'test4', 'Test4', 'salesman', null);");
 
-                // Insert test data into customer
+                // Insert test data into customers
                 stmt.execute("INSERT INTO test.customers (id, fullname, email, address, phone_number, user_id, postal_code) " +
                         "VALUES " +
-                        "(DEFAULT, 'Customer1', 'Customer1', 'test1@test.dk', 'testaddress1', 12245678, 2, 1234), " +
-                        "(DEFAULT, 'Customer2', 'Customer2', 'test2@test.dk', 'testaddress2', 13345678, 3, 1234), " +
-                        "(DEFAULT, 'Customer3', 'Customer3', 'test3@test.dk', 'testaddress3', 12445678, null, 1234), " +
-                        "(DEFAULT, 'Customer4', 'Customer4', 'test4@test.dk', 'testaddress4', 12355678, null, 1234);");
+                        "(DEFAULT, 'Customer1', 'test1@test.dk', 'testaddress1', 12245678, 2, 1234), " +
+                        "(DEFAULT, 'Customer2', 'test2@test.dk', 'testaddress2', 13345678, 3, 1234), " +
+                        "(DEFAULT, 'Customer3', 'test3@test.dk', 'testaddress3', 12445678, null, 1234), " +
+                        "(DEFAULT, 'Customer4', 'test4@test.dk', 'testaddress4', 12355678, null, 1234);");
 
-                stmt.execute("INSERT INTO test.orders (id, created_at, total, status, customer_id, partslist_id, length, width, comment) " +
+                // Insert test data into orders
+                stmt.execute("INSERT INTO test.orders (id, created_at, total, status, customer_id, length, width, comments) " +
                         "VALUES " +
-                        "(DEFAULT, '2025-01-01', '1000', 'Godkendt', 1, 1, 10, 10, 'Ordre til Customer1'), " +
-                        "(DEFAULT, '2025-01-02', '1000', 'Afventer', 2, 1, 10, 10, 'Ordre til Customer2'), " +
-                        "(DEFAULT, '2025-01-03', '1000', 'Behandles', 4, 1, 10, 10, 'Ordre til Customer4');");
+                        "(DEFAULT, '2025-01-01', '1000', 'Godkendt', 1 , 10, 10, 'Ordre til Customer1'), " +
+                        "(DEFAULT, '2025-01-02', '1000', 'Afventer', 2, 10, 10, 'Ordre til Customer2'), " +
+                        "(DEFAULT, '2025-01-03', '1000', 'Behandles', 4, 10, 10, 'Ordre til Customer4');");
 
-                stmt.execute("INSERT INTO test.partslist (id, name, description) " +
-                        "VALUES " +
-                        "(DEFAULT, 'Test partslist', 'Test description');");
+                // Insert test data into partslists
 
+                // insert test data into postal code
                 stmt.execute("INSERT INTO test.postal_code (postal_code, city) " +
                         "VALUES " +
                         "(1234, 'Test City');");

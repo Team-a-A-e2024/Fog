@@ -1,7 +1,5 @@
 package app.entities;
 
-import java.util.Objects;
-
 public class Customer {
 
     private int id;
@@ -9,25 +7,25 @@ public class Customer {
     private String email;
     private String address;
     private int phoneNumber;
-    private User salesRep;
+    private int userId;
     private int postalCode;
 
-    public Customer(int id, String fullname,  String email, String address, int phoneNumber, User salesRep, int postalCode) {
+    public Customer(int id, String fullname, String email, String address, int phoneNumber, int userId, int postalCode) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.salesRep = salesRep;
+        this.userId = userId;
         this.postalCode = postalCode;
     }
 
-    public Customer(String fullname,  String email, String address, int phoneNumber,   User salesRep, int postalCode) {
+    public Customer(String fullname, String email, String address, int phoneNumber, int userId, int postalCode) {
         this.fullname = fullname;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.salesRep = salesRep;
+        this.userId = userId;
         this.postalCode = postalCode;
     }
 
@@ -71,12 +69,12 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public User getSalesRep() {
-        return salesRep;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setSalesRep(User salesRep) {
-        this.salesRep = salesRep;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getPostalCode() {
@@ -101,14 +99,14 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", fullname='" + fullname + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
+        return "Customers{" +
+                "postalCode=" + postalCode +
+                ", userId=" + userId +
                 ", phoneNumber=" + phoneNumber +
-                ", salesRep=" + salesRep +
-                ", postalCode=" + postalCode +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

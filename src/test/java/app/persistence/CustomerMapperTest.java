@@ -5,6 +5,7 @@ import app.exceptions.DatabaseException;
 import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,8 +33,13 @@ class CustomerMapperTest {
     }
 
     @Test
-    void getCustomersWithoutSalesRep() throws DatabaseException {
-        // Test: should return customers where user_id is null OR user_id = 2 AND order status is 'Afventer'
+    void testConnection() throws SQLException {
+        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
+    }
+
+    @Test
+    void getCustomersWithoutSalesRep_shouldReturnExpectedCustomers() throws DatabaseException {
+        // Test: should return customers where user_id is null OR user_id = 2 AND order status is not 'Afventer'
         int userId = 2;
         List<Customer> result = CustomerMapper.getCustomersWithoutSalesRep(userId);
 
@@ -48,7 +54,7 @@ class CustomerMapperTest {
     }
 
     @Test
-    void customerWithAfventerOrder() throws DatabaseException {
+    void customerWithAfventerOrder_shouldNotBeIncluded() throws DatabaseException {
         // Test: Customer2 has user_id = 3 and status = 'Afventer', so should NOT be included
         int userId = 3;
         List<Customer> result = CustomerMapper.getCustomersWithoutSalesRep(userId);
