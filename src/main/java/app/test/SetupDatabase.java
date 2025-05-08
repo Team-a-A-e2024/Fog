@@ -105,8 +105,8 @@ public class SetupDatabase {
                 stmt.execute("INSERT INTO test.orders (id, created_at, total, status, customer_id, length, width, comments) " +
                         "VALUES " +
                         "(DEFAULT, '2025-01-01', '1000', 'Godkendt', 1 , 10, 10, 'Ordre til Customer1'), " +
-                        "(DEFAULT, '2025-01-02', '1000', 'Afventer', 2, 10, 10, 'Ordre til Customer2'), " +
-                        "(DEFAULT, '2025-01-03', '1000', 'Behandles', 4, 10, 10, 'Ordre til Customer4');");
+                        "(DEFAULT, '2025-01-02', '1000', 'Godkendt', 2, 10, 10, 'Ordre til Customer2'), " +
+                        "(DEFAULT, '2025-01-03', '1000', 'Afventer', 4, 10, 10, 'Ordre til Customer4');");
 
                 // Insert test data into partslists
 

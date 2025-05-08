@@ -21,17 +21,18 @@ public class CustomerMapper {
     public static List<Customer> getCustomersWithoutSalesRep(int userId) throws DatabaseException {
         List<Customer> customerList = new ArrayList<>();
         String sql = "SELECT " +
-                "c.*, " +
-                "o.*, " +
-                "u.id AS salesrep_id, " +
-                "u.email AS salesrep_email, " +
-                "u.password AS salesrep_password, " +
-                "u.role AS salesrep_role " +
+                "    c.*, " +
+                "    o.*, " +
+                "    u.id AS salesrep_id, " +
+                "    u.email AS salesrep_email, " +
+                "    u.password AS salesrep_password, " +
+                "    u.role AS salesrep_role " +
                 "FROM customers c " +
                 "JOIN orders o ON c.id = o.customer_id " +
                 "LEFT JOIN users u ON c.user_id = u.id " +
                 "WHERE (c.user_id IS NULL OR c.user_id = ?) " +
                 "AND o.status = 'Afventer';";
+
         try {
             Connection connec = connectionPool.getConnection();
             PreparedStatement ps = connec.prepareStatement(sql);
@@ -54,10 +55,9 @@ public class CustomerMapper {
                         String salesRepPassword = rs.getString("salesrep_password");
                         String salesRepRole = rs.getString("salesrep_role");
 
-                        User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole);
+                        User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole, null);
                         customer.setSalesRep(salesRep);
                     }
-
                     customerList.add(customer);
                 }
             }
