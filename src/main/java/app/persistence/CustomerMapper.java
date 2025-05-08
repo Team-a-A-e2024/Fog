@@ -1,6 +1,6 @@
 package app.persistence;
 
-import app.entities.Customers;
+import app.entities.Customer;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -17,8 +17,8 @@ public class CustomerMapper {
         CustomerMapper.connectionPool = connectionPool;
     }
 
-    public static List<Customers> getCustomersWithoutSalesRep(int userId) throws DatabaseException {
-        List<Customers> customerList = new ArrayList<>();
+    public static List<Customer> getCustomersWithoutSalesRep(int userId) throws DatabaseException {
+        List<Customer> customerList = new ArrayList<>();
         String sql = "SELECT DISTINCT c.* " +
                 "FROM customers c " +
                 "LEFT JOIN orders o ON c.id = o.customer_id " +
@@ -38,7 +38,7 @@ public class CustomerMapper {
                     int assignedSalesRepId = rs.getInt("user_id");
                     int postalCode = rs.getInt("postal_code");
 
-                    Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
+                    Customer customer = new Customer(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
                     customerList.add(customer);
                 }
             }
