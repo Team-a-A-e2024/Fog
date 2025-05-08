@@ -20,7 +20,14 @@ public class Order {
 
     // used by controller
     public Order(int id, int customerId, double total, String status, int widthCm, int lengthCm, String comments, LocalDateTime createdAt) {
-        this.createdAt = LocalDateTime.now();
+        this.id=id;
+        this.customerId=customerId;
+        this.total=total;
+        this.status=status;
+        this.widthCm=widthCm;
+        this.lengthCm=lengthCm;
+        this.comments=comments;
+        this.createdAt = createdAt;
     }
 
     public int getId() {

@@ -4,24 +4,35 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Byg selv carport</title>
-    <link rel="stylesheet" th:href="@{/public/css/styles.css}"/>
+    <link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
+<header>
+    <div class="customer-header">
+        <a href="index.html" th:href="@{/}">
+            <img src="../public/images/Fog_logo.png" alt="Fog">
+        </a>
+        <h4>Byg selv carport</h4>
+
+    </div>
+</header>
 <main class="container">
     <div class="card form-card">
         <h1>Byg selv carport</h1>
         <form th:action="@{/}" method="post" novalidate>
 
             <!-- Carport bredde -->
-            <div class="form-group">
-                <label for="widthCm">Carport bredde <span class="required">*</span></label>
-                <select id="widthCm" name="widthCm" th:value="${order.widthCm}">
-                    <option disabled selected value="">Vælg bredde</option>
-                    <option th:each="w : ${#numbers.sequence(240,600,30)}"
-                            th:value="${w}"
-                            th:text="${w + ' cm'}"></option>
-                </select>
-                <div class="error" th:if="${errors['widthCm']}" th:text="${errors['widthCm']}"></div>
+            <div class="form-card row">
+                <div class="form-group col">
+                    <label for="widthCm">Carport bredde <span class="required">*</span></label>
+                    <select id="widthCm" name="widthCm" th:value="${order.widthCm}">
+                        <option disabled selected value="">Vælg bredde</option>
+                        <option th:each="w : ${#numbers.sequence(240,600,30)}"
+                                th:value="${w}"
+                                th:text="${w + ' cm'}"></option>
+                    </select>
+                    <div class="error" th:if="${errors['widthCm']}" th:text="${errors['widthCm']}"></div>
+                </div>
             </div>
 
             <!-- Carport længde -->
@@ -87,13 +98,15 @@
             </div>
 
             <!-- Samtykke -->
-            <div class="form-group checkbox-group">
-                <label>
-                    <input type="checkbox" name="consent"/>
-                    Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse med tilbud på en
-                    skræddersyet carport
+            <div>
+                <input type="checkbox" id="consent" name="consent" />
+                <label for="consent">
+                    Kontakt samtykke <span class="required">*</span>
                 </label>
-                <div class="error" th:if="${errors['consent']}" th:text="${errors['consent']}"></div>
+
+                <p class="consent-description">
+                    Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse med tilbud på en skræddersyet carport.
+                </p>
             </div>
 
             <!-- Submit-knap -->

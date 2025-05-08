@@ -40,12 +40,12 @@ public class CarportController {
         // Build & saves CUSTOMER
         Customer customer = new Customer(
                 0,                                   // id → auto-generated
-                ctx.formParam("fullname"),
+                ctx.formParam("fullName"),
                 ctx.formParam("address"),
                 parseInt(ctx.formParam("postalCode")),
                 ctx.formParam("email"),
                 ctx.formParam("phoneNumber"),
-                0                                    // userId (optional)
+                0
         );
 
         try {
@@ -64,7 +64,7 @@ public class CarportController {
                 0,
                 customer.getId(),
                 0.0,
-                "new",
+                "afventer",
                 parseInt(ctx.formParam("widthCm")),
                 parseInt(ctx.formParam("lengthCm")),
                 ctx.formParam("comments"),
