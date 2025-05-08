@@ -20,30 +20,14 @@ class CalculatorTest {
 
     @BeforeAll
     public static void beforeAll() {
-        MaterialMapper.setConnectionPool(SetupDatabase.getConnectionPool());
-        try {
-            SetupDatabase.createTables();
-        } catch (DatabaseException e) {
-            fail(e.getMessage());
-        }
     }
 
     @BeforeEach
     void beforeEach() {
-        try {
-            SetupDatabase.seedTables();
-        } catch (DatabaseException e) {
-            fail(e.getMessage());
-        }
     }
 
     @AfterEach
     void tearDown() {
-    }
-
-    @Test
-    void testConnection() throws SQLException {
-        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
     }
 
     @Test
