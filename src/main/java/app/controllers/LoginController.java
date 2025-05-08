@@ -8,7 +8,9 @@ import app.persistence.UserMapper;
 import app.util.PasswordUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import org.eclipse.jetty.util.log.Log;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class LoginController {
     private static ConnectionPool connectionPool;
@@ -21,7 +23,8 @@ public class LoginController {
         app.get("/login", LoginController::showLoginPage);
         app.post("/login", LoginController::handleLogin);
         app.get("/logout", LoginController::logout);
-        app.get("/changePassword", LoginController::changePassword);
+        app.get("/changePassword", LoginController::showChangePasswordPage);
+        app.post("/changePassword", LoginController::HandleChangePassword);
     }
 
     public static void showLoginPage(Context ctx) {
@@ -41,7 +44,7 @@ public class LoginController {
             if(user.getPasswordChangeDate() == null){
                 if(PasswordUtil.checkPlainPassword(password,user.getPassword())){
                     ctx.sessionAttribute("user", user);
-                    ctx.redirect("/changePassword()");
+                    ctx.redirect("/changePassword");
                     return;
                 }
             }
@@ -57,15 +60,41 @@ public class LoginController {
         ctx.render("login.html");
     }
 
-    public static void changePassword(Context ctx){
-        if(CheckUserUtil.usersOnlyCheck(ctx)){
-
-        }
-    }
-
     public static void logout(Context ctx) {
         //this deletes the entire session
         ctx.req().getSession().invalidate();
         ctx.redirect("/login");
+    }
+
+    public static void showChangePasswordPage(Context ctx){
+        if(CheckUserUtil.usersOnlyCheck(ctx)){
+            User user = ctx.sessionAttribute("user");
+            ctx.attribute("email", user.getEmail());
+            ctx.render("change-password.html");
+        }
+    }
+
+    public static void HandleChangePassword(Context ctx) {
+        String password = ctx.formParam("password");
+        String password2 = ctx.formParam("password-repeat");
+
+        if(password.equals(password2)){
+            User user = ctx.sessionAttribute("user");
+            user.setPassword(PasswordUtil.hashPassword(password));
+            user.setPasswordChangeDate(Date.valueOf(LocalDate.now()));
+
+            try{
+                UserMapper.updateUserByObject(user);
+                ctx.sessionAttribute("user");
+                ctx.redirect("/customer-overview");
+                return;
+            }
+            catch (DatabaseException e){
+                ctx.attribute("error", "failed to update db: " + e);
+            }
+        }else{
+            ctx.attribute("error", "Password skal være ens");
+        }
+        ctx.render("change-password.html");
     }
 }

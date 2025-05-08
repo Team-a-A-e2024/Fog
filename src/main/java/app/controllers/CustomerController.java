@@ -23,17 +23,18 @@ public class CustomerController {
     }
 
     public static void customerOverview(Context ctx) {
-        CheckUserUtil.usersOnlyCheck(ctx);
-        try {
-            User user = ctx.sessionAttribute("user");
-            ctx.attribute("email", user.getEmail());
-            int userId = user.getId();
-            List<Customer> customerList = CustomerMapper.getCustomersWithoutSalesRep(userId);
-            ctx.attribute("customers", customerList);
-            ctx.render("customer-overview.html");
-        } catch (DatabaseException e) {
-            ctx.attribute("message", "Noget gik galt, prøv igen senere. " + e.getMessage());
-            ctx.render("customer-overview.html");
+        if(CheckUserUtil.usersOnlyCheck(ctx)){
+            try {
+                User user = ctx.sessionAttribute("user");
+                ctx.attribute("email", user.getEmail());
+                int userId = user.getId();
+                List<Customer> customerList = CustomerMapper.getCustomersWithoutSalesRep(userId);
+                ctx.attribute("customers", customerList);
+                ctx.render("customer-overview.html");
+            } catch (DatabaseException e) {
+                ctx.attribute("message", "Noget gik galt, prøv igen senere. " + e.getMessage());
+                ctx.render("customer-overview.html");
+            }
         }
     }
 }
