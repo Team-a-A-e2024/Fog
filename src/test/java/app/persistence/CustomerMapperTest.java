@@ -33,6 +33,11 @@ class CustomerMapperTest {
     }
 
     @Test
+    void testConnection() throws SQLException {
+        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
+    }
+
+    @Test
     void getCustomersWithoutSalesRep_shouldReturnExpectedCustomers() throws DatabaseException {
         // Test: should return customers where user_id is null OR user_id = 2 AND order status is not 'Afventer'
         int userId = 2;
