@@ -74,6 +74,7 @@ public class UserMapper {
                 ps.setString(3,user.getRole());
                 ps.setDate(4,user.getPasswordChangeDate());
                 ps.setInt(5,user.getId());
+                ps.executeUpdate();
             }
         }
         catch (SQLException e)

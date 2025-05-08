@@ -85,7 +85,7 @@ public class SetupDatabase {
                 stmt.execute("SELECT setval('test.partslist_id_seq', 1, false)");
 
                 // Insert test data into user
-                stmt.execute("INSERT INTO test.users (id, email, password, role, ) " +
+                stmt.execute("INSERT INTO test.users (id, email, password, role, password_changed_date) " +
                         "VALUES " +
                         "(DEFAULT, 'admin', 'admin', 'admin', null), " +
                         "(DEFAULT, 'test1', 'Test1', 'salesman', null), " +

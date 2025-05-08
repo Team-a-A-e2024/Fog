@@ -5,6 +5,7 @@ import app.exceptions.DatabaseException;
 import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +30,11 @@ class CustomerMapperTest {
         } catch (DatabaseException e) {
             fail("Fejl ved seedTables: " + e.getMessage());
         }
+    }
+
+    @Test
+    void testConnection() throws SQLException {
+        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
     }
 
     @Test
