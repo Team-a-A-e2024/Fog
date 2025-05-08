@@ -5,6 +5,8 @@ import app.config.ThymeleafConfig;
 import app.controllers.ErrorController;
 import app.controllers.LoginController;
 import app.persistence.ConnectionPool;
+import app.persistence.MaterialMapper;
+import app.persistence.PartslistMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -30,6 +32,8 @@ public class Main {
 
         // Mappers
         UserMapper.setConnectionPool(connectionPool);
+        MaterialMapper.setConnectionPool(connectionPool);
+        PartslistMapper.setConnectionPool(connectionPool);
 
         // Routing
         ErrorController.routes(app);
