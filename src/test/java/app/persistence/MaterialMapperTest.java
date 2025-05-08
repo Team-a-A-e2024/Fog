@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Tag("IntegraionTest")
+@Tag("IntegrationTest")
 class MaterialMapperTest {
 
     @BeforeAll
