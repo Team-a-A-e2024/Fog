@@ -81,3 +81,17 @@ public class Customer {
     }
 }
 
+
+    @Override
+    public String toString() {
+        return "Customers{" +
+                "postalCode=" + postalCode +
+                ", userId=" + userId +
+                ", phoneNumber=" + phoneNumber +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", id=" + id +
+                '}';
+    }
+}
