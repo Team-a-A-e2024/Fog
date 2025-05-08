@@ -60,14 +60,14 @@ public class CarportController {
 
         // Build & saves ORDER
         Order order = new Order(
-                0,                                   // id → auto
-                customer.getId(),                    // FK (NOT NULL)
-                0.0,                                 // total  (NOT NULL)
-                "new",                               // status (NOT NULL)
-                parseInt(ctx.formParam("widthCm")),  // width  (NOT NULL)
-                parseInt(ctx.formParam("lengthCm")), // length (NOT NULL)
-                ctx.formParam("comments"),           // nullable
-                LocalDateTime.now()                  // created_at (NOT NULL)
+                0,
+                customer.getId(),
+                0.0,
+                "new",
+                parseInt(ctx.formParam("widthCm")),
+                parseInt(ctx.formParam("lengthCm")),
+                ctx.formParam("comments"),
+                LocalDateTime.now()
         );
 
         try {
