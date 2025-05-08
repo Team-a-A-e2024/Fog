@@ -85,13 +85,13 @@ public class SetupDatabase {
                 stmt.execute("SELECT setval('test.partslist_id_seq', 1, false)");
 
                 // Insert test data into user
-                stmt.execute("INSERT INTO test.users (id, email, password, role) " +
+                stmt.execute("INSERT INTO test.users (id, email, password, role, ) " +
                         "VALUES " +
-                        "(DEFAULT, 'admin', 'admin', 'admin'), " +
-                        "(DEFAULT, 'test1', 'Test1', 'salesman'), " +
-                        "(DEFAULT, 'test2', 'Test2', 'salesman'), " +
-                        "(DEFAULT, 'test3', 'Test3', 'salesman'), " +
-                        "(DEFAULT, 'test4', 'Test4', 'salesman');");
+                        "(DEFAULT, 'admin', 'admin', 'admin', null), " +
+                        "(DEFAULT, 'test1', 'Test1', 'salesman', null), " +
+                        "(DEFAULT, 'test2', 'Test2', 'salesman', null), " +
+                        "(DEFAULT, 'test3', 'Test3', 'salesman', null), " +
+                        "(DEFAULT, 'test4', 'Test4', 'salesman', null);");
 
                 // Insert test data into customer
                 stmt.execute("INSERT INTO test.customers (id, fullname, email, address, phone_number, user_id, postal_code) " +

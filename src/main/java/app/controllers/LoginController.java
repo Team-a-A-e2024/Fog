@@ -8,6 +8,7 @@ import app.persistence.UserMapper;
 import app.util.PasswordUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import org.eclipse.jetty.util.log.Log;
 
 public class LoginController {
     private static ConnectionPool connectionPool;
@@ -20,6 +21,7 @@ public class LoginController {
         app.get("/login", LoginController::showLoginPage);
         app.post("/login", LoginController::handleLogin);
         app.get("/logout", LoginController::logout);
+        app.get("/changePassword", LoginController::changePassword);
     }
 
     public static void showLoginPage(Context ctx) {
@@ -38,8 +40,8 @@ public class LoginController {
             User user = UserMapper.getUserByEmail(email);
             if(user.getPasswordChangeDate() == null){
                 if(PasswordUtil.checkPlainPassword(password,user.getPassword())){
-                    //todo: slop
-                    ctx.redirect("/");
+                    ctx.sessionAttribute("user", user);
+                    ctx.redirect("/changePassword()");
                     return;
                 }
             }
@@ -53,6 +55,12 @@ public class LoginController {
         }
         ctx.attribute("error", "Invalid email or password");
         ctx.render("login.html");
+    }
+
+    public static void changePassword(Context ctx){
+        if(CheckUserUtil.usersOnlyCheck(ctx)){
+
+        }
     }
 
     public static void logout(Context ctx) {

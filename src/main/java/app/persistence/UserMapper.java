@@ -16,7 +16,7 @@ public class UserMapper {
 
     public static User addUserByObject(User user) throws DatabaseException
     {
-        String sql = "insert into users (email,password,role) VALUES (?,?,?) returning id ;";
+        String sql = "insert into users (email,password,role,password_changed_date) VALUES (?,?,?,?) returning id ;";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql))
@@ -24,6 +24,7 @@ public class UserMapper {
                 ps.setString(1,user.getEmail());
                 ps.setString(2,user.getPassword());
                 ps.setString(3,user.getRole());
+                ps.setDate(4,user.getPasswordChangeDate());
                 try (var rs = ps.executeQuery()) {
                     if (rs.next()) {
                         int id = rs.getInt("id");
@@ -53,7 +54,7 @@ public class UserMapper {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getDate("passwordChangeDate"));
+                return new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getDate("password_change_date"));
             }
 
         } catch (SQLException e) {
