@@ -1,7 +1,9 @@
 package app.test;
 
+import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import org.thymeleaf.processor.comment.ICommentStructureHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
