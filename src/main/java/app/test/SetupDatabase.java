@@ -34,10 +34,6 @@ public class SetupDatabase {
                 stmt.execute("DROP TABLE IF EXISTS test.orders CASCADE");
                 stmt.execute("DROP TABLE IF EXISTS test.partslist CASCADE");
                 stmt.execute("DROP TABLE IF EXISTS test.postal_code CASCADE");
-                stmt.execute("DROP TABLE IF EXISTS test.users CASCADE");
-                ;
-                stmt.execute("DROP TABLE IF EXISTS test.customers CASCADE");
-                stmt.execute("DROP TABLE IF EXISTS test.orders CASCADE");
 
                 // Drop sequences
                 stmt.execute("DROP SEQUENCE IF EXISTS test.users_id_seq");
@@ -45,8 +41,6 @@ public class SetupDatabase {
                 stmt.execute("DROP SEQUENCE IF EXISTS test.orders_id_seq");
                 stmt.execute("DROP SEQUENCE IF EXISTS test.partslist_id_seq");
                 stmt.execute("DROP SEQUENCE IF EXISTS test.postal_code_seq");
-                stmt.execute("DROP SEQUENCE IF EXISTS test.customers_id_seq");
-                stmt.execute("DROP SEQUENCE IF EXISTS test.orders_id_seq");
 
                 // Recreate test tables based on public tables
                 stmt.execute("CREATE TABLE test.users AS (SELECT * FROM public.users) WITH NO DATA");
@@ -122,14 +116,6 @@ public class SetupDatabase {
                 stmt.execute("INSERT INTO test.postal_code (postal_code, city) " +
                         "VALUES " +
                         "(1234, 'Test City');");
-                stmt.execute("""
-                          INSERT INTO test.customers
-                            (fullname, address, postal_code, email, phone_number, user_id)
-                          VALUES
-                            ('Peter Nielsen',      'Theisvej 7',        2300, 'peter@nielsen.dk',   22331122, 1),
-                            ('Lone Larsen',        'Grækenlandsvej 3',  2300, 'lone@larsen.dk',     22118833, 2),
-                            ('Elias Christensen',  'Kinavej 2',         2300, 'elias@chr.dk',       22993355, 3)
-                        """);
 
                 // Update sequence to row number + 1
                 stmt.execute("SELECT setval('test.users_id_seq', COALESCE((SELECT MAX(id) FROM test.users)+1, 1), false)");

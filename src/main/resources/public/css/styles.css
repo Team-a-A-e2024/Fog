@@ -11,7 +11,6 @@
     font-family: "Segoe UI";
 }
 
-
 html, body {
     margin: 0;
     padding: 0;
@@ -342,5 +341,4 @@ html, body {
         padding: 1.5em;
         border-radius: 0;
     }
-
 }

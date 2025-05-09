@@ -86,13 +86,13 @@ public class CustomerMapper {
                     int assignedUser = rs.getInt("user_id");
 
                     customerList.add(new Customer(
-                            customerId,
-                            fullname,
                             address,
-                            postalCode,
+                            fullname,
                             email,
                             phone,
-                            assignedUser
+                            postalCode,
+                            assignedUser,
+                            customerId
                     ));
                 }
             }

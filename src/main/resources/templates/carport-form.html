@@ -25,34 +25,41 @@
             <div class="form-card row">
                 <div class="form-group col">
                     <label for="widthCm">Carport bredde <span class="required">*</span></label>
-                    <select id="widthCm" name="widthCm" th:value="${order.widthCm}">
+                    <select id="widthCm" name="widthCm">
                         <option disabled selected value="">Vælg bredde</option>
                         <option th:each="w : ${#numbers.sequence(240,600,30)}"
                                 th:value="${w}"
                                 th:text="${w + ' cm'}"></option>
                     </select>
-                    <div class="error" th:if="${errors['widthCm']}" th:text="${errors['widthCm']}"></div>
+                    <div th:if="${errors != null}">
+
+                        <div class="error" th:if="${errors['widthCm']}" th:text="${errors['widthCm']}"></div>
+                    </div>
                 </div>
             </div>
 
             <!-- Carport længde -->
             <div class="form-group">
                 <label for="lengthCm">Carport længde <span class="required">*</span></label>
-                <select id="lengthCm" name="lengthCm" th:value="${order.lengthCm}">
+                <select id="lengthCm" name="lengthCm">
                     <option disabled selected value="">Vælg længde</option>
                     <option th:each="l : ${#numbers.sequence(240,780,30)}"
                             th:value="${l}"
                             th:text="${l + ' cm'}"></option>
                 </select>
-                <div class="error" th:if="${errors['lengthCm']}" th:text="${errors['lengthCm']}"></div>
+                <div th:if="${errors != null}">
+
+                    <div class="error" th:if="${errors['lengthCm']}" th:text="${errors['lengthCm']}"></div>
+                </div>
             </div>
 
             <!-- Bemærkninger -->
             <div class="form-group">
                 <label for="comments">Evt. bemærkning / særlige ønsker</label>
-                <textarea id="comments" name="comments" rows="4"
-                          th:text="${order.comments}"></textarea>
-                <div class="error" th:if="${errors['comments']}" th:text="${errors['comments']}"></div>
+                <textarea id="comments" name="comments" rows="4"></textarea>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['comments']}" th:text="${errors['comments']}"></div>
+                </div>
             </div>
 
             <h2 class="section-title">Kontaktoplysninger</h2>
@@ -60,52 +67,58 @@
             <!-- Navn -->
             <div class="form-group">
                 <label for="fullName">Navn <span class="required">*</span></label>
-                <input type="text" id="fullName" name="fullName"
-                       th:value="${customer.fullName}"/>
-                <div class="error" th:if="${errors['fullName']}" th:text="${errors['fullName']}"></div>
+                <input type="text" id="fullName" name="fullName"/>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['fullName']}" th:text="${errors['fullName']}"></div>
+                </div>
             </div>
 
             <!-- Adresse -->
             <div class="form-group">
                 <label for="address">Adresse <span class="required">*</span></label>
-                <input type="text" id="address" name="address"
-                       th:value="${customer.address}"/>
-                <div class="error" th:if="${errors['address']}" th:text="${errors['address']}"></div>
+                <input type="text" id="address" name="address"/>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['address']}" th:text="${errors['address']}"></div>
+                </div>
             </div>
 
             <!-- Postnummer -->
             <div class="form-group">
                 <label for="postalCode">Postnummer <span class="required">*</span></label>
-                <input type="text" id="postalCode" name="postalCode" maxlength="4"
-                       th:value="${customer.postalCode}"/>
-                <div class="error" th:if="${errors['postalCode']}" th:text="${errors['postalCode']}"></div>
+                <input type="text" id="postalCode" name="postalCode" maxlength="4"/>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['postalCode']}" th:text="${errors['postalCode']}"></div>
+                </div>
             </div>
 
             <!-- E-mail -->
             <div class="form-group">
                 <label for="email">E-mail <span class="required">*</span></label>
-                <input type="email" id="email" name="email"
-                       th:value="${customer.email}"/>
-                <div class="error" th:if="${errors['email']}" th:text="${errors['email']}"></div>
+                <input type="email" id="email" name="email"/>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['email']}" th:text="${errors['email']}"></div>
+                </div>
             </div>
 
             <!-- Telefonnummer -->
             <div class="form-group">
                 <label for="phoneNumber">Telefonnummer <span class="required">*</span></label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="\d{8}"
-                       th:value="${customer.phoneNumber}"/>
-                <div class="error" th:if="${errors['phoneNumber']}" th:text="${errors['phoneNumber']}"></div>
+                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="\d{8}"/>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['phoneNumber']}" th:text="${errors['phoneNumber']}"></div>
+                </div>
             </div>
 
             <!-- Samtykke -->
             <div>
-                <input type="checkbox" id="consent" name="consent" />
+                <input type="checkbox" id="consent" name="consent"/>
                 <label for="consent">
                     Kontakt samtykke <span class="required">*</span>
                 </label>
 
                 <p class="consent-description">
-                    Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse med tilbud på en skræddersyet carport.
+                    Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse med tilbud på en
+                    skræddersyet carport.
                 </p>
             </div>
 

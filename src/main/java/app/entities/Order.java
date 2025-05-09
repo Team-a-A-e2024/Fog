@@ -19,8 +19,7 @@ public class Order {
     }
 
     // used by controller
-    public Order(int id, int customerId, double total, String status, int widthCm, int lengthCm, String comments, LocalDateTime createdAt) {
-        this.id=id;
+    public Order( int customerId, double total, String status, int widthCm, int lengthCm, String comments, LocalDateTime createdAt) {
         this.customerId=customerId;
         this.total=total;
         this.status=status;

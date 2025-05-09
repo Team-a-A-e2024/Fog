@@ -10,18 +10,26 @@ public class Customer {
     private String phoneNumber;
     private int userId;
 
+    public Customer(String address, String fullName, String email, String phoneNumber, int userId, int postalCode, int id) {
+        this.address = address;
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.userId = userId;
+        this.postalCode = postalCode;
+        this.id = id;
+    }
+
     // used by tests, frameworks
     public Customer() {
     }
 
     // used by controller
-    public Customer(int id, String fullName, String address, int postalCode, String email, String phoneNumber, int userId) {
-        this.id = id;
+    public Customer(String fullName, String address, int postalCode, String email, String phoneNumber) {
         this.fullName = fullName;
         this.postalCode = postalCode;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.userId = userId;
         this.address = address;
     }
 

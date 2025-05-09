@@ -25,11 +25,7 @@ public class CarportController {
 
     // GET  /carport – render an empty form
     private static void showForm(Context ctx) {
-        ctx.render("carport-form.html", Map.of(
-                "customer", new Customer(),
-                "order",    new Order(),
-                "errors",   new HashMap<String,String>()
-        ));
+        ctx.render("carport-form.html");
     }
 
     // POST /carport – save customer + order, then redirect
@@ -37,15 +33,13 @@ public class CarportController {
 
         Map<String,String> errors = new HashMap<>();
 
-        // Build & saves CUSTOMER
+        // Builds CUSTOMER
         Customer customer = new Customer(
-                0,                                   // id → auto-generated
                 ctx.formParam("fullName"),
                 ctx.formParam("address"),
                 parseInt(ctx.formParam("postalCode")),
                 ctx.formParam("email"),
-                ctx.formParam("phoneNumber"),
-                0
+                ctx.formParam("phoneNumber")
         );
 
         try {
@@ -53,15 +47,12 @@ public class CarportController {
         } catch (DatabaseException e) {
             errors.put("database", "Could not create customer: " + e.getMessage());
             ctx.render("carport-form.html", Map.of(
-                    "customer", new Customer(),
-                    "order",    new Order(),
                     "errors",   errors));
             return;
         }
 
         // Build & saves ORDER
         Order order = new Order(
-                0,
                 customer.getId(),
                 0.0,
                 "afventer",
@@ -76,8 +67,6 @@ public class CarportController {
         } catch (DatabaseException e) {
             errors.put("database", "Could not create order: " + e.getMessage());
             ctx.render("carport-form.html", Map.of(
-                    "customer", customer,
-                    "order",    new Order(),
                     "errors",   errors));
             return;
         }
