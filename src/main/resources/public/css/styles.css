@@ -86,19 +86,19 @@ html, body{
 .customer-box {
     background-color: var(--fog-white);
     color: var(--fog-blue);
-    max-width: 600px;
-    margin: 2em auto 1em auto;
+    max-width: 60%;
+    margin: 2em auto;
     padding: 1em;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 25px;
 }
 
 .customer-pageview {
     background-color: var(--fog-white);
-    max-width: 700em;
-    margin: 2em auto;
+    max-width: 100%;
+    margin: auto;
     padding: 2em;
-    border-radius: 10px;
+    border-radius: 25px;
 }
 
 .customer-table {
@@ -174,3 +174,49 @@ html, body{
     background-color: var(--fog-blue);
     color: var(--fog-white);
 }
+
+.customer-display-box-mobile {
+    background-color: var(--fog-white);
+    margin: 2em auto;
+    border-radius: 25px;
+    padding: 2em;
+    color: var(--fog-blue);
+}
+
+.customer-display-box-mobile-salesrep {
+    text-align: right;
+}
+
+.customer-display-box-mobile-salesrep:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
+}
+
+@media screen and (max-width: 600px) {
+    .customer-table {
+        display: none;
+    }
+
+    .customer-display-box-mobile{
+        display: block;
+    }
+
+    .customer-pageview {
+        background-color: var(--fog-offwhite);
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .customer-display-box-mobile{
+        display: none;
+    }
+    .customer-table {
+        display: table;
+    }
+}
+
+
+
+
+
+

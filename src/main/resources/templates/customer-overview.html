@@ -2,6 +2,7 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kunder</title>
     <link rel="stylesheet" href="/public/css/styles.css" th:href="@{/public/css/styles.css}">
 </head>
@@ -50,6 +51,22 @@
                 </td>
             </tr>
         </table>
+        <div th:if="${customers != null}" >
+            <div class="customer-display-box-mobile" th:each="customer : ${customers}">
+                <h1 th:text="@{'ID: ' + ${customer.id}}">ID</h1>
+                <h3 th:text="@{'Navn: ' + ${customer.fullname}}">Navn</h3>
+                <h4  th:text="@{'Email: ' + ${customer.email}}">Email</h4>
+                <h4 th:text="@{'Tlf. nummer: ' + ${customer.phoneNumber}}">Tlf Nummer</h4>
+                <div class="customer-display-box-mobile-salesrep">
+                    <span th:if="${customer.salesRep != null}" th:text="${customer.salesRep.email}"></span>
+                    <form th:unless="${customer.salesRep != null}" th:action="@{/customer-overview}" method="post">
+                        <input type="hidden" name="customerId" th:value="${customer.id}" />
+                        <input type="hidden" name="salesRepId" th:value="${session.user.id}" />
+                        <button class="customer-add-salesrep-button" type="submit">+</button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </div>
 </div>
