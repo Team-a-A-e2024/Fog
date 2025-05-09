@@ -1,16 +1,18 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class Customer {
 
     private int id;
     private String fullname;
     private String email;
     private String address;
-    private int phoneNumber;
+    private String phoneNumber;
     private User salesRep;
     private int postalCode;
 
-    public Customer(int id, String fullname, String email, String address, int phoneNumber, User salesRep, int postalCode) {
+    public Customer(int id, String fullname, String email, String address, String phoneNumber, User salesRep, int postalCode) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
@@ -20,12 +22,11 @@ public class Customer {
         this.postalCode = postalCode;
     }
 
-    public Customer(String fullname, String email, String address, int phoneNumber, User salesRep, int postalCode) {
+    public Customer(String fullname, String email, String address, String phoneNumber, int postalCode) {
         this.fullname = fullname;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.salesRep = salesRep;
         this.postalCode = postalCode;
     }
 
@@ -61,20 +62,20 @@ public class Customer {
         this.address = address;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getSalesRep() {
+        return salesRep;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setSalesRep(User salesRep) {
+        this.salesRep = salesRep;
     }
 
     public int getPostalCode() {

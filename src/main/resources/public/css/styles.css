@@ -212,9 +212,10 @@ html, body{
 }
 
 @media screen and (min-width: 600px) {
-    .customer-display-box-mobile{
+    .customer-display-box-mobile {
         display: none;
     }
+
     .customer-table {
         display: table;
     }

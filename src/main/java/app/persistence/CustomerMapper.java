@@ -33,15 +33,15 @@ public class CustomerMapper {
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, c.getFullName());
+            ps.setString(1, c.getFullname());
             ps.setString(2, c.getAddress());
             ps.setInt   (3, c.getPostalCode());
             ps.setString(4, c.getEmail());
             ps.setString(5, c.getPhoneNumber());
 
             // user_id kan være null (ingen sælger tilknyttet endnu)
-            if (c.getUserId() == 0) ps.setNull(6, Types.INTEGER);
-            else                     ps.setInt (6, c.getUserId());
+            if (c.getSalesRep().getId() == 0) ps.setNull(6, Types.INTEGER);
+            else                     ps.setInt (6, c.getSalesRep().getId());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -82,7 +82,7 @@ public class CustomerMapper {
                     String fullname = rs.getString("fullname");
                     String customerEmail = rs.getString("email"); // comes from c.*
                     String address = rs.getString("address");
-                    int phoneNumber = rs.getInt("phone_number");
+                    String phoneNumber = rs.getString("phone_number");
                     int postalCode = rs.getInt("postal_code");
 
                     Customer customer = new Customer(customerId, fullname, customerEmail, address, phoneNumber, null, postalCode);

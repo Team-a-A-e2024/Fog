@@ -36,10 +36,11 @@ public class CarportController {
         // Builds CUSTOMER
         Customer customer = new Customer(
                 ctx.formParam("fullName"),
-                ctx.formParam("address"),
-                parseInt(ctx.formParam("postalCode")),
                 ctx.formParam("email"),
-                ctx.formParam("phoneNumber")
+                ctx.formParam("address"),
+                ctx.formParam("phoneNumber"),
+                parseInt(ctx.formParam("postalCode"))
+
         );
 
         try {
