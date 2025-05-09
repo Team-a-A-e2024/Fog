@@ -1,7 +1,5 @@
 package app.entities;
 
-import java.util.Objects;
-
 public class Customer {
 
     private int id;
@@ -71,12 +69,12 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public User getSalesRep() {
-        return salesRep;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setSalesRep(User salesRep) {
-        this.salesRep = salesRep;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getPostalCode() {

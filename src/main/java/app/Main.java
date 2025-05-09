@@ -1,5 +1,9 @@
 package app;
 
+import app.controllers.CarportController;
+import app.persistence.ConnectionPool;
+import app.persistence.CustomerMapper;
+import app.persistence.OrderMapper;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.ErrorController;
@@ -9,6 +13,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.CustomerMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main {
@@ -32,12 +37,18 @@ public class Main {
 
         // Mappers
         UserMapper.setConnectionPool(connectionPool);
-        CustomerMapper.SetConnectionPool(connectionPool);
+        CustomerMapper.setConnectionPool(connectionPool);
+
+        CustomerMapper.setConnectionPool(connectionPool);
+        OrderMapper.setConnectionPool(connectionPool);
+
+        new CarportController(app);
+
 
         // Routing
+        CarportController.routes(app);
         ErrorController.routes(app);
         LoginController.routes(app);
         CustomerController.routes(app);
-        app.get("/", ctx ->  ctx.render("index.html"));
     }
 }
