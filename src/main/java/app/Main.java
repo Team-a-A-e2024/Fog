@@ -1,22 +1,9 @@
 package app;
 
-
-import app.persistence.ConnectionPool;
-import app.persistence.CustomerMapper;
-import app.persistence.OrderMapper;
-import app.config.SessionConfig;
-import app.config.ThymeleafConfig;
-import app.controllers.CarportController;
-import app.controllers.ErrorController;
-import app.controllers.CustomerController;
-import app.controllers.LoginController;
-import app.persistence.ConnectionPool;
-import app.persistence.CustomerMapper;
-import app.persistence.MaterialMapper;
-import app.persistence.PartslistMapper;
-import app.persistence.UserMapper;
+import app.config.*;
+import app.controllers.*;
+import app.persistence.*;
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main {
@@ -42,10 +29,7 @@ public class Main {
         UserMapper.setConnectionPool(connectionPool);
         CustomerMapper.setConnectionPool(connectionPool);
         OrderMapper.setConnectionPool(connectionPool);
-
-        new CarportController(app);
-
-        CustomerMapper.SetConnectionPool(connectionPool);
+        CustomerMapper.setConnectionPool(connectionPool);
         MaterialMapper.setConnectionPool(connectionPool);
         PartslistMapper.setConnectionPool(connectionPool);
 

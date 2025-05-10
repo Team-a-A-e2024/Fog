@@ -18,9 +18,7 @@ public class CarportController {
     public static void routes(Javalin app) {
         app.get ("/",      CarportController::showForm);
         app.post("/",      CarportController::submitForm);
-        app.get ("/confirmation", CarportController::showConfirmation);    }
-    // Register routes when application starts
-    public CarportController(Javalin app) {
+        app.get ("/confirmation", CarportController::showConfirmation);
     }
 
     // GET  /carport – render an empty form
