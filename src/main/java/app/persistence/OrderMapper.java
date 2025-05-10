@@ -1,4 +1,5 @@
 package app.persistence;
+
 import app.entities.Order;
 import app.exceptions.DatabaseException;
 
@@ -7,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderMapper {
+
     private static ConnectionPool connectionPool;
 
     public static void setConnectionPool(ConnectionPool connectionPool) {
         OrderMapper.connectionPool = connectionPool;
     }
+
     public static Order toOrderAndSave(Order o) throws DatabaseException {
 
         final String sql = """
@@ -147,6 +150,27 @@ public class OrderMapper {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
+    public static int updateTotalByOrderId(int orderId, double total) throws DatabaseException {
+        String sql = "UPDATE orders SET total = ? WHERE id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setDouble(1, total);
+            ps.setInt(2, orderId);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new DatabaseException("Could not update order");
+            }
+            else return rowsAffected;
+
+        } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
     }

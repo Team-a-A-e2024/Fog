@@ -2,14 +2,22 @@ package app.controllers;
 
 import app.entities.Customer;
 import app.entities.Order;
+import app.entities.Partslist;
 import app.exceptions.DatabaseException;
 import app.persistence.CustomerMapper;
+import app.persistence.MaterialMapper;
 import app.persistence.OrderMapper;
+import app.persistence.PartslistMapper;
+import app.service.BeamCalculationStrategy;
+import app.service.Calculator;
+import app.service.PostCalculationStrategy;
+import app.service.RaftersCalculationStrategy;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -18,9 +26,7 @@ public class CarportController {
     public static void routes(Javalin app) {
         app.get ("/",      CarportController::showForm);
         app.post("/",      CarportController::submitForm);
-        app.get ("/confirmation", CarportController::showConfirmation);    }
-    // Register routes when application starts
-    public CarportController(Javalin app) {
+        app.get ("/confirmation", CarportController::showConfirmation);
     }
 
     // GET  /carport – render an empty form
@@ -64,7 +70,20 @@ public class CarportController {
         );
 
         try {
-            OrderMapper.toOrderAndSave(order);
+            Order savedOrder = OrderMapper.toOrderAndSave(order);
+
+            Calculator calculator = new Calculator(order.getLengthCm(), order.getWidthCm());
+            calculator.addStrategy(new PostCalculationStrategy(), MaterialMapper.getMaterialById(1));
+            calculator.addStrategy(new BeamCalculationStrategy(), MaterialMapper.getMaterialById(2));
+            calculator.addStrategy(new RaftersCalculationStrategy(), MaterialMapper.getMaterialById(2));
+            List<Partslist> partlist = calculator.getPartslists();
+            double total = calculator.getTotalPrice();
+
+            for (Partslist part : partlist) {
+                PartslistMapper.createPartslist(part, savedOrder.getId());
+            }
+
+            OrderMapper.updateTotalByOrderId(savedOrder.getId(), total);
         } catch (DatabaseException e) {
             errors.put("database", "Could not create order: " + e.getMessage());
             ctx.render("carport-form.html", Map.of(
