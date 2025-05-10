@@ -1,29 +1,32 @@
 package app.entities;
 
-import java.sql.Date;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 public class Order {
-    int id;
-    Date createdAt;
-    Double total;
-    String status;
-    Customers customer;
-    int partslist_id;
-    int length;
-    int width;
-    String comment;
 
-    public Order(int id, Date createdAt, Double total, String status, Customers customer, int partslist_id, int length, int width, String comment) {
-        this.id = id;
+    private int id;
+    private int customerId;
+    private double total;
+    private String status;
+    private int widthCm;
+    private int lengthCm;
+    private String comments;
+    private LocalDateTime createdAt;
+
+    // used by tests, frameworks
+
+    public Order() {
+    }
+
+    // used by controller
+    public Order( int customerId, double total, String status, int widthCm, int lengthCm, String comments, LocalDateTime createdAt) {
+        this.customerId=customerId;
+        this.total=total;
+        this.status=status;
+        this.widthCm=widthCm;
+        this.lengthCm=lengthCm;
+        this.comments=comments;
         this.createdAt = createdAt;
-        this.total = total;
-        this.status = status;
-        this.customer = customer;
-        this.partslist_id = partslist_id;
-        this.length = length;
-        this.width = width;
-        this.comment = comment;
     }
 
     public int getId() {
@@ -34,19 +37,19 @@ public class Order {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public Double getTotal() {
+    public double getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 
@@ -58,45 +61,38 @@ public class Order {
         this.status = status;
     }
 
-    public Customers getCustomer() {
-        return customer;
+    public int getWidthCm() {
+        return widthCm;
     }
 
-    public void setCustomer(Customers customer) {
-        this.customer = customer;
+    public void setWidthCm(int widthCm) {
+        this.widthCm = widthCm;
     }
 
-    public int getPartslist_id() {
-        return partslist_id;
+    public int getLengthCm() {
+        return lengthCm;
     }
 
-    public void setPartslist_id(int partslist_id) {
-        this.partslist_id = partslist_id;
+    public void setLengthCm(int lengthCm) {
+        this.lengthCm = lengthCm;
     }
 
-    public int getLength() {
-        return length;
+    public String getComments() {
+        return comments;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
-    public int getWidth() {
-        return width;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+}
 
     @Override
     public boolean equals(Object o) {

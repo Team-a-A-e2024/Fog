@@ -3,6 +3,8 @@
     --fog-blue: #013D7A;
     --fog-offwhite: #E9E9E9;
     --fog-white: #ffffff;
+    --fog-red: #c00;
+    --fog-black: #000;
 }
 
 *{
@@ -12,9 +14,10 @@
 html, body{
     margin: 0;
     padding: 0;
-
+    background: var(--fog-offwhite);
 }
-.login-blue{
+
+.login-blue {
     background-color: var(--fog-blue);
     height: 100vh;
     overflow:hidden;
@@ -62,7 +65,8 @@ html, body{
     font-size: 16px;
     text-decoration: none;
 }
-.left-aligned{
+
+.left-aligned {
     text-align: left;
 }
 
@@ -82,18 +86,23 @@ html, body{
     min-height: 100vh;
 }
 
-.customer-box, .customer-pageview {
+.customer-box {
     background-color: var(--fog-white);
-    width: 70vw;
-    min-width: 100em;
-
-    margin: 2em auto 1em auto;
-    padding: 2em;
+    color: var(--fog-blue);
+    max-width: 60%;
+    margin: 2em auto;
+    padding: 1em;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 25px;
 }
 
-
+.customer-pageview {
+    background-color: var(--fog-white);
+    max-width: 100%;
+    margin: auto;
+    padding: 2em;
+    border-radius: 25px;
+}
 
 .customer-table {
     width: 100%;
@@ -103,6 +112,17 @@ html, body{
     padding: 12px 16px;
     border-bottom: 1px solid var(--fog-blue);
     text-align: left;
+}
+
+.customer-table-header {
+    color: var(--fog-blue);
+    font-size: 18px;
+    text-align: center;
+}
+
+.customer-table-row:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
 }
 
 .customer-profile-dropdown {
@@ -143,6 +163,244 @@ html, body{
     color: var(--fog-white);
 }
 
-.customer-overview-dropdown:hover .customer-dropdown-content {
+.customer-add-salesrep-button {
+    background-color: var(--fog-offwhite);
+    color: var(--fog-blue);
+    border: none;
+    border-radius: 10%;
+    text-align: center;
+    aspect-ratio: 1;
+    font-size: 17px;
+}
+
+.customer-add-salesrep-button:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
+}
+
+.customer-display-box-mobile {
+    background-color: var(--fog-white);
+    margin: 2em auto;
+    border-radius: 25px;
+    padding: 2em;
+    color: var(--fog-blue);
+}
+
+.customer-display-box-mobile-salesrep {
+    text-align: right;
+}
+
+.customer-display-box-mobile-salesrep:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
+}
+
+@media screen and (max-width: 600px) {
+    .customer-table {
+        display: none;
+    }
+
+    .customer-display-box-mobile{
+        display: block;
+    }
+
+    .customer-pageview {
+        background-color: var(--fog-offwhite);
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .customer-display-box-mobile {
+        display: none;
+    }
+
+    .customer-table {
+        display: table;
+    }
+}
+
+.topbar {
+    background: var(--fog-white);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 32px;
+}
+
+.page-title {
+    margin: 0 0 0 16px;
+    font-size: 20px;
+    color: var(--fog-blue);
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    background-color: var(--fog-offwhite);
+}
+
+.card {
+    background-color: var(--fog-white);
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-card .row {
+    display: flex;
+    gap: 16px;
+}
+
+.form-card .col {
+    flex: 1;
+}
+
+.full-width {
     display: block;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.section-title {
+    margin: 32px 0 16px;
+    font-size: 24px;
+    color: var(--fog-blue);
+}
+
+.error {
+    color: var(--fog-red);
+    font-size: 14px;
+}
+
+.required {
+    color: var(--fog-red);
+}
+
+
+.btn-primary {
+    margin-top: 0.5em;
+}
+
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--fog-blue);
+    color: var(--fog-offwhite);
+    margin-top: 24px;
+}
+
+.btn-secondary {
+    background: var(--fog-white);
+    color: var(--fog-blue);
+    margin-top: 32px;
+}
+
+/* Gør hver form-group til en lodret stak */
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Label øverst med lidt luft under */
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+/* Input, select og textarea fylder boksen under label */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--fog-black);
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Fejl-tekst lige under feltet */
+.form-group .error {
+    margin-top: 4px;
+    color: var(--fog-red);
+    font-size: 13px;
+}
+.confirm-card {
+    background-color: var(--fog-white);
+    max-width: 500px;
+    width: 100%;
+    margin: 4em auto;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+
+@media screen and (max-width: 600px) {
+    html, body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--fog-offwhite);
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 2em 0;
+        align-items: center;
+    }
+
+    .form-card .row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .form-card .col {
+        width: 100%;
+    }
+
+    h1, .section-title {
+        font-size: 24px;
+        text-align: left;
+    }
+
+    p {
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        margin-top: 2em;
+    }
+    .card,
+    .confirm-card {
+        width: 100vw;
+        padding: 1.5em;
+        border-radius: 0;
+    }
 }
