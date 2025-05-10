@@ -53,7 +53,7 @@
         </table>
         <div th:if="${customers != null}" >
             <div class="customer-display-box-mobile" th:each="customer : ${customers}">
-                <h1 th:text="@{'ID: ' + ${customer.id}}">ID</h1>
+                <h1 th:text="@{'ID : ' + ${customer.id}}">ID</h1>
                 <h3 th:text="@{'Navn: ' + ${customer.fullname}}">Navn</h3>
                 <h4  th:text="@{'Email: ' + ${customer.email}}">Email</h4>
                 <h4 th:text="@{'Tlf. nummer: ' + ${customer.phoneNumber}}">Tlf Nummer</h4>
