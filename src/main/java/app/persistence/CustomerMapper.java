@@ -19,33 +19,35 @@ public class CustomerMapper {
     public static Customer save(Customer c) throws DatabaseException {
 
         final String sql = """
-            INSERT INTO customers (
-              fullname,
-              address,
-              postal_code,
-              email,
-              phone_number,
-              user_id
-            ) VALUES (?,?,?,?,?,?)
-            RETURNING id
-        """;
+                    INSERT INTO customers (
+                      fullname,
+                      address,
+                      postal_code,
+                      email,
+                      phone_number,
+                      user_id
+                    ) VALUES (?,?,?,?,?,?)
+                    RETURNING id
+                """;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, c.getFullname());
             ps.setString(2, c.getAddress());
-            ps.setInt   (3, c.getPostalCode());
+            ps.setInt(3, c.getPostalCode());
             ps.setString(4, c.getEmail());
             ps.setString(5, c.getPhoneNumber());
 
             // user_id kan være null (ingen sælger tilknyttet endnu)
-            if (c.getSalesRep().getId() == 0) ps.setNull(6, Types.INTEGER);
-            else                     ps.setInt (6, c.getSalesRep().getId());
+            if (c.getSalesRep() == null) ps.setNull(6, Types.INTEGER);
+            else ps.setInt(6, c.getSalesRep().getId());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    c.setId(rs.getInt("id"));              // PK sat tilbage
+                    rs.getInt("id");
+                    Customer customer = new Customer(rs.getInt("id"),c.getFullname(), c.getEmail(),c.getAddress(),c.getPhoneNumber(),c.getSalesRep(),c.getPostalCode());
+                    return customer;
                 } else {
                     throw new DatabaseException("Could not register customer");
                 }
@@ -53,7 +55,6 @@ public class CustomerMapper {
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
-        return c;
     }
 
     public static List<Customer> getCustomersWithoutSalesRep(int userId) throws DatabaseException {

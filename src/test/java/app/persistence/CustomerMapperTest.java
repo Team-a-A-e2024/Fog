@@ -6,6 +6,7 @@ import app.exceptions.DatabaseException;
 import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +16,7 @@ class CustomerMapperTest {
 
     @BeforeAll
     static void beforeAll() {
-        CustomerMapper.SetConnectionPool(SetupDatabase.getConnectionPool());
+        CustomerMapper.setConnectionPool(SetupDatabase.getConnectionPool());
         try {
             SetupDatabase.createTables();
         } catch (DatabaseException e) {
@@ -116,23 +117,18 @@ class CustomerMapperTest {
     @Test
     void saveCustomers() throws DatabaseException {
         // arrange
-        Customer in = new Customer();
-        in.setFullName("Peter Nielsen");
-        in.setAddress("Theisvej 7");
-        in.setPostalCode(2300);
-        in.setEmail("peter@nielsen.dk");
-        in.setPhoneNumber("22331122");
-        in.setUserId(1);
+        Customer in = new Customer("Peter Nielsen", "peter@nielsen.dk", "Theisvej 7", "22331122",2300);
 
         //act
         Customer out = CustomerMapper.save(in);
 
         // assert
-        assertTrue(in.getId() > 0);
-        assertEquals("Peter Nielsen", out.getFullName());
-        assertEquals("Theisvej 7", out.getAddress());
-        assertEquals(2300, out.getPostalCode());
-        assertEquals("peter@nielsen.dk", out.getEmail());
-        assertEquals("22331122", out.getPhoneNumber());
+        assertTrue((Integer)in.getId() == 0);
+        assertEquals(in.getFullname(), out.getFullname());
+        assertEquals(in.getAddress(), out.getAddress());
+        assertEquals(in.getPostalCode(), out.getPostalCode());
+        assertEquals(in.getEmail(), out.getEmail());
+        assertEquals(in.getPhoneNumber(), out.getPhoneNumber());
+        assertNull(out.getSalesRep());
     }
 }
