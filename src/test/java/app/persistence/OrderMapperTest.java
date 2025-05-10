@@ -62,6 +62,29 @@ class OrderMapperTest {
         assertEquals("awaiting", out.getStatus());
         assertEquals(45.0, out.getTotal());
     }
+
+    @Test
+    void updateTotal() throws DatabaseException {
+        // Arrange
+        int expected = 1;
+        int totalPrice = 9999;
+        Order order = new Order(
+                1,
+                1,
+                totalPrice,
+                "Godkendt",
+                10 ,
+                10,
+                "Ordre til Customer1",
+                LocalDateTime.now()
+        );
+
+        // Act
+         int actual = OrderMapper.updateTotalByOrderId(order, totalPrice);
+
+        // Assert
+        assertEquals(expected, actual);
+    }
 }
 
 
