@@ -34,6 +34,7 @@ public class SetupDatabase {
                 stmt.execute("DROP TABLE IF EXISTS test.orders CASCADE");
                 stmt.execute("DROP TABLE IF EXISTS test.partslist CASCADE");
                 stmt.execute("DROP TABLE IF EXISTS test.postal_code CASCADE");
+                stmt.execute("DROP TABLE IF EXISTS test.materials CASCADE");
 
                 // Drop sequences
                 stmt.execute("DROP SEQUENCE IF EXISTS test.users_id_seq");
@@ -41,6 +42,7 @@ public class SetupDatabase {
                 stmt.execute("DROP SEQUENCE IF EXISTS test.orders_id_seq");
                 stmt.execute("DROP SEQUENCE IF EXISTS test.partslist_id_seq");
                 stmt.execute("DROP SEQUENCE IF EXISTS test.postal_code_seq");
+                stmt.execute("DROP SEQUENCE IF EXISTS test.materials_id_seq");
 
                 // Recreate test tables based on public tables
                 stmt.execute("CREATE TABLE test.users AS (SELECT * FROM public.users) WITH NO DATA");
@@ -48,6 +50,7 @@ public class SetupDatabase {
                 stmt.execute("CREATE TABLE test.orders AS (SELECT * FROM public.orders) WITH NO DATA");
                 stmt.execute("CREATE TABLE test.partslist AS (SELECT * FROM public.partslist) WITH NO DATA");
                 stmt.execute("CREATE TABLE test.postal_code AS (SELECT * FROM public.postal_code) WITH NO DATA");
+                stmt.execute("CREATE TABLE test.materials AS (SELECT * FROM public.materials) WITH NO DATA");
 
                 // Recreate sequences
                 stmt.execute("CREATE SEQUENCE test.users_id_seq");
@@ -60,6 +63,8 @@ public class SetupDatabase {
                 stmt.execute("ALTER TABLE test.partslist ALTER COLUMN id SET DEFAULT nextval('test.partslist_id_seq')");
                 stmt.execute("CREATE SEQUENCE test.postal_code_seq");
                 stmt.execute("ALTER TABLE test.postal_code ALTER COLUMN postal_code SET DEFAULT nextval('test.postal_code_seq')");
+                stmt.execute("CREATE SEQUENCE test.materials_id_seq");
+                stmt.execute("ALTER TABLE test.materials ALTER COLUMN id SET DEFAULT nextval('test.materials_id_seq')");
 
             } catch (SQLException e) {
                 throw new DatabaseException(e.getMessage());
@@ -79,12 +84,14 @@ public class SetupDatabase {
                 stmt.execute("DELETE FROM test.orders CASCADE");
                 stmt.execute("DELETE FROM test.partslist CASCADE");
                 stmt.execute("DELETE FROM test.postal_code CASCADE");
+                stmt.execute("DELETE FROM test.materials CASCADE");
 
                 // Reset sequence
                 stmt.execute("SELECT setval('test.users_id_seq', 1, false)");
                 stmt.execute("SELECT setval('test.customers_id_seq', 1, false)");
                 stmt.execute("SELECT setval('test.orders_id_seq', 1, false)");
                 stmt.execute("SELECT setval('test.partslist_id_seq', 1, false)");
+                stmt.execute("SELECT setval('test.materials_id_seq', 1, false)");
 
                 // Insert test data into user
                 stmt.execute("INSERT INTO test.users (id, email, password, role, password_changed_date) " +
@@ -110,7 +117,16 @@ public class SetupDatabase {
                         "(DEFAULT, '2025-01-02', '1000', 'Godkendt', 2, 10, 10, 'Ordre til Customer2'), " +
                         "(DEFAULT, '2025-01-03', '1000', 'Afventer', 4, 10, 10, 'Ordre til Customer4');");
 
+                // Insert test data into materials
+                stmt.execute("INSERT INTO test.materials (id, description, unit, price)" +
+                        "VALUES" +
+                        "(DEFAULT, '97x97 mm. trykimp. Stolpe', 'Stk.', 42.95), " +
+                        "(DEFAULT, '45x195 mm. spærtræ ubh.', 'Stk.', 45.95);");
+
                 // Insert test data into partslists
+                stmt.execute("INSERT INTO test.partslist (id, order_id, material_id, quantity, description, length)" +
+                        "VALUES " +
+                        "(DEFAULT, 1, 1, 1, 'Test wood', 600);");
 
                 // insert test data into postal code
                 stmt.execute("INSERT INTO test.postal_code (postal_code, city) " +
@@ -122,6 +138,7 @@ public class SetupDatabase {
                 stmt.execute("SELECT setval('test.customers_id_seq', COALESCE((SELECT MAX(id) FROM test.customers)+1, 1), false)");
                 stmt.execute("SELECT setval('test.orders_id_seq', COALESCE((SELECT MAX(id) FROM test.orders)+1, 1), false)");
                 stmt.execute("SELECT setval('test.partslist_id_seq', COALESCE((SELECT MAX(id) FROM test.partslist)+1, 1), false)");
+                stmt.execute("SELECT setval('test.materials_id_seq', COALESCE((SELECT MAX(id) FROM test.materials)+1, 1), false)");
 
             } catch (SQLException e) {
                 throw new DatabaseException(e.getMessage());

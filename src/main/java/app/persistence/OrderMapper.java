@@ -53,5 +53,26 @@ public class OrderMapper {
 
         return o;
     }
+
+    public static int updateTotalByOrderId(int orderId, double total) throws DatabaseException {
+        String sql = "UPDATE orders SET total = ? WHERE id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setDouble(1, total);
+            ps.setInt(2, orderId);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new DatabaseException("Could not update order");
+            }
+            else return rowsAffected;
+
+        } catch (SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
 }
 
