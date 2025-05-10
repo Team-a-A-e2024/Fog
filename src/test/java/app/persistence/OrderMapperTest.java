@@ -80,7 +80,7 @@ class OrderMapperTest {
         );
 
         // Act
-         int actual = OrderMapper.updateTotalByOrderId(order, totalPrice);
+         int actual = OrderMapper.updateTotalByOrderId(order.getId(), totalPrice);
 
         // Assert
         assertEquals(expected, actual);

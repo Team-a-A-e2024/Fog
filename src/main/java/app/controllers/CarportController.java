@@ -83,7 +83,7 @@ public class CarportController {
                 PartslistMapper.createPartslist(part, savedOrder.getId());
             }
 
-            OrderMapper.updateTotalByOrderId(savedOrder, total);
+            OrderMapper.updateTotalByOrderId(savedOrder.getId(), total);
         } catch (DatabaseException e) {
             errors.put("database", "Could not create order: " + e.getMessage());
             ctx.render("carport-form.html", Map.of(

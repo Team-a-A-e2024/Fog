@@ -54,14 +54,14 @@ public class OrderMapper {
         return o;
     }
 
-    public static int updateTotalByOrderId(Order order, double total) throws DatabaseException {
+    public static int updateTotalByOrderId(int orderId, double total) throws DatabaseException {
         String sql = "UPDATE orders SET total = ? WHERE id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setDouble(1, total);
-            ps.setInt(2, order.getId());
+            ps.setInt(2, orderId);
 
             int rowsAffected = ps.executeUpdate();
 
