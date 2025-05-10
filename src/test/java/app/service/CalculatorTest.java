@@ -2,16 +2,11 @@ package app.service;
 
 import app.entities.Material;
 import app.entities.Partslist;
-import app.exceptions.DatabaseException;
-import app.persistence.MaterialMapper;
-import app.persistence.UserMapper;
-import app.test.SetupDatabase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +26,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateEightPosts() throws DatabaseException {
+    void calculateEightPosts() {
         // Arrange
         int carportLength = 660;
         int carportWidth = 600;
@@ -39,10 +34,10 @@ class CalculatorTest {
         int expectedNumberOfPosts = 8;
         int expectedLengthOfPosts = 300;
         Material material = new Material("97x97 mm. trykimp. Stolpe", "Stk.", 42.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        PostCalculationStrategy calculator = new PostCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculatePosts(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -52,7 +47,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateSixPostsUpperBoundary() throws DatabaseException {
+    void calculateSixPostsUpperBoundary() {
         // Arrange
         int carportLength = 630;
         int carportWidth = 600;
@@ -60,10 +55,10 @@ class CalculatorTest {
         int expectedNumberOfPosts = 6;
         int expectedLengthOfPosts = 300;
         Material material = new Material("97x97 mm. trykimp. Stolpe", "Stk.", 42.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        PostCalculationStrategy calculator = new PostCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculatePosts(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -73,7 +68,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateSixPostsLowerBoundary() throws DatabaseException {
+    void calculateSixPostsLowerBoundary() {
         // Arrange
         int carportLength = 450;
         int carportWidth = 600;
@@ -81,10 +76,10 @@ class CalculatorTest {
         int expectedNumberOfPosts = 6;
         int expectedLengthOfPosts = 300;
         Material material = new Material("97x97 mm. trykimp. Stolpe", "Stk.", 42.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        PostCalculationStrategy calculator = new PostCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculatePosts(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -94,7 +89,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateFourPosts() throws DatabaseException {
+    void calculateFourPosts() {
         // Arrange
         int carportLength = 420;
         int carportWidth = 600;
@@ -102,10 +97,10 @@ class CalculatorTest {
         int expectedNumberOfPosts = 4;
         int expectedLengthOfPosts = 300;
         Material material = new Material("97x97 mm. trykimp. Stolpe", "Stk.", 42.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        PostCalculationStrategy calculator = new PostCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculatePosts(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -115,7 +110,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateOneBeam() throws DatabaseException {
+    void calculateOneBeam() {
         // Arrange
         int carportLength = 300;
         int carportWidth = 600;
@@ -123,10 +118,10 @@ class CalculatorTest {
         int expectedNumberOfBeams = 1;
         int expectedLengthOfBeams = 600;
         Material material = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        BeamCalculationStrategy calculator = new BeamCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculateBeams(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -136,7 +131,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateTwoBeamsLowerBoundary() throws DatabaseException {
+    void calculateTwoBeamsLowerBoundary() {
         // Arrange
         int carportLength = 330;
         int carportWidth = 600;
@@ -144,10 +139,10 @@ class CalculatorTest {
         int expectedNumberOfBeams = 2;
         int expectedLengthOfBeams = 360;
         Material material = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        BeamCalculationStrategy calculator = new BeamCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculateBeams(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -157,7 +152,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateTwoBeamsUpperBoundary() throws DatabaseException {
+    void calculateTwoBeamsUpperBoundary() {
         // Arrange
         int carportLength = 600;
         int carportWidth = 600;
@@ -165,10 +160,10 @@ class CalculatorTest {
         int expectedNumberOfBeams = 2;
         int expectedLengthOfBeams = 600;
         Material material = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        BeamCalculationStrategy calculator = new BeamCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculateBeams(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -178,7 +173,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateThreeBeams() throws DatabaseException {
+    void calculateThreeBeams() {
         // Arrange
         int carportLength = 630;
         int carportWidth = 600;
@@ -188,10 +183,10 @@ class CalculatorTest {
         int expectedNumberOfBeams2 = 1;
         int expectedLengthOfBeams2 = 360;
         Material material = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        BeamCalculationStrategy calculator = new BeamCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculateBeams(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -204,7 +199,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateSmallestRafters() throws DatabaseException {
+    void calculateSmallestRafters() {
         // Arrange
         int carportLength = 240;
         int carportWidth = 240;
@@ -212,10 +207,10 @@ class CalculatorTest {
         int expectedNumberOfRafters = 5;
         int expectedLengthOfRafters = carportWidth;
         Material material = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        RaftersCalculationStrategy calculator = new RaftersCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculateRafters(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -225,7 +220,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculateBiggestRafters() throws DatabaseException {
+    void calculateBiggestRafters() {
         // Arrange
         int carportLength = 780;
         int carportWidth = 600;
@@ -233,10 +228,10 @@ class CalculatorTest {
         int expectedNumberOfRafters = 15;
         int expectedLengthOfRafters = carportWidth;
         Material material = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
-        Calculator calculator = new Calculator(carportLength, carportWidth);
+        RaftersCalculationStrategy calculator = new RaftersCalculationStrategy();
 
         // Act
-        List<Partslist> partslist =  calculator.calculateRafters(material);
+        List<Partslist> partslist =  calculator.calculate(carportLength, carportWidth, material);
 
         // Assert
         assertEquals(partslistSize, partslist.size());
@@ -246,7 +241,7 @@ class CalculatorTest {
     }
 
     @Test
-    void getPartslists() throws DatabaseException {
+    void getPartslists() {
         // Arrange
         int carportLength = 780;
         int carportWidth = 600;
@@ -261,34 +256,61 @@ class CalculatorTest {
         int rafterQuantity = 15;
         Material post = new Material("97x97 mm. trykimp. Stolpe", "Stk.", 42.95);
         Material beam = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
-        Material rafters = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
+        Material rafter = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
         Calculator calculator = new Calculator(carportLength, carportWidth);
+        calculator.addStrategy(new PostCalculationStrategy(), post);
+        calculator.addStrategy(new BeamCalculationStrategy(), beam);
+        calculator.addStrategy(new RaftersCalculationStrategy(), rafter);
 
         // Act
-        List<Partslist> partslist =  calculator.getPartslists(post, beam, rafters);
+        List<Partslist> partslist =  calculator.getPartslists();
 
         // Assert
         assertEquals(partslistSize, partslist.size());
 
-        assertEquals(postLength, partslist.get(0).getLength());
-        assertEquals(postQuantity, partslist.get(0).getQuantity());
-        assertEquals(post, partslist.get(0).getMaterial());
+        Partslist posts = partslist.stream()
+                .filter(x -> "Stolper nedgraves 90 cm. i jord".equals(x.getDescription()))
+                .findFirst()
+                .orElse(null);
 
-        assertEquals(beamLength1, partslist.get(1).getLength());
-        assertEquals(beamQuantity1, partslist.get(1).getQuantity());
-        assertEquals(beam, partslist.get(1).getMaterial());
+        Partslist beams = partslist.stream()
+                .filter(x -> "Remme i sider, sadles ned i stolper".equals(x.getDescription()))
+                .findFirst()
+                .orElse(null);
 
-        assertEquals(beamLength2, partslist.get(2).getLength());
-        assertEquals(beamQuantity2, partslist.get(2).getQuantity());
-        assertEquals(beam, partslist.get(2).getMaterial());
+        Partslist beamsSawed = partslist.stream()
+                .filter(x -> "Remme i sider, sadles ned i stolper (deles)".equals(x.getDescription()))
+                .findFirst()
+                .orElse(null);
 
-        assertEquals(rafterLength, partslist.get(3).getLength());
-        assertEquals(rafterQuantity, partslist.get(3).getQuantity());
-        assertEquals(rafters, partslist.get(3).getMaterial());
+        Partslist rafters = partslist.stream()
+                .filter(x -> "Spær, monteres på rem".equals(x.getDescription()))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(posts);
+        assertEquals(postLength, posts.getLength());
+        assertEquals(postQuantity, posts.getQuantity());
+        assertEquals(post, posts.getMaterial());
+
+        assertNotNull(beams);
+        assertEquals(beamLength1, beams.getLength());
+        assertEquals(beamQuantity1, beams.getQuantity());
+        assertEquals(beam, beams.getMaterial());
+
+        assertNotNull(beamsSawed);
+        assertEquals(beamLength2, beamsSawed.getLength());
+        assertEquals(beamQuantity2, beamsSawed.getQuantity());
+        assertEquals(beam, beamsSawed.getMaterial());
+
+        assertNotNull(rafters);
+        assertEquals(rafterLength, rafters.getLength());
+        assertEquals(rafterQuantity,rafters.getQuantity());
+        assertEquals(rafter, rafters.getMaterial());
     }
 
     @Test
-    void getTotalPriceOfSmallestCarport() throws DatabaseException {
+    void getTotalPriceOfSmallestCarport() {
         // Arrange
         int carportLength = 240;
         int carportWidth = 240;
@@ -297,9 +319,12 @@ class CalculatorTest {
         Material beam = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
         Material rafters = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
         Calculator calculator = new Calculator(carportLength, carportWidth);
+        calculator.addStrategy(new PostCalculationStrategy(), post);
+        calculator.addStrategy(new BeamCalculationStrategy(), beam);
+        calculator.addStrategy(new RaftersCalculationStrategy(), rafters);
 
         // Act
-        calculator.getPartslists(post, beam, rafters);
+        calculator.getPartslists();
         double actualPrice = calculator.getTotalPrice();
 
         // Assert
@@ -307,7 +332,7 @@ class CalculatorTest {
     }
 
     @Test
-    void getTotalPriceOfBiggestCarport() throws DatabaseException {
+    void getTotalPriceOfBiggestCarport() {
         // Arrange
         int carportLength = 780;
         int carportWidth = 600;
@@ -316,9 +341,12 @@ class CalculatorTest {
         Material beam = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
         Material rafters = new Material("45x195 mm. spærtræ ubh.", "Stk.", 45.95);
         Calculator calculator = new Calculator(carportLength, carportWidth);
+        calculator.addStrategy(new PostCalculationStrategy(), post);
+        calculator.addStrategy(new BeamCalculationStrategy(), beam);
+        calculator.addStrategy(new RaftersCalculationStrategy(), rafters);
 
         // Act
-        calculator.getPartslists(post, beam, rafters);
+        calculator.getPartslists();
         double actualPrice = calculator.getTotalPrice();
 
         // Assert
