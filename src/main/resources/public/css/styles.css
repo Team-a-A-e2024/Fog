@@ -7,11 +7,11 @@
     --fog-black: #000;
 }
 
-* {
+*{
     font-family: "Segoe UI";
 }
 
-html, body {
+html, body{
     margin: 0;
     padding: 0;
     background: var(--fog-offwhite);
@@ -20,44 +20,44 @@ html, body {
 .login-blue {
     background-color: var(--fog-blue);
     height: 100vh;
-    overflow: hidden;
+    overflow:hidden;
     text-align: center;
 }
 
-.login-field {
-    margin: auto;
+.login-field{
+    margin:auto;
     margin-top: 5em;
     background-color: var(--fog-offwhite);
     justify-content: center;
     max-width: 30em;
-    padding: 3.5em;
+    padding:3.5em;
 }
 
 .login-field > h1 {
     font-size: 48px;
 }
 
-.auth-form {
+.auth-form{
     margin: auto;
     width: 80%;
 }
 
-.auth-form > input {
+.auth-form > input{
     margin-top: 2%;
     width: 100%;
-    padding: 0.5em;
+    padding:0.5em;
     border: 0;
     border-radius: 5px;
 }
 
-.auth-form > button, .button {
+.auth-form > button, .button{
     background-color: var(--fog-blue);
     color: var(--fog-white);
 
     display: block;
     margin: auto;
     margin-top: 3em;
-    padding: 1em;
+    padding:1em;
 
     width: 10em;
     border: 0;
@@ -76,6 +76,7 @@ html, body {
 .customer-header {
     background-color: var(--fog-white);
     margin: 2px;
+    padding: 1em;
     display: flex;
     gap: 15px;
     align-items: center;
@@ -89,30 +90,41 @@ html, body {
 
 .customer-box {
     background-color: var(--fog-white);
-    max-width: 600px;
-    margin: 2em auto 1em auto;
+    color: var(--fog-blue);
+    max-width: 60%;
+    margin: 2em auto;
     padding: 1em;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 25px;
 }
 
 .customer-pageview {
     background-color: var(--fog-white);
-    max-width: 700em;
-    margin: 2em auto;
+    max-width: 100%;
+    margin: auto;
     padding: 2em;
-    border-radius: 10px;
+    border-radius: 25px;
 }
 
 .customer-table {
     width: 100%;
     border-collapse: collapse;
 }
-
 .customer-table th, .customer-table td {
     padding: 12px 16px;
     border-bottom: 1px solid var(--fog-blue);
     text-align: left;
+}
+
+.customer-table-header {
+    color: var(--fog-blue);
+    font-size: 18px;
+    text-align: center;
+}
+
+.customer-table-row:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
 }
 
 .customer-profile-dropdown {
@@ -153,8 +165,60 @@ html, body {
     color: var(--fog-white);
 }
 
-.customer-overview-dropdown:hover .customer-dropdown-content {
-    display: block;
+.customer-add-salesrep-button {
+    background-color: var(--fog-offwhite);
+    color: var(--fog-blue);
+    border: none;
+    border-radius: 10%;
+    text-align: center;
+    aspect-ratio: 1;
+    font-size: 17px;
+}
+
+.customer-add-salesrep-button:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
+}
+
+.customer-display-box-mobile {
+    background-color: var(--fog-white);
+    margin: 2em auto;
+    border-radius: 25px;
+    padding: 2em;
+    color: var(--fog-blue);
+}
+
+.customer-display-box-mobile-salesrep {
+    text-align: right;
+}
+
+.customer-display-box-mobile-salesrep:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
+}
+
+@media screen and (max-width: 600px) {
+    .customer-table {
+        display: none;
+    }
+
+    .customer-display-box-mobile{
+        display: block;
+    }
+
+    .customer-pageview {
+        background-color: var(--fog-offwhite);
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .customer-display-box-mobile {
+        display: none;
+    }
+
+    .customer-table {
+        display: table;
+    }
 }
 
 .topbar {

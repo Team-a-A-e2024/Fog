@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.Customer;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerMapper {
-
     private static ConnectionPool connectionPool;
 
     public static void setConnectionPool(ConnectionPool pool) {
@@ -19,33 +19,35 @@ public class CustomerMapper {
     public static Customer save(Customer c) throws DatabaseException {
 
         final String sql = """
-            INSERT INTO customers (
-              fullname,
-              address,
-              postal_code,
-              email,
-              phone_number,
-              user_id
-            ) VALUES (?,?,?,?,?,?)
-            RETURNING id
-        """;
+                    INSERT INTO customers (
+                      fullname,
+                      address,
+                      postal_code,
+                      email,
+                      phone_number,
+                      user_id
+                    ) VALUES (?,?,?,?,?,?)
+                    RETURNING id
+                """;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, c.getFullName());
+            ps.setString(1, c.getFullname());
             ps.setString(2, c.getAddress());
-            ps.setInt   (3, c.getPostalCode());
+            ps.setInt(3, c.getPostalCode());
             ps.setString(4, c.getEmail());
             ps.setString(5, c.getPhoneNumber());
 
             // user_id kan være null (ingen sælger tilknyttet endnu)
-            if (c.getUserId() == 0) ps.setNull(6, Types.INTEGER);
-            else                     ps.setInt (6, c.getUserId());
+            if (c.getSalesRep() == null) ps.setNull(6, Types.INTEGER);
+            else ps.setInt(6, c.getSalesRep().getId());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    c.setId(rs.getInt("id"));              // PK sat tilbage
+                    rs.getInt("id");
+                    Customer customer = new Customer(rs.getInt("id"),c.getFullname(), c.getEmail(),c.getAddress(),c.getPhoneNumber(),c.getSalesRep(),c.getPostalCode());
+                    return customer;
                 } else {
                     throw new DatabaseException("Could not register customer");
                 }
@@ -53,52 +55,67 @@ public class CustomerMapper {
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
-        return c;
     }
 
-    //   Hent alle kunder uden sælger – eller med ’mine’ uafsluttede sager
-    public static List<Customer> getCustomersWithoutSalesRep(int userId)
-            throws DatabaseException {
-
-        final String sql = """
-                SELECT DISTINCT c.*
-                FROM   customers c
-                LEFT   JOIN orders o ON c.id = o.customer_id
-                WHERE  c.user_id IS NULL
-                   OR (c.user_id = ? AND o.status <> 'Afventer')
-        """;
-
+    public static List<Customer> getCustomersWithoutSalesRep(int userId) throws DatabaseException {
         List<Customer> customerList = new ArrayList<>();
+        String sql = "SELECT " +
+                "    c.*, " +
+                "    o.*, " +
+                "    u.id AS salesrep_id, " +
+                "    u.email AS salesrep_email, " +
+                "    u.password AS salesrep_password, " +
+                "    u.role AS salesrep_role " +
+                "FROM customers c " +
+                "JOIN orders o ON c.id = o.customer_id " +
+                "LEFT JOIN users u ON c.user_id = u.id " +
+                "WHERE (c.user_id IS NULL OR c.user_id = ?) " +
+                "AND o.status = 'Afventer';";
 
-        try (Connection con = connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+        try {
+            Connection connec = connectionPool.getConnection();
+            PreparedStatement ps = connec.prepareStatement(sql);
             ps.setInt(1, userId);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    int customerId   = rs.getInt("id");
-                    String fullname  = rs.getString("fullname");
-                    String address   = rs.getString("address");
-                    int postalCode   = rs.getInt("postal_code");
-                    String email     = rs.getString("email");
-                    String phone     = rs.getString("phone_number");
-                    int assignedUser = rs.getInt("user_id");
+                    int customerId = rs.getInt("id");
+                    String fullname = rs.getString("fullname");
+                    String customerEmail = rs.getString("email"); // comes from c.*
+                    String address = rs.getString("address");
+                    String phoneNumber = rs.getString("phone_number");
+                    int postalCode = rs.getInt("postal_code");
 
-                    customerList.add(new Customer(
-                            address,
-                            fullname,
-                            email,
-                            phone,
-                            postalCode,
-                            assignedUser,
-                            customerId
-                    ));
+                    Customer customer = new Customer(customerId, fullname, customerEmail, address, phoneNumber, null, postalCode);
+
+                    int salesRepId = rs.getInt("salesrep_id");
+                    if (salesRepId != 0) {
+                        String salesRepEmail = rs.getString("salesrep_email");
+                        String salesRepPassword = rs.getString("salesrep_password");
+                        String salesRepRole = rs.getString("salesrep_role");
+
+                        User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole, null);
+                        customer.setSalesRep(salesRep);
+                    }
+                    customerList.add(customer);
                 }
             }
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
         return customerList;
+    }
+
+    public static void assignSalesRepToCostumer(int customerId, int salesRepId) throws DatabaseException {
+        String sql = "UPDATE customers SET user_id = ? WHERE id = ?;";
+        try {
+            Connection connec = connectionPool.getConnection();
+            PreparedStatement ps = connec.prepareStatement(sql);
+            ps.setInt(1, salesRepId);
+            ps.setInt(2, customerId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
 }
