@@ -1,8 +1,10 @@
 package app.controllers;
 
+import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.CustomerMapper;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import app.util.CheckUserUtil;
@@ -19,8 +21,8 @@ public class OrderController {
 
     public static void routes(Javalin app) {
         app.get("/orders", OrderController::showOrdersPage);
-        app.get("/orders/manageOrder/{id}", OrderController::manageOrderPage);
-        app.post("/orders/manageOrder/{id}", OrderController::updateOrderPage);
+        app.get("/orders/manageOrder{id}", OrderController::manageOrderPage);
+        app.post("/orders/manageOrder{id}", OrderController::updateOrderPage);
     }
 
 
@@ -30,6 +32,7 @@ public class OrderController {
                 ctx.attribute("orders", OrderMapper.getListofOrders());
             } catch (DatabaseException e) {
                 ctx.attribute("error", e.toString());
+
             }
             User user = ctx.sessionAttribute("user");
             ctx.attribute("email", user.getEmail());
@@ -41,21 +44,16 @@ public class OrderController {
         if(CheckUserUtil.usersOnlyCheck(ctx)) {
             int orderId = Integer.parseInt(ctx.pathParam("id"));
             try {
-                ctx.attribute("order", OrderMapper.getOrderByid(orderId));
+                Order order = OrderMapper.getOrderByid(orderId);
+                ctx.attribute("order", order);
+                ctx.attribute("customer", CustomerMapper.getCustomerWithId(order.getCustomerId()));
             } catch (DatabaseException e) {
-                ctx.attribute("error", e.toString());
+                ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
             }
         }
+        ctx.render("orders-manage.html");
     }
     public static void updateOrderPage(Context ctx) {
-        if(CheckUserUtil.usersOnlyCheck(ctx)) {
-
-            int orderId = Integer.parseInt(ctx.pathParam("id"));
-            try {
-                ctx.attribute("order", OrderMapper.getOrderByid(orderId));
-            } catch (DatabaseException e) {
-                ctx.attribute("error", e.toString());
-            }
-        }
+        //todo:do
     }
 }

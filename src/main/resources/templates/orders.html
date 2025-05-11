@@ -38,15 +38,15 @@
             <th>Pris</th>
             <th>Bemærkning</th>
             <tr th:each="order : ${orders}">
-                <td><a th:href="@{/orders/manageOrder/{id}(id=${order.id})}">text</a></td>
+                <td><a th:href="@{/orders/manageOrder{id}(id=${order.id})}">text</a></td>
                 <td th:text="${order.createdAt}">Oprettet</td>
                 <td th:text="${order.id}">ID</td>
-                <td th:text="${order.customer.fullname}">Kunde</td>
+                <td th:text="${order.customerid}">Kunde</td>
                 <td th:text="${order.status}">Status</td>
-                <td th:text="${order.length}">Længde</td>
-                <td th:text="${order.width}">Bredde</td>
+                <td th:text="${order.lengthCm}">Længde</td>
+                <td th:text="${order.widthCm}">Bredde</td>
                 <td th:text="${order.total}">Pris</td>
-                <td th:text="${order.comment}">Bemærkning</td>
+                <td th:text="${order.comments}">Bemærkning</td>
             </tr>
         </table>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>

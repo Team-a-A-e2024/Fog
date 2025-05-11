@@ -1,6 +1,7 @@
 package app.entities;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Order {
 
@@ -12,11 +13,6 @@ public class Order {
     private int lengthCm;
     private String comments;
     private LocalDateTime createdAt;
-
-    // used by tests, frameworks
-
-    public Order() {
-    }
 
     // used by controller
     public Order( int customerId, double total, String status, int widthCm, int lengthCm, String comments, LocalDateTime createdAt) {
@@ -103,18 +99,17 @@ public class Order {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && customer == order.customer && partslist_id == order.partslist_id && length == order.length && width == order.width && Objects.equals(createdAt, order.createdAt) && Objects.equals(total, order.total) && Objects.equals(status, order.status) && Objects.equals(comment, order.comment);
+        return id == order.id && customerId == order.customerId && Double.compare(total, order.total) == 0 && widthCm == order.widthCm && lengthCm == order.lengthCm && Objects.equals(status, order.status) && Objects.equals(comments, order.comments) && Objects.equals(createdAt, order.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, total, status, customer, partslist_id, length, width, comment);
+        return Objects.hash(id, customerId, total, status, widthCm, lengthCm, comments, createdAt);
     }
 }

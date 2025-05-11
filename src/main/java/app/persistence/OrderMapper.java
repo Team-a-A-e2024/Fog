@@ -56,8 +56,8 @@ public class OrderMapper {
         return o;
     }
 
-    public static Order getOrderByid(int id) throws DatabaseException{
-        String sql = "SELECT * FROM Order JOIN customers c ON o.customer_id=c.id WHERE id = ?";
+    public static Order getOrderByid(int id) throws DatabaseException {
+        String sql = "SELECT * FROM orders WHERE id = ?";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -71,31 +71,19 @@ public class OrderMapper {
                 Double total = rs.getDouble("total");
                 String status = rs.getString("status");
                 int customerId = rs.getInt("customer_Id");
-                int partslistId = rs.getInt("partslist_Id");
                 int length = rs.getInt("length");
                 int width = rs.getInt("width");
                 String comment = rs.getString("comments");
 
-                String fullname = rs.getString("fullname");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
-                String phoneNumber = rs.getString("phone_number");
-                int assignedSalesRepId = rs.getInt("user_id");
-                int postalCode = rs.getInt("postal_code");
-
-                Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
-
                 return new Order(id
-                        , createdAt
+                        , customerId
                         , total
                         , status
-                        , customer
-                        , partslistId
-                        , length
                         , width
+                        , length
                         , comment
+                        , createdAt.toLocalDate().atStartOfDay()
                 );
-
             }
 
         } catch (SQLException e) {
@@ -106,8 +94,8 @@ public class OrderMapper {
         return null;
     }
 
-    public static List<Order> getListofOrders() throws DatabaseException{
-        String sql = "SELECT * FROM orders o JOIN customers c ON o.customer_id=c.id";
+    public static List<Order> getListofOrders() throws DatabaseException {
+        String sql = "SELECT * FROM orders o";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -115,35 +103,25 @@ public class OrderMapper {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                //todo: get customer object
+
                 int id = rs.getInt("id");
                 Date createdAt = rs.getDate("created_at");
                 Double total = rs.getDouble("total");
                 String status = rs.getString("status");
                 int customerId = rs.getInt("customer_Id");
-                int partslistId = rs.getInt("partslist_Id");
                 int length = rs.getInt("length");
                 int width = rs.getInt("width");
                 String comment = rs.getString("comments");
 
-                String fullname = rs.getString("fullname");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
-                String phoneNumber = rs.getString("phone_number");
-                int assignedSalesRepId = rs.getInt("user_id");
-                int postalCode = rs.getInt("postal_code");
-
-                Customers customer = new Customers(customerId, fullname, email, address, phoneNumber, assignedSalesRepId, postalCode);
-
-                orders.add(new Order(id
-                        , createdAt
+                orders.add(new Order(
+                        id
+                        , customerId
                         , total
                         , status
-                        , customer
-                        , partslistId
-                        , length
                         , width
+                        , length
                         , comment
+                        , createdAt.toLocalDate().atStartOfDay()
                 ));
             }
             return orders;
@@ -167,8 +145,7 @@ public class OrderMapper {
 
             if (rowsAffected == 0) {
                 throw new DatabaseException("Could not update order");
-            }
-            else return rowsAffected;
+            } else return rowsAffected;
 
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
@@ -176,30 +153,24 @@ public class OrderMapper {
     }
 
     //requires a object with an id
-    public static void UpdateOrderByObject(Order order) throws DatabaseException
-    {
-        String sql = "UPDATE orders SET created_at = ?, total = ?, status = ?, customer_id = ?, partslist_id = ?, length = ?, width = ?, comment = ? WHERE id = ?;";
-        try (Connection connection = connectionPool.getConnection())
-        {
-            try (PreparedStatement ps = connection.prepareStatement(sql))
-            {
+    public static void UpdateOrderByObject(Order order) throws DatabaseException {
+        String sql = "UPDATE orders SET created_at = ?, total = ?, status = ?, customer_id = ?, length = ?, width = ?, comment = ? WHERE id = ?;";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 //updated variables
-                ps.setDate(1,order.getCreatedAt());
-                ps.setDouble(2,order.getTotal());
-                ps.setString(3,order.getStatus());
-                ps.setInt(4,order.getCustomer().getId());
-                ps.setInt(5,order.getPartslist_id());
-                ps.setInt(6,order.getLength());
-                ps.setInt(7,order.getWidth());
-                ps.setString(8,order.getComment());
+                ps.setDate(1, Date.valueOf(order.getCreatedAt().toLocalDate()));
+                ps.setDouble(2, order.getTotal());
+                ps.setString(3, order.getStatus());
+                ps.setInt(4, order.getCustomerId());
+                ps.setInt(5, order.getLengthCm());
+                ps.setInt(6, order.getWidthCm());
+                ps.setString(7, order.getComments());
                 //where
-                ps.setInt(9,order.getId());
+                ps.setInt(8, order.getId());
 
                 ps.executeQuery();
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
     }
