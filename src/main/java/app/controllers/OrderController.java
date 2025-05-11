@@ -23,8 +23,9 @@ public class OrderController {
         app.get("/orders", OrderController::showOrdersPage);
         app.get("/orders/manageOrder{id}", OrderController::manageOrderPage);
         app.post("/orders/manageOrder{id}", OrderController::updateOrderPage);
+        app.get("/orders/{id}/offer", OrderController::showOfferPage);
+        app.post("/orders/{id}/offer/cancel", OrderController::cancelOffer);
     }
-
 
     public static void showOrdersPage(Context ctx) {
         if(CheckUserUtil.usersOnlyCheck(ctx)) {
@@ -55,5 +56,40 @@ public class OrderController {
     }
     public static void updateOrderPage(Context ctx) {
         //todo:do
+    }
+
+    private static void showOfferPage(Context ctx) {
+        int orderId = Integer.parseInt(ctx.pathParam("id"));
+
+        try {
+            Order order = OrderMapper.getOrderByid(orderId);
+            ctx.attribute("order", order);
+            ctx.attribute("customer", CustomerMapper.getCustomerWithId(order.getCustomerId()));
+            ctx.render("offer.html");
+        } catch (DatabaseException e) {
+            ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
+        }
+    }
+
+    private static void sendOffer(Context ctx) {
+        int orderId = Integer.parseInt(ctx.pathParam("id"));
+
+        try {
+            OrderMapper.updateStatusByOrderId(orderId, "Behandles");
+            showOfferPage(ctx);
+        } catch (DatabaseException e) {
+            ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
+        }
+    }
+
+    private static void cancelOffer(Context ctx) {
+        int orderId = Integer.parseInt(ctx.pathParam("id"));
+
+        try {
+            OrderMapper.updateStatusByOrderId(orderId, "Annulleret");
+            showOfferPage(ctx);
+        } catch (DatabaseException e) {
+            ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
+        }
     }
 }

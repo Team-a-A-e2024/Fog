@@ -174,4 +174,24 @@ public class OrderMapper {
             throw new DatabaseException(e.getMessage());
         }
     }
+
+    public static int updateStatusByOrderId(int orderId, String status) throws DatabaseException {
+        String sql = "UPDATE orders SET status = ? WHERE id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, status);
+            ps.setInt(2, orderId);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new DatabaseException("Could not update order");
+            } else return rowsAffected;
+
+        } catch (SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
 }

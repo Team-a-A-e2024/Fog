@@ -41,14 +41,15 @@ class OrderMapperTest {
     @Test
     void saveOrder() throws DatabaseException {
         // arrange
-        Order in = new Order();
-        in.setCustomerId(1);
-        in.setWidthCm(240);
-        in.setLengthCm(360);
-        in.setComments("fast delivery");
-        in.setTotal(45.0);
-        in.setStatus("awaiting");
-        in.setCreatedAt(LocalDateTime.now());
+        Order in = new Order(
+                1,
+                45.0,
+                "awaiting",
+                240,
+                360,
+                "fast delivery",
+                LocalDateTime.now()
+        );
 
         // act
         Order out = OrderMapper.toOrderAndSave(in);
@@ -81,6 +82,29 @@ class OrderMapperTest {
 
         // Act
          int actual = OrderMapper.updateTotalByOrderId(order.getId(), totalPrice);
+
+        // Assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void updateStatus() throws DatabaseException {
+        // Arrange
+        int expected = 1;
+        String status = "Annulleret";
+        Order order = new Order(
+                1,
+                1,
+                9999,
+                "Godkendt",
+                10 ,
+                10,
+                "Ordre til Customer1",
+                LocalDateTime.now()
+        );
+
+        // Act
+        int actual = OrderMapper.updateStatusByOrderId(order.getId(), status);
 
         // Assert
         assertEquals(expected, actual);

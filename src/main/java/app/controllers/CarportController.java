@@ -62,7 +62,7 @@ public class CarportController {
         Order order = new Order(
                 customer.getId(),
                 0.0,
-                "afventer",
+                "Afventer",
                 parseInt(ctx.formParam("widthCm")),
                 parseInt(ctx.formParam("lengthCm")),
                 ctx.formParam("comments"),
