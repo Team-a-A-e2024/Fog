@@ -16,20 +16,39 @@
 
     </div>
 </header>
-<main class="container">
     <div th:if="${servererror != null}">
-        <div class="error" th:text="${servererror}"></div>
+        <div class="server-msg" th:text="${servererror}">error</div>
     </div>
-    <div th:if="${order != null}" class="card form-card">
+<main class="container">
+
+    <div th:if="${order != null and customer != null}" class="card form-card">
         <h1>Rediger ordre</h1>
         <form th:action="@{/orders/manageOrder{id}(id=${order.id})}" method="post" novalidate>
+            <p th:text="${order.createdAt}">
+                11/11/1111
+            </p>
+            <p th:text="@{'ID: ' + ${order.id}}">
+                ID: 1
+            </p>
+            <p th:text="${customer.fullname}">
+                test
+            </p>
+
+            <!-- Bemærkninger -->
+            <div class="form-group">
+                <label for="comments">bemærkning / særlige ønsker:</label>
+                <textarea id="comments" name="comments" rows="4" th:text="${order.comments}"></textarea>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['comments']}" th:text="${errors['comments']}"></div>
+                </div>
+            </div>
 
             <!-- Carport bredde -->
             <div class="form-card row">
                 <div class="form-group col">
                     <label for="widthCm">Carport bredde <span class="required">*</span></label>
                     <select id="widthCm" name="widthCm">
-                        <option disabled selected value="" th:text="${order.widthcm}">Vælg bredde</option>
+                        <option th:value="${order.widthcm}" th:text="${order.widthcm}">Vælg bredde</option>
                         <option th:each="w : ${#numbers.sequence(240,600,30)}"
                                 th:value="${w}"
                                 th:text="${w + ' cm'}"></option>
@@ -45,7 +64,7 @@
             <div class="form-group">
                 <label for="lengthCm">Carport længde <span class="required">*</span></label>
                 <select id="lengthCm" name="lengthCm">
-                    <option disabled selected value="" th:text="${order.lengthcm}">Vælg længde</option>
+                    <option th:value="${order.lengthcm}" th:text="${order.lengthcm}">Vælg længde</option>
                     <option th:each="l : ${#numbers.sequence(240,780,30)}"
                             th:value="${l}"
                             th:text="${l + ' cm'}"></option>
@@ -56,67 +75,36 @@
                 </div>
             </div>
 
-            <!-- Bemærkninger -->
+            <!-- Carport status -->
             <div class="form-group">
-                <label for="comments">Evt. bemærkning / særlige ønsker</label>
-                <textarea id="comments" name="comments" rows="4" th:text="${order.comments}"></textarea>
+                <label for="status">Status <span class="required">*</span></label>
+                <select id="status" name="status">
+                    <option th:value="${order.status}" th:text="${order.status}">Status</option>
+                    <option th:value="Afventer" th:text="Afventer">Status</option>
+                    <option th:value="Behandles" th:text="Behandles">Status</option>
+                </select>
                 <div th:if="${errors != null}">
-                    <div class="error" th:if="${errors['comments']}" th:text="${errors['comments']}"></div>
+
+                    <div class="error" th:if="${errors['status']}" th:text="${errors['status']}"></div>
                 </div>
             </div>
 
-            <h2 class="section-title">Kontaktoplysninger</h2>
-
-            <!-- Navn -->
+            <!-- Carport pris -->
             <div class="form-group">
-                <label for="fullName">Navn <span class="required">*</span></label>
-                <input type="text" id="fullName" name="fullName" th:value="${customer.fullname}"/>
+                <label for="price">Pris <span class="required">*</span></label>
+                <input type="text" id="total" name="total" th:value="${order.total}"/>
                 <div th:if="${errors != null}">
-                    <div class="error" th:if="${errors['fullName']}" th:text="${errors['fullName']}"></div>
+                    <div class="error" th:if="${errors['total']}" th:text="${errors['total']}"></div>
                 </div>
             </div>
 
-            <!-- Adresse -->
-            <div class="form-group">
-                <label for="address">Adresse <span class="required">*</span></label>
-                <input type="text" id="address" name="address" th:value="${customer.address}"/>
-                <div th:if="${errors != null}">
-                    <div class="error" th:if="${errors['address']}" th:text="${errors['address']}"></div>
-                </div>
+            <!-- knapper -->
+            <div class="form-flex">
+                <!-- bliver ikke brugt endnu-->
+                <a class="btn-primary">vis tilbud</a>
+                <button type="submit" class="btn-primary">Gem</button>
+                <a class="btn-primary" th:href="@{/orders}">Annullér</a>
             </div>
-
-            <!-- Postnummer -->
-            <div class="form-group">
-                <label for="postalCode">Postnummer <span class="required">*</span></label>
-                <input type="text" id="postalCode" name="postalCode" maxlength="4" th:value="${customer.postalCode}"/>
-                <div th:if="${errors != null}">
-                    <div class="error" th:if="${errors['postalCode']}" th:text="${errors['postalCode']}"></div>
-                </div>
-            </div>
-
-            <!-- E-mail -->
-            <div class="form-group">
-                <label for="email">E-mail <span class="required">*</span></label>
-                <input type="email" id="email" name="email" th:value="${customer.email}"/>
-                <div th:if="${errors != null}">
-                    <div class="error" th:if="${errors['email']}" th:text="${errors['email']}"></div>
-                </div>
-            </div>
-
-            <!-- Telefonnummer -->
-            <div class="form-group">
-                <label for="phoneNumber">Telefonnummer <span class="required">*</span></label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="\d{8}" th:value="${customer.phoneNumber}"/>
-                <div th:if="${errors != null}">
-                    <div class="error" th:if="${errors['phoneNumber']}" th:text="${errors['phoneNumber']}"></div>
-                </div>
-            </div>
-
-            <!-- Submit-knap -->
-            <div class="form-group">
-                <button type="submit" class="btn-primary">Bestil tilbud</button>
-            </div>
-
         </form>
     </div>
 </main>
