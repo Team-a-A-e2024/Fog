@@ -6,18 +6,12 @@ import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.CustomerMapper;
 import app.persistence.OrderMapper;
-import app.persistence.UserMapper;
 import app.util.CheckUserUtil;
-import app.util.PasswordUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 public class OrderController {
     private static ConnectionPool connectionPool;
-
-    public OrderController(ConnectionPool pool) {
-        connectionPool = pool;
-    }
 
     public static void routes(Javalin app) {
         app.get("/orders", OrderController::showOrdersPage);
@@ -45,15 +39,54 @@ public class OrderController {
             int orderId = Integer.parseInt(ctx.pathParam("id"));
             try {
                 Order order = OrderMapper.getOrderByid(orderId);
+
+                if(order == null){
+                    ctx.attribute("servererror", "kunne ikke finde en bruger");
+                    ctx.render("orders-manage.html");
+                    return;
+                }
                 ctx.attribute("order", order);
                 ctx.attribute("customer", CustomerMapper.getCustomerWithId(order.getCustomerId()));
             } catch (DatabaseException e) {
-                ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
+                ctx.attribute("servererror", "fejl ved at hente fra db: " + e.toString());
             }
         }
         ctx.render("orders-manage.html");
     }
+
     public static void updateOrderPage(Context ctx) {
-        //todo:do
+        if(CheckUserUtil.usersOnlyCheck(ctx)) {
+            int orderId = Integer.parseInt(ctx.pathParam("id"));
+            Order order = null;
+            try {
+                order = OrderMapper.getOrderByid(orderId);
+                if(order == null){
+                    ctx.attribute("servererror", "kunne ikke finde en bruger");
+                    ctx.render("orders-manage.html");
+                    return;
+                }
+                ctx.attribute("order", order);
+                ctx.attribute("customer", CustomerMapper.getCustomerWithId(order.getCustomerId()));
+            } catch (DatabaseException e){
+                ctx.attribute("servererror", "fejl ved at hente fra db: " + e.toString());
+                ctx.render("orders-manage.html");
+                return;
+            }
+
+            order.setComments(ctx.formParam("comments"));
+            order.setWidthCm(Integer.parseInt(ctx.formParam("widthCm")));
+            order.setLengthCm(Integer.parseInt(ctx.formParam("lengthCm")));
+            order.setStatus(ctx.formParam("status"));
+            order.setTotal(Double.parseDouble(ctx.formParam("total")));
+            try{
+                OrderMapper.updateOrderByObject(order);
+            }   catch (DatabaseException e){
+                ctx.attribute("servererror", "fejl ved at hente fra db: " + e.toString());
+                ctx.render("orders-manage.html");
+                return;
+            }
+            ctx.attribute("servererror", "dine ændringer er gemt");
+            ctx.render("orders-manage.html");
+        }
     }
 }

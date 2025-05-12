@@ -358,6 +358,17 @@ html, body{
     box-sizing: border-box;
 }
 
+.form-flex{
+    display: flex;
+
+    justify-content: space-between;
+    margin: 0 2em 0 2em;
+
+}
+.server-msg{
+    margin:auto;
+    text-align: center;
+}
 
 @media screen and (max-width: 600px) {
     html, body {
@@ -381,26 +392,18 @@ html, body{
         width: 100%;
     }
 
-    h1, .section-title {
-        font-size: 24px;
-        text-align: left;
-    }
-
     p {
         text-align: left;
         font-size: 14px;
     }
 
-    .btn-primary {
-        width: 100%;
-        padding: 14px;
-        font-size: 16px;
-        margin-top: 2em;
-    }
-    .card,
     .confirm-card {
         width: 100vw;
         padding: 1.5em;
         border-radius: 0;
+    }
+
+    .form-flex {
+        flex-direction: column;
     }
 }

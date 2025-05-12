@@ -153,8 +153,8 @@ public class OrderMapper {
     }
 
     //requires a object with an id
-    public static void UpdateOrderByObject(Order order) throws DatabaseException {
-        String sql = "UPDATE orders SET created_at = ?, total = ?, status = ?, customer_id = ?, length = ?, width = ?, comment = ? WHERE id = ?;";
+    public static void updateOrderByObject(Order order) throws DatabaseException {
+        String sql = "UPDATE orders SET created_at = ?, total = ?, status = ?, customer_id = ?, length = ?, width = ?, comments = ? WHERE id = ?;";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 //updated variables
@@ -168,7 +168,7 @@ public class OrderMapper {
                 //where
                 ps.setInt(8, order.getId());
 
-                ps.executeQuery();
+                ps.executeUpdate();
             }
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());

@@ -6,6 +6,7 @@ import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,26 +42,22 @@ class OrderMapperTest {
     @Test
     void saveOrder() throws DatabaseException {
         // arrange
-        Order in = new Order();
-        in.setCustomerId(1);
-        in.setWidthCm(240);
-        in.setLengthCm(360);
-        in.setComments("fast delivery");
-        in.setTotal(45.0);
-        in.setStatus("awaiting");
-        in.setCreatedAt(LocalDateTime.now());
+        Order expected = new Order(
+                5,
+                1,
+                45.0,
+                "awaiting",
+                240,
+                360,
+                "fast delivery",
+                LocalDateTime.now()
+        );
 
         // act
-        Order out = OrderMapper.toOrderAndSave(in);
+        Order actual = OrderMapper.toOrderAndSave(expected);
 
         // assert
-        assertTrue(out.getId() > 0);
-        assertEquals(1, out.getCustomerId());
-        assertEquals(240, out.getWidthCm());
-        assertEquals(360, out.getLengthCm());
-        assertEquals("fast delivery", out.getComments());
-        assertEquals("awaiting", out.getStatus());
-        assertEquals(45.0, out.getTotal());
+        assertEquals(expected,actual);
     }
 
     @Test
@@ -81,6 +78,28 @@ class OrderMapperTest {
 
         // Act
          int actual = OrderMapper.updateTotalByOrderId(order.getId(), totalPrice);
+
+        // Assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void updateOrder() throws DatabaseException {
+        // Arrange
+        Order expected = new Order(
+                1,
+                1,
+                9999,
+                "Godkendt",
+                10 ,
+                10,
+                "Ordre til Customer1",
+                LocalDate.now().atStartOfDay()
+        );
+
+        // Act
+        OrderMapper.updateOrderByObject(expected);
+        Order actual = OrderMapper.getOrderByid(expected.getId());
 
         // Assert
         assertEquals(expected, actual);
