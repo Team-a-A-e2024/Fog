@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Byg selv carport</title>
+    <link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <div class="customer-header">
+        <a href="index.html" th:href="@{/}">
+            <img src="../public/images/Fog_logo.png" alt="Fog">
+        </a>
+        <h4>Byg selv carport</h4>
+
+    </div>
+</header>
+    <div th:if="${servererror != null}">
+        <div class="server-msg" th:text="${servererror}">error</div>
+    </div>
+<main class="container">
+
+    <div th:if="${order != null and customer != null}" class="card form-card">
+        <h1>Rediger ordre</h1>
+        <form th:action="@{/orders/manageOrder{id}(id=${order.id})}" method="post" novalidate>
+            <p th:text="${order.createdAt}">
+                11/11/1111
+            </p>
+            <p th:text="@{'ID: ' + ${order.id}}">
+                ID: 1
+            </p>
+            <p th:text="${customer.fullname}">
+                test
+            </p>
+
+            <!-- Bemærkninger -->
+            <div class="form-group">
+                <label for="comments">bemærkning / særlige ønsker:</label>
+                <textarea id="comments" name="comments" rows="4" th:text="${order.comments}"></textarea>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['comments']}" th:text="${errors['comments']}"></div>
+                </div>
+            </div>
+
+            <!-- Carport bredde -->
+            <div class="form-card row">
+                <div class="form-group col">
+                    <label for="widthCm">Carport bredde <span class="required">*</span></label>
+                    <select id="widthCm" name="widthCm">
+                        <option th:value="${order.widthcm}" th:text="${order.widthcm}">Vælg bredde</option>
+                        <option th:each="w : ${#numbers.sequence(240,600,30)}"
+                                th:value="${w}"
+                                th:text="${w + ' cm'}"></option>
+                    </select>
+                    <div th:if="${errors != null}">
+
+                        <div class="error" th:if="${errors['widthCm']}" th:text="${errors['widthCm']}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carport længde -->
+            <div class="form-group">
+                <label for="lengthCm">Carport længde <span class="required">*</span></label>
+                <select id="lengthCm" name="lengthCm">
+                    <option th:value="${order.lengthcm}" th:text="${order.lengthcm}">Vælg længde</option>
+                    <option th:each="l : ${#numbers.sequence(240,780,30)}"
+                            th:value="${l}"
+                            th:text="${l + ' cm'}"></option>
+                </select>
+                <div th:if="${errors != null}">
+
+                    <div class="error" th:if="${errors['lengthCm']}" th:text="${errors['lengthCm']}"></div>
+                </div>
+            </div>
+
+            <!-- Carport status -->
+            <div class="form-group">
+                <label for="status">Status <span class="required">*</span></label>
+                <select id="status" name="status">
+                    <option th:value="${order.status}" th:text="${order.status}">Status</option>
+                    <option th:value="Afventer" th:text="Afventer">Status</option>
+                    <option th:value="Behandles" th:text="Behandles">Status</option>
+                </select>
+                <div th:if="${errors != null}">
+
+                    <div class="error" th:if="${errors['status']}" th:text="${errors['status']}"></div>
+                </div>
+            </div>
+
+            <!-- Carport pris -->
+            <div class="form-group">
+                <label for="price">Pris <span class="required">*</span></label>
+                <input type="text" id="total" name="total" th:value="${order.total}"/>
+                <div th:if="${errors != null}">
+                    <div class="error" th:if="${errors['total']}" th:text="${errors['total']}"></div>
+                </div>
+            </div>
+
+            <!-- knapper -->
+            <div class="form-flex">
+                <!-- bliver ikke brugt endnu-->
+                <a class="btn-primary">vis tilbud</a>
+                <button type="submit" class="btn-primary">Gem</button>
+                <a class="btn-primary" th:href="@{/orders}">Annullér</a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -106,6 +106,51 @@ public class CustomerMapper {
         return customerList;
     }
 
+    public static Customer getCustomerWithId(int userId) throws DatabaseException {
+        String sql = "SELECT " +
+                "    c.*, " +
+                "    u.*, " +
+                "    u.id AS salesrep_id, " +
+                "    u.email AS salesrep_email, " +
+                "    u.password AS salesrep_password, " +
+                "    u.role AS salesrep_role " +
+                "FROM customers c " +
+                "LEFT JOIN users u ON c.user_id = u.id " +
+                "WHERE c.id = ? ";
+
+        try {
+            Connection connec = connectionPool.getConnection();
+            PreparedStatement ps = connec.prepareStatement(sql);
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String fullname = rs.getString("fullname");
+                    String customerEmail = rs.getString("email"); // comes from c.*
+                    String address = rs.getString("address");
+                    String phoneNumber = rs.getString("phone_number");
+                    int postalCode = rs.getInt("postal_code");
+
+                    Customer customer = new Customer(userId, fullname, customerEmail, address, phoneNumber, null, postalCode);
+
+                    int salesRepId = rs.getInt("salesrep_id");
+                    if (salesRepId != 0) {
+                        String salesRepEmail = rs.getString("salesrep_email");
+                        String salesRepPassword = rs.getString("salesrep_password");
+                        String salesRepRole = rs.getString("salesrep_role");
+
+                        User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole, null);
+                        customer.setSalesRep(salesRep);
+                    }
+                    return customer;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+        return null;
+    }
+
     public static void assignSalesRepToCostumer(int customerId, int salesRepId) throws DatabaseException {
         String sql = "UPDATE customers SET user_id = ? WHERE id = ?;";
         try {
