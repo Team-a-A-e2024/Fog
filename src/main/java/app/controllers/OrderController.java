@@ -17,12 +17,15 @@ public class OrderController {
         app.get("/orders/manageOrder{id}", OrderController::manageOrderPage);
         app.post("/orders/manageOrder{id}", OrderController::updateOrderPage);
         app.get("/orders/{id}/offer", OrderController::showOfferPage);
+        app.post("/orders/{id}/offer/send", OrderController::sendOffer);
         app.post("/orders/{id}/offer/cancel", OrderController::cancelOffer);
     }
 
     public static void showOrdersPage(Context ctx) {
         if(CheckUserUtil.usersOnlyCheck(ctx)) {
             try {
+                User user = ctx.sessionAttribute("user");
+                ctx.attribute("user", user);
                 ctx.attribute("orders", OrderMapper.getListofOrders());
             } catch (DatabaseException e) {
                 ctx.attribute("error", e.toString());
@@ -38,6 +41,8 @@ public class OrderController {
         if(CheckUserUtil.usersOnlyCheck(ctx)) {
             int orderId = Integer.parseInt(ctx.pathParam("id"));
             try {
+                User user = ctx.sessionAttribute("user");
+                ctx.attribute("user", user);
                 Order order = OrderMapper.getOrderByid(orderId);
 
                 if(order == null){
@@ -59,6 +64,8 @@ public class OrderController {
             int orderId = Integer.parseInt(ctx.pathParam("id"));
             Order order = null;
             try {
+                User user = ctx.sessionAttribute("user");
+                ctx.attribute("user", user);
                 order = OrderMapper.getOrderByid(orderId);
                 if(order == null){
                     ctx.attribute("servererror", "kunne ikke finde en bruger");
@@ -94,6 +101,8 @@ public class OrderController {
         int orderId = Integer.parseInt(ctx.pathParam("id"));
 
         try {
+            User user = ctx.sessionAttribute("user");
+            ctx.attribute("user", user);
             Order order = OrderMapper.getOrderByid(orderId);
             ctx.attribute("order", order);
             ctx.attribute("customer", CustomerMapper.getCustomerWithId(order.getCustomerId()));
@@ -108,7 +117,7 @@ public class OrderController {
 
         try {
             OrderMapper.updateStatusByOrderId(orderId, "Behandles");
-            showOfferPage(ctx);
+            manageOrderPage(ctx);
         } catch (DatabaseException e) {
             ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
         }

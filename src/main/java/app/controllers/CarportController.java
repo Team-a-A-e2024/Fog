@@ -3,6 +3,7 @@ package app.controllers;
 import app.entities.Customer;
 import app.entities.Order;
 import app.entities.Partslist;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.CustomerMapper;
 import app.persistence.MaterialMapper;
@@ -31,6 +32,8 @@ public class CarportController {
 
     // GET  /carport – render an empty form
     private static void showForm(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+        ctx.attribute("user", user);
         ctx.render("carport-form.html");
     }
 
@@ -95,6 +98,8 @@ public class CarportController {
     }
 
     private static void showConfirmation(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+        ctx.attribute("user", user);
         ctx.render("carport-confirm.html");
     }
 

@@ -335,7 +335,6 @@ html, body{
     background: var(--fog-blue);
     color: var(--fog-offwhite);
     margin-top: 24px;
-    min-width: 200px;
 }
 
 .btn-secondary {
