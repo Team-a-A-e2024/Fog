@@ -13,11 +13,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class LoginController {
-    private static ConnectionPool connectionPool;
-
-    public LoginController(ConnectionPool pool) {
-        connectionPool = pool;
-    }
 
     public static void routes(Javalin app) {
         app.get("/login", LoginController::showLoginPage);
