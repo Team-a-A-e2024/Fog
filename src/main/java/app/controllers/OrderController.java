@@ -11,14 +11,12 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 public class OrderController {
-    private static ConnectionPool connectionPool;
 
     public static void routes(Javalin app) {
         app.get("/orders", OrderController::showOrdersPage);
         app.get("/orders/manageOrder{id}", OrderController::manageOrderPage);
         app.post("/orders/manageOrder{id}", OrderController::updateOrderPage);
     }
-
 
     public static void showOrdersPage(Context ctx) {
         if(CheckUserUtil.usersOnlyCheck(ctx)) {
