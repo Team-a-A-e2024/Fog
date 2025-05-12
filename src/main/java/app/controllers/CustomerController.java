@@ -12,11 +12,6 @@ import io.javalin.http.Context;
 import java.util.List;
 
 public class CustomerController {
-    private static ConnectionPool connectionPool;
-
-    public CustomerController(ConnectionPool pool) {
-        connectionPool = pool;
-    }
 
     public static void routes(Javalin app) {
         app.get("/customer-overview", CustomerController::customerOverview);
