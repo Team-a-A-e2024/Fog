@@ -38,8 +38,10 @@
             <th>Pris</th>
             <th>Bemærkning</th>
             <tr th:each="order : ${orders}">
-                <td><a th:href="@{/orders/manageOrder{id}(id=${order.id})}"><img src="../public/images/Edit.png" alt="Edit"></a></td>
-                <td th:text="${order.getCreatedAtLocalDate()}">Oprettet</td>
+                <td><a th:href="@{/orders/manageOrder{id}(id=${order.id})}">
+                    <img class="table-link-image" src="../public/images/edit_icon.png" alt="rediger">
+                </a></td>
+                <td th:text="${order.createdAt}">Oprettet</td>
                 <td th:text="${order.id}">ID</td>
                 <td th:text="${order.customerid}">Kunde</td>
                 <td th:text="${order.status}">Status</td>
