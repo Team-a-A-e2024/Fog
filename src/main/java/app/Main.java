@@ -4,6 +4,7 @@ import app.config.*;
 import app.controllers.*;
 import app.persistence.*;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main {
@@ -38,5 +39,6 @@ public class Main {
         ErrorController.routes(app);
         LoginController.routes(app);
         CustomerController.routes(app);
+        OrderController.routes(app);
     }
 }
