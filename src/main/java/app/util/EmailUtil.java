@@ -16,7 +16,7 @@ public class EmailUtil {
         Personalization personalization = new Personalization();
         personalization.addTo(new Email(customer.getEmail()));
         personalization.addDynamicTemplateData("customer_name", customer.getFullname());
-        personalization.addDynamicTemplateData("offer_link", baseUrl + "/orders" + order.getId() + "/offer");
+        personalization.addDynamicTemplateData("offer_link", baseUrl + "/orders/" + order.getId() + "/offer");
 
         send(templateId, personalization);
     }

@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.entities.Customer;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
@@ -7,8 +8,11 @@ import app.persistence.ConnectionPool;
 import app.persistence.CustomerMapper;
 import app.persistence.OrderMapper;
 import app.util.CheckUserUtil;
+import app.util.EmailUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.io.IOException;
 
 public class OrderController {
 
@@ -116,10 +120,18 @@ public class OrderController {
         int orderId = Integer.parseInt(ctx.pathParam("id"));
 
         try {
-            OrderMapper.updateStatusByOrderId(orderId, "Behandles");
+            Order order = OrderMapper.getOrderByid(orderId);
+            Customer customer = CustomerMapper.getCustomerWithId(order.getCustomerId());
+            OrderMapper.updateStatusByOrderId(order.getId(), "Behandles");
+
+            if (customer != null) {
+                EmailUtil.sendOffer(customer, order);
+            }
             manageOrderPage(ctx);
         } catch (DatabaseException e) {
             ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
+        } catch (IOException e) {
+            ctx.attribute("error", "fejl ved at sende tilbud: " + e.toString());
         }
     }
 
