@@ -175,8 +175,9 @@ public class OrderMapper {
         }
     }
 
-    public static int updateStatusByOrderId(int orderId, String status) throws DatabaseException {
-        String sql = "UPDATE orders SET status = ? WHERE id = ?";
+    public static Order updateStatusByOrderId(int orderId, String status) throws DatabaseException {
+        Order order = null;
+        String sql = "UPDATE orders SET status = ? WHERE id = ? RETURNING *";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -184,14 +185,25 @@ public class OrderMapper {
             ps.setString(1, status);
             ps.setInt(2, orderId);
 
-            int rowsAffected = ps.executeUpdate();
+            ResultSet rs = ps.executeQuery();
 
-            if (rowsAffected == 0) {
-                throw new DatabaseException("Could not update order");
-            } else return rowsAffected;
+            if (rs.next()) {
+                order = new Order(
+                        rs.getInt("id"),
+                        rs.getInt("customer_Id"),
+                        rs.getDouble("total"),
+                        rs.getString("status"),
+                        rs.getInt("width"),
+                        rs.getInt("length"),
+                        rs.getString("comments"),
+                        rs.getDate("created_at").toLocalDate().atStartOfDay()
+                );
+            }
 
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
+
+        return order;
     }
 }

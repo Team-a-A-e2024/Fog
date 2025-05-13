@@ -8,6 +8,7 @@ import org.junit.jupiter.api.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -108,21 +109,20 @@ class OrderMapperTest {
     @Test
     void updateStatus() throws DatabaseException {
         // Arrange
-        int expected = 1;
         String status = "Annulleret";
-        Order order = new Order(
+        Order expected = new Order(
                 1,
                 1,
-                9999,
-                "Godkendt",
+                1000,
+                status,
                 10 ,
                 10,
                 "Ordre til Customer1",
-                LocalDateTime.now()
+                LocalDateTime.parse("2025-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
         );
 
         // Act
-        int actual = OrderMapper.updateStatusByOrderId(order.getId(), status);
+        Order actual = OrderMapper.updateStatusByOrderId(expected.getId(), status);
 
         // Assert
         assertEquals(expected, actual);
