@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Byg selv carport</title>
+    <link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <div class="customer-header">
+        <a href="index.html" th:href="@{/}">
+            <img src="../public/images/Fog_logo.png" alt="Fog">
+        </a>
+        <h4>Byg selv carport</h4>
+    </div>
+</header>
+<body>
+
+<main class="container">
+
+    <div class="card form-card">
+        <h1 class="section-title">Vælg betalingsmetode</h1>
+
+        <!-- Radioknapper -->
+        <div class="payment-toggle">
+            <input type="radio" id="method-card" name="payment" value="card" checked>
+            <label for="method-card">Dankort</label>
+
+            <input type="radio" id="method-mobile" name="payment" value="mp">
+            <label for="method-mobile">MobilePay</label>
+        </div>
+
+        <!-- Formularfelter -->
+        <div class="form-content">
+
+            <!-- Dankort-felter -->
+            <div class="payment-method card-fields" id="card-fields">
+                <div class="form-group">
+                    <label for="cardName">Navn <span class="required">*</span></label>
+                    <input id="cardName" name="cardName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Kortnummer <span class="required">*</span></label>
+                    <input id="cardNumber" name="cardNumber" maxlength="16" pattern="\d{16}"
+                           placeholder="1234567812345678" required>
+                </div>
+
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="cvv">Sikkerhedskode <span class="required">*</span></label>
+                        <input id="cvv" name="cvv" maxlength="3" pattern="\d{3}" required>
+                    </div>
+                    <div class="col form-group">
+                        <label for="expiry">Udløbsdato <span class="required">*</span></label>
+                        <input id="expiry" name="expiry" maxlength="5" placeholder="MM/YY" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MobilePay-felter -->
+            <div class="payment-method mp-fields" id="mp-fields">
+                <div class="form-group">
+                    <label for="phone">Telefonnummer <span class="required">*</span></label>
+                    <input id="phone" name="phone" maxlength="8" pattern="\d{8}" placeholder="11223344">
+                </div>
+            </div>
+        </div>
+        <!-- Betalingsknap -->
+        <form action="payment-confirm.html" method="get">
+            <button type="submit" class="btn-primary full-width">Gennemfør betaling</button>
+        </form>
+    </div>
+
+</main>
+<script src="/public/js/scripts.js"></script>
+</body>
+

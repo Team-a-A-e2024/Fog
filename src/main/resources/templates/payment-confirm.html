@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Tak for din bestilling</title>
+    <link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <div class="customer-header">
+        <a href="index.html" th:href="@{/}">
+            <img src="../public/images/Fog_logo.png" alt="Fog">
+        </a>
+        <h4>Byg selv carport</h4>
+    </div>
+</header>
+<main class="container">
+    <div class="card confirm-card">
+        <h1>Tak for din bestilling!</h1>
+        <p>Vi har modtaget din betaling. En ordrebekræftelse bliver sendt til din e-mail inden for kort tid.</p>
+        <p>Har du spørgsmål til din ordre er du altid velkommen til at kontakte os.</p>
+        <p>Vi glæder os til at sende din bestilling til dig</p>
+        <a th:href="@{/}" class="btn-primary">Se stykliste</a>
+        <a th:href="@{/}" class="btn-primary">Tilbage</a>
+    </div>
+</main>
+</body>
+</html>
