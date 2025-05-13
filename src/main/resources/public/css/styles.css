@@ -220,6 +220,11 @@ html, body{
     color: var(--fog-white);
 }
 
+.horizontal-rule {
+    border-bottom: 1px solid var(--fog-blue);
+    padding-bottom: 0.5em;
+}
+
 @media screen and (max-width: 600px) {
     .customer-table {
         display: none;
@@ -305,7 +310,7 @@ html, body{
     font-size: 14px;
 }
 
-.required {
+.required, .warning {
     color: var(--fog-red);
 }
 
@@ -436,4 +441,13 @@ html, body{
     .form-flex {
         flex-direction: column;
     }
+}
+
+.align-right {
+    text-align: right;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-around;
 }

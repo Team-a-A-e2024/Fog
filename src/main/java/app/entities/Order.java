@@ -1,5 +1,6 @@
 package app.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -98,6 +99,10 @@ public class Order {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public LocalDate getCreatedAtLocalDate() {
+        return this.createdAt.toLocalDate();
     }
 
     @Override

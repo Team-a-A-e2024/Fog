@@ -2,7 +2,7 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Kunder</title>
+    <title>Ordrer</title>
     <link rel="stylesheet" href="/public/css/styles.css" th:href="@{/public/css/styles.css}">
 </head>
 <body>
@@ -13,18 +13,18 @@
                 <img src="../public/images/Fog_logo.png" alt="Fog">
             </a>
             <h4>Byg selv carport</h4>
-            <div class="customer-overview-dropdown">
-                <button class="customer-profile-dropdown" th:text="${email.substring(0,1).toUpperCase()}">A</button>
+            <div th:if="${user != null}" class="customer-overview-dropdown">
+                <button class="customer-profile-dropdown" th:text="${user.email.substring(0,1).toUpperCase()}">A</button>
                 <div class="customer-dropdown-content">
                     <a th:href="@{/customer-overview}">Kunder</a>
-                    <a th:href="@{/}">Ordre</a>
+                    <a th:href="@{/orders}">Ordrer</a>
                     <a th:href="@{/logout}">Log ud</a>
                 </div>
             </div>
         </div>
     </header>
     <div class="customer-box">
-        <h1>Order</h1>
+        <h1>Ordrer</h1>
     </div>
     <div class="customer-pageview">
         <table class="customer-table" th:if="${orders != null}">
@@ -45,9 +45,9 @@
                 <td th:text="${order.id}">ID</td>
                 <td th:text="${order.customerid}">Kunde</td>
                 <td th:text="${order.status}">Status</td>
-                <td th:text="${order.lengthCm}">Længde</td>
-                <td th:text="${order.widthCm}">Bredde</td>
-                <td th:text="${order.total}">Pris</td>
+                <td th:text="${order.lengthCm} + 'cm'">Længde</td>
+                <td th:text="${order.widthCm} + 'cm'">Bredde</td>
+                <td th:text="${#strings.replace(order.total.toString(), '.', ',')} + ' kr.'">Pris</td>
                 <td th:text="${order.comments}">Bemærkning</td>
             </tr>
         </table>

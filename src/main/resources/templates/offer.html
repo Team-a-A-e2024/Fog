@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Tilbud</title>
+    <link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <div class="customer-header">
+        <a href="index.html" th:href="@{/}">
+            <img th:src="@{/public/images/Fog_logo.png}" alt="Fog">
+        </a>
+        <h4>Byg selv carport</h4>
+        <div th:if="${user != null}" class="customer-overview-dropdown">
+            <button class="customer-profile-dropdown" th:text="${user.email.substring(0,1).toUpperCase()}">A</button>
+            <div class="customer-dropdown-content">
+                <a th:href="@{/customer-overview}">Kunder</a>
+                <a th:href="@{/orders}">Ordrer</a>
+                <a th:href="@{/logout}">Log ud</a>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="container">
+    <div th:if="${servererror != null}">
+        <div class="error" th:text="${servererror}"></div>
+    </div>
+    <div th:if="${order != null}" class="card form-card">
+        <h1>Tilbud</h1>
+
+        <!-- Date -->
+        <div class="form-card row">
+            <div class="form-group col horizontal-rule">
+                <p>Dato: <span th:text="${order.getCreatedAtLocalDate()}"></span></p>
+            </div>
+        </div>
+
+        <!-- Price -->
+        <div class="form-card row">
+            <div class="form-group col horizontal-rule">
+                <p><b>Pris:</b></p>
+                <table>
+                    <tr>
+                        <td>Byg selv carport <span th:text="${order.widthCm}"></span>x<span
+                                th:text="${order.lengthCm}"></span></td>
+                        <td class="align-right"><span th:text="${order.total}"></span> kr.</td>
+                    </tr>
+                    <tr>
+                        <td>Moms</td>
+                        <td class="align-right">0 kr.</td>
+                    </tr>
+                    <tr>
+                        <td>Fragt</td>
+                        <td class="align-right">0 kr.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Total -->
+        <div class="form-card row">
+            <div class="form-group col">
+                <p></p>
+                <table>
+                    <tr>
+                        <td><b>Total:</b></td>
+                        <td class="align-right"><u><span th:text="${order.total}"></span> kr.</u></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div th:if="${order.status == 'Behandles'}" class="flex-container">
+            <!-- TODO: Add link to payment page -->
+            <button href="/" class="btn-primary" disabled>Gå til kassen</button>
+            <form th:action="@{/orders/{id}/offer/cancel(id=${order.id})}" method="post">
+                <button type="submit" class="btn-primary">Annullér</button>
+            </form>
+        </div>
+        <div th:if="${order.status != 'Behandles'}">
+            <p class="warning">Denne ordre er i status '<span th:text="${order.status}"></span>' og kan derfor ikke behandles.</p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

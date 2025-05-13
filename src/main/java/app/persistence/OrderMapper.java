@@ -174,4 +174,36 @@ public class OrderMapper {
             throw new DatabaseException(e.getMessage());
         }
     }
+
+    public static Order updateStatusByOrderId(int orderId, String status) throws DatabaseException {
+        Order order = null;
+        String sql = "UPDATE orders SET status = ? WHERE id = ? RETURNING *";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, status);
+            ps.setInt(2, orderId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                order = new Order(
+                        rs.getInt("id"),
+                        rs.getInt("customer_Id"),
+                        rs.getDouble("total"),
+                        rs.getString("status"),
+                        rs.getInt("width"),
+                        rs.getInt("length"),
+                        rs.getString("comments"),
+                        rs.getDate("created_at").toLocalDate().atStartOfDay()
+                );
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
+        return order;
+    }
 }
