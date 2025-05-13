@@ -13,7 +13,14 @@
             <img src="../public/images/Fog_logo.png" alt="Fog">
         </a>
         <h4>Byg selv carport</h4>
-
+        <div th:if="${user != null}" class="customer-overview-dropdown">
+            <button class="customer-profile-dropdown" th:text="${user.email.substring(0,1).toUpperCase()}">A</button>
+            <div class="customer-dropdown-content">
+                <a th:href="@{/customer-overview}">Kunder</a>
+                <a th:href="@{/orders}">Ordrer</a>
+                <a th:href="@{/logout}">Log ud</a>
+            </div>
+        </div>
     </div>
 </header>
     <div th:if="${servererror != null}">
@@ -23,7 +30,7 @@
 
     <div th:if="${order != null and customer != null}" class="card form-card">
         <h1>Rediger ordre</h1>
-        <form th:action="@{/orders/manageOrder{id}(id=${order.id})}" method="post" novalidate>
+        <form id="form" th:action="@{/orders/manageOrder{id}(id=${order.id})}" method="post" novalidate>
             <p th:text="${order.createdAt}">
                 11/11/1111
             </p>
@@ -36,7 +43,7 @@
 
             <!-- Bemærkninger -->
             <div class="form-group">
-                <label for="comments">bemærkning / særlige ønsker:</label>
+                <label for="comments">Bemærkning / særlige ønsker:</label>
                 <textarea id="comments" name="comments" rows="4" th:text="${order.comments}"></textarea>
                 <div th:if="${errors != null}">
                     <div class="error" th:if="${errors['comments']}" th:text="${errors['comments']}"></div>
@@ -91,7 +98,7 @@
 
             <!-- Carport pris -->
             <div class="form-group">
-                <label for="price">Pris <span class="required">*</span></label>
+                <label for="total">Pris <span class="required">*</span></label>
                 <input type="text" id="total" name="total" th:value="${order.total}"/>
                 <div th:if="${errors != null}">
                     <div class="error" th:if="${errors['total']}" th:text="${errors['total']}"></div>
@@ -99,14 +106,24 @@
             </div>
 
             <!-- knapper -->
-            <div class="form-flex">
-                <!-- bliver ikke brugt endnu-->
-                <a class="btn-primary">vis tilbud</a>
-                <button type="submit" class="btn-primary">Gem</button>
+            <div class="flex-container">
+                <div th:if="${order.status == 'Afventer'}">
+                    <button type="submit" class="btn-primary" th:onclick="'submitForm(\'/orders/' + ${order.id} + '/offer/send\')'">Send tilbud</button>
+                </div>
+                <div th:if="${order.status == 'Behandles'}">
+                    <a th:href="@{/orders/{id}/offer(id=${order.id})}" class="btn-primary" th:onclick="'submitForm(\'/orders/' + ${order.id} + '/offer/\')'">Vis tilbud</a>
+                </div>
+                <button type="submit" class="btn-primary" th:onclick="'submitForm(\'/orders/manageOrder' + ${order.id} + '\')'">Gem</button>
                 <a class="btn-primary" th:href="@{/orders}">Annullér</a>
             </div>
         </form>
     </div>
 </main>
 </body>
+<script>
+    function submitForm(actionUrl) {
+        const form = document.getElementById('form');
+        form.action = actionUrl;
+    }
+</script>
 </html>

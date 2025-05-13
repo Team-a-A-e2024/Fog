@@ -4,7 +4,6 @@ import app.config.*;
 import app.controllers.*;
 import app.persistence.*;
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main {
