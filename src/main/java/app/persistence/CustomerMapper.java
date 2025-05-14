@@ -163,29 +163,4 @@ public class CustomerMapper {
             e.getMessage();
         }
     }
-    public static Customer getByEmail(String email) throws DatabaseException {
-        String sql = "SELECT * FROM customers WHERE email = ?";
-
-        try (Connection con = connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    int id = rs.getInt("id");
-                    String fullname = rs.getString("fullname");
-                    String address = rs.getString("address");
-                    String phoneNumber = rs.getString("phone_number");
-                    int postalCode = rs.getInt("postal_code");
-
-                    return new Customer(id, fullname, email, address, phoneNumber, null, postalCode);
-                } else {
-                    throw new DatabaseException("Ingen kunde fundet med e-mail: " + email);
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
-    }
 }
