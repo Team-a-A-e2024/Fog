@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -67,7 +67,8 @@
             </div>
         </div>
         <!-- Betalingsknap -->
-        <form action="payment-confirm.html" method="get">
+        <form action="/payment-confirm" method="post">
+            <input type="hidden" name="orderId" th:value="${orderId}">
             <button type="submit" class="btn-primary full-width">Gennemfør betaling</button>
         </form>
     </div>
