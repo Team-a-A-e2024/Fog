@@ -1,10 +1,10 @@
 package app;
 
 import app.config.*;
-import app.controllers.*;
 import app.persistence.*;
+import app.service.CarportSvgGenerator;
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
+import io.javalin.http.Context;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main {
@@ -35,10 +35,19 @@ public class Main {
         PartslistMapper.setConnectionPool(connectionPool);
 
         // Routing
+        /*
         CarportController.routes(app);
         ErrorController.routes(app);
         LoginController.routes(app);
         CustomerController.routes(app);
-        OrderController.routes(app);
+        OrderController.routes(app); */
+        app.get("/", Main::svgtest);
+    }
+    public static void svgtest(Context ctx){
+
+        CarportSvgGenerator svg = new CarportSvgGenerator(0,0,760,760);
+
+        ctx.attribute("svg", svg.getSvg().toString());
+        ctx.render("svgPlayground");
     }
 }
