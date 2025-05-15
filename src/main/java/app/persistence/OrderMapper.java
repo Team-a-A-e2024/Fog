@@ -155,21 +155,20 @@ public class OrderMapper {
     //requires a object with an id
     public static void updateOrderByObject(Order order) throws DatabaseException {
         String sql = "UPDATE orders SET created_at = ?, total = ?, status = ?, customer_id = ?, length = ?, width = ?, comments = ? WHERE id = ?;";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                //updated variables
-                ps.setDate(1, Date.valueOf(order.getCreatedAt().toLocalDate()));
-                ps.setDouble(2, order.getTotal());
-                ps.setString(3, order.getStatus());
-                ps.setInt(4, order.getCustomerId());
-                ps.setInt(5, order.getLengthCm());
-                ps.setInt(6, order.getWidthCm());
-                ps.setString(7, order.getComments());
-                //where
-                ps.setInt(8, order.getId());
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            //updated variables
+            ps.setDate(1, Date.valueOf(order.getCreatedAt().toLocalDate()));
+            ps.setDouble(2, order.getTotal());
+            ps.setString(3, order.getStatus());
+            ps.setInt(4, order.getCustomerId());
+            ps.setInt(5, order.getLengthCm());
+            ps.setInt(6, order.getWidthCm());
+            ps.setString(7, order.getComments());
+            //where
+            ps.setInt(8, order.getId());
 
-                ps.executeUpdate();
-            }
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
