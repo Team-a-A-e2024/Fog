@@ -149,31 +149,33 @@ public class OrderController {
     }
 
     private static void confirmOrderAndSendEmail(Context ctx) {
-        int orderId = Integer.parseInt(ctx.pathParam("id"));
+        if (CheckUserUtil.usersOnlyCheck(ctx)) {
+            int orderId = Integer.parseInt(ctx.pathParam("id"));
 
-        try {
-            Order order = OrderMapper.getOrderByid(orderId);
-            if (order == null) {
-                ctx.attribute("error", "Ordre ikke fundet.");
+            try {
+                Order order = OrderMapper.getOrderByid(orderId);
+                if (order == null) {
+                    ctx.attribute("error", "Ordre ikke fundet.");
+                    ctx.redirect("/orders");
+                    return;
+                }
+
+                Customer customer = CustomerMapper.getCustomerWithId(order.getCustomerId());
+                if (customer == null) {
+                    ctx.attribute("error", "Kunde ikke fundet.");
+                    ctx.redirect("/orders");
+                    return;
+                }
+
+                EmailUtil.sendOrderConfirmation(customer);
+                OrderMapper.updateStatusByOrderId(orderId, "Bekræftet");
+                ctx.render("payment-confirm.html");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                ctx.attribute("error", "Fejl ved afsendelse: " + e.getMessage());
                 ctx.redirect("/orders");
-                return;
             }
-
-            var customer = CustomerMapper.getCustomerWithId(order.getCustomerId());
-            if (customer == null) {
-                ctx.attribute("error", "Kunde ikke fundet.");
-                ctx.redirect("/orders");
-                return;
-            }
-
-            EmailUtil.sendOrderConfirmation(customer);
-            OrderMapper.updateStatusByOrderId(orderId, "Bekræftet");
-            ctx.render("payment-confirm.html");
-
-        } catch (Exception e) {
-            ctx.attribute("error", "Fejl ved afsendelse: " + e.getMessage());
-            ctx.redirect("/orders");
         }
     }
-
 }
