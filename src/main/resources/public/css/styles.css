@@ -451,3 +451,79 @@ html, body{
     display: flex;
     justify-content: space-around;
 }
+
+/* ************ Partslist ************ */
+.partslist-header {
+    background-color: var(--fog-white);
+    margin: 2px;
+    padding: 1em;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.partslist-box {
+    background-color: var(--fog-white);
+    color: var(--fog-blue);
+    max-width: 60%;
+    margin: 2em auto;
+    padding: 1em;
+    text-align: center;
+    border-radius: 25px;
+}
+
+.partslist-pageview {
+    background-color: var(--fog-white);
+    max-width: 100%;
+    margin: auto;
+    padding: 2em;
+    border-radius: 25px;
+}
+
+.partslist-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.partslist-table th, .partslist-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--fog-blue);
+    text-align: left;
+}
+
+.partslist-table-row:hover {
+    background-color: var(--fog-blue);
+    color: var(--fog-white);
+}
+
+.partslist-display-box-mobile {
+    background-color: var(--fog-white);
+    margin: 2em auto;
+    border-radius: 25px;
+    padding: 2em;
+    color: var(--fog-blue);
+}
+
+@media screen and (max-width: 600px) {
+    .partslist-table {
+        display: none;
+    }
+
+    .partslist-display-box-mobile {
+        display: block;
+    }
+
+    .partslist-pageview {
+        background-color: var(--fog-offwhite);
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .partslist-display-box-mobile {
+        display: none;
+    }
+
+    .partslist-table {
+        display: table;
+    }
+}

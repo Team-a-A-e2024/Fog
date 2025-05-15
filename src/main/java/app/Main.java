@@ -2,6 +2,7 @@ package app;
 
 import app.config.*;
 import app.controllers.*;
+import app.exceptions.DatabaseException;
 import app.persistence.*;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -24,6 +25,7 @@ public class Main {
             config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
+
 
         // Mappers
         UserMapper.setConnectionPool(connectionPool);

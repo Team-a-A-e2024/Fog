@@ -64,6 +64,7 @@ public class Partslist {
         this.material = material;
     }
 
+
     @Override
     public String toString() {
         return "Partslist{" +
@@ -77,8 +78,8 @@ public class Partslist {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Partslist partslist)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        Partslist partslist = (Partslist) o;
         return id == partslist.id && quantity == partslist.quantity && length == partslist.length && Objects.equals(description, partslist.description) && Objects.equals(material, partslist.material);
     }
 
