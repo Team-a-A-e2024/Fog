@@ -128,7 +128,6 @@ public class CarportSvgGenerator {
         float x2 = x1/v1Length;
         float y2 = y1/v1Length;
 
-        //todo text rotation
         svg.addText((float) (x1)/2f + startX + offsetX + (-y2 * 10),(float) (y1)/2f + startY + offsetX + (x2 * 10),- (int)angle,"color:black;",text);
     }
 }
