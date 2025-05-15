@@ -39,7 +39,7 @@ public class CarportSvgGenerator {
     }
 
     public void drawTopSingleRafter(int x, int y, int width){
-        svg.addRectangle(x,y,5,width,"stroke=\"black\" stroke-width=\"1\"");
+        svg.addRectangle(x,y,5,width,"stroke=black stroke-width=1");
     }
 
     public Svg getSvg() {
