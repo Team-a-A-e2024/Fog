@@ -74,8 +74,7 @@
 
         <!-- Buttons -->
         <div th:if="${order.status == 'Behandles'}" class="flex-container">
-            <!-- TODO: Add link to payment page -->
-            <button href="/" class="btn-primary" disabled>Gå til kassen</button>
+            <a th:href="@{'/service'(orderId=${order.id})}" class="btn-primary">Gå til kassen</a>
             <form th:action="@{/orders/{id}/offer/cancel(id=${order.id})}" method="post">
                 <button type="submit" class="btn-primary">Annullér</button>
             </form>
