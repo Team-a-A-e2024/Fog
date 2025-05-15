@@ -1,6 +1,7 @@
 package app;
 
 import app.config.*;
+import app.controllers.*;
 import app.persistence.*;
 import app.service.CarportSvgGenerator;
 import io.javalin.Javalin;
@@ -35,17 +36,16 @@ public class Main {
         PartslistMapper.setConnectionPool(connectionPool);
 
         // Routing
-        /*
         CarportController.routes(app);
         ErrorController.routes(app);
         LoginController.routes(app);
         CustomerController.routes(app);
-        OrderController.routes(app); */
-        app.get("/", Main::svgtest);
+        OrderController.routes(app);
+
     }
     public static void svgtest(Context ctx){
 
-        CarportSvgGenerator svg = new CarportSvgGenerator(0,0,760,760);
+        CarportSvgGenerator svg = new CarportSvgGenerator(0,0,240,660);
 
         ctx.attribute("svg", svg.getSvg().toString());
         ctx.render("svgPlayground");

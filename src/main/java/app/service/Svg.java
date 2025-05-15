@@ -16,10 +16,10 @@ public class Svg
             "        </marker>\n" +
             "    </defs>";
 
-    private static final String SVG_RECT_TEMPLATE = "<rect x=\"%d\" y=\"%d\" height=\"%s\" width=\"%s\" style=\"%s\" />";
+    private static final String SVG_RECT_TEMPLATE = "<rect x=\"%s\" y=\"%s\" height=\"%s\" width=\"%s\" style=\"%s\" />";
     private static final String SVG_LINE_TEMPLATE = "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"%s\" />";
     private static final String SVG_ARROW_TEMPLATE = "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"%s\"  marker-end=\"url(#endArrow)\" marker-start=\"url(#beginArrow)\"/>";
-    private static final String SVG_TEXT_TEMPLATE = "<text x=\"%d\" y=\"%d\" text-anchor=\"middle\" dominant-baseline=\"central\" transform=\"rotate(%d %d,%d)\" style=\"%s\">%s</text>";
+    private static final String SVG_TEXT_TEMPLATE = "<text x=\"%s\" y=\"%s\" text-anchor=\"middle\" dominant-baseline=\"central\" transform=\"rotate(%d %s,%s)\" style=\"%s\">%s</text>";
 
 
     private StringBuilder svg = new StringBuilder();
@@ -30,9 +30,9 @@ public class Svg
         svg.append(SVG_ARROW_DEFS);
     }
 
-    public void addRectangle(int x, int y, float height, float width, String style)
+    public void addRectangle(float x, float y, float height, float width, String style)
     {
-        svg.append(String.format(SVG_RECT_TEMPLATE, x, y, Float.toString(height), Float.toString(width), style ));
+        svg.append(String.format(SVG_RECT_TEMPLATE, Float.toString(x), Float.toString(y), Float.toString(height), Float.toString(width), style ));
     }
 
 
@@ -46,9 +46,9 @@ public class Svg
         svg.append(String.format(SVG_ARROW_TEMPLATE, x1, y1, x2, y2, style ));
     }
 
-    public void addText(int x, int y, int rotation,  String style, String text)
+    public void addText(float x, float y, int rotation,  String style, String text)
     {
-        svg.append(String.format(SVG_TEXT_TEMPLATE, x, y, rotation, x, y, style, text));
+        svg.append(String.format(SVG_TEXT_TEMPLATE, Float.toString(x), Float.toString(y), rotation, Float.toString(x), Float.toString(y), style, text));
     }
 
     public void addSvg(Svg innerSvg)
