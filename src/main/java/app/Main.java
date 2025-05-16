@@ -1,5 +1,6 @@
 package app;
 
+import app.Enums.Role;
 import app.config.*;
 import app.controllers.*;
 import app.persistence.*;
@@ -38,7 +39,9 @@ public class Main {
         // Routing
             app.beforeMatched(ctx -> {
                 var userRole = CheckUserUtil.getUserRole(ctx);
-                if (!ctx.routeRoles().contains(userRole)) { // routeRoles are provided through the Context interface
+                //do nothing so people are let in
+                if (ctx.routeRoles().contains(Role.ANYONE)){}
+                else if (!ctx.routeRoles().contains(userRole)) { // routeRoles are provided through the Context interface
                     ctx.redirect("/error/403");
                 }
             });

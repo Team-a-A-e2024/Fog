@@ -16,9 +16,9 @@ import java.time.LocalDate;
 public class LoginController {
 
     public static void routes(Javalin app) {
-        app.get("/login", LoginController::showLoginPage, Role.ANYONE, Role.SALESREP, Role.ADMIN);
-        app.post("/login", LoginController::handleLogin, Role.ANYONE, Role.SALESREP, Role.ADMIN);
-        app.get("/logout", LoginController::logout, Role.ANYONE, Role.SALESREP, Role.ADMIN);
+        app.get("/login", LoginController::showLoginPage, Role.ANYONE);
+        app.post("/login", LoginController::handleLogin, Role.ANYONE);
+        app.get("/logout", LoginController::logout, Role.ANYONE);
         app.get("/changePassword", LoginController::showChangePasswordPage, Role.SALESREP, Role.ADMIN);
         app.post("/changePassword", LoginController::HandleChangePassword, Role.SALESREP, Role.ADMIN);
     }

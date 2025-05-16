@@ -23,8 +23,8 @@ public class OrderController {
         app.post("/orders/manageOrder{id}", OrderController::updateOrderPage, Role.SALESREP, Role.ADMIN);
         app.get("/orders/{id}/offer", OrderController::showOfferPage, Role.SALESREP, Role.ADMIN);
         app.post("/orders/{id}/offer/send", OrderController::sendOffer, Role.SALESREP, Role.ADMIN);
-        app.post("/orders/{id}/offer/cancel", OrderController::cancelOffer, Role.ANYONE, Role.SALESREP, Role.ADMIN);
-        app.post("/orders/{id}/confirm", OrderController::confirmOrderAndSendEmail, Role.ANYONE, Role.SALESREP, Role.ADMIN);
+        app.post("/orders/{id}/offer/cancel", OrderController::cancelOffer, Role.ANYONE);
+        app.post("/orders/{id}/confirm", OrderController::confirmOrderAndSendEmail, Role.ANYONE);
 
     }
 
