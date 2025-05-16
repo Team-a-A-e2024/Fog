@@ -23,10 +23,12 @@ public class OrderController {
         app.get("/orders/{id}/offer", OrderController::showOfferPage);
         app.post("/orders/{id}/offer/send", OrderController::sendOffer);
         app.post("/orders/{id}/offer/cancel", OrderController::cancelOffer);
+        app.post("/orders/{id}/confirm", OrderController::confirmOrderAndSendEmail);
+
     }
 
     public static void showOrdersPage(Context ctx) {
-        if(CheckUserUtil.usersOnlyCheck(ctx)) {
+        if (CheckUserUtil.usersOnlyCheck(ctx)) {
             try {
                 User user = ctx.sessionAttribute("user");
                 ctx.attribute("user", user);
@@ -42,14 +44,14 @@ public class OrderController {
     }
 
     public static void manageOrderPage(Context ctx) {
-        if(CheckUserUtil.usersOnlyCheck(ctx)) {
+        if (CheckUserUtil.usersOnlyCheck(ctx)) {
             int orderId = Integer.parseInt(ctx.pathParam("id"));
             try {
                 User user = ctx.sessionAttribute("user");
                 ctx.attribute("user", user);
                 Order order = OrderMapper.getOrderByid(orderId);
 
-                if(order == null){
+                if (order == null) {
                     ctx.attribute("servererror", "kunne ikke finde en bruger");
                     ctx.render("orders-manage.html");
                     return;
@@ -64,21 +66,21 @@ public class OrderController {
     }
 
     public static void updateOrderPage(Context ctx) {
-        if(CheckUserUtil.usersOnlyCheck(ctx)) {
+        if (CheckUserUtil.usersOnlyCheck(ctx)) {
             int orderId = Integer.parseInt(ctx.pathParam("id"));
             Order order = null;
             try {
                 User user = ctx.sessionAttribute("user");
                 ctx.attribute("user", user);
                 order = OrderMapper.getOrderByid(orderId);
-                if(order == null){
+                if (order == null) {
                     ctx.attribute("servererror", "kunne ikke finde en bruger");
                     ctx.render("orders-manage.html");
                     return;
                 }
                 ctx.attribute("order", order);
                 ctx.attribute("customer", CustomerMapper.getCustomerWithId(order.getCustomerId()));
-            } catch (DatabaseException e){
+            } catch (DatabaseException e) {
                 ctx.attribute("servererror", "fejl ved at hente fra db: " + e.toString());
                 ctx.render("orders-manage.html");
                 return;
@@ -89,9 +91,9 @@ public class OrderController {
             order.setLengthCm(Integer.parseInt(ctx.formParam("lengthCm")));
             order.setStatus(ctx.formParam("status"));
             order.setTotal(Double.parseDouble(ctx.formParam("total")));
-            try{
+            try {
                 OrderMapper.updateOrderByObject(order);
-            }   catch (DatabaseException e){
+            } catch (DatabaseException e) {
                 ctx.attribute("servererror", "fejl ved at hente fra db: " + e.toString());
                 ctx.render("orders-manage.html");
                 return;
@@ -143,6 +145,37 @@ public class OrderController {
             showOfferPage(ctx);
         } catch (DatabaseException e) {
             ctx.attribute("error", "fejl ved at hente fra db: " + e.toString());
+        }
+    }
+
+    private static void confirmOrderAndSendEmail(Context ctx) {
+        if (CheckUserUtil.usersOnlyCheck(ctx)) {
+            int orderId = Integer.parseInt(ctx.pathParam("id"));
+
+            try {
+                Order order = OrderMapper.getOrderByid(orderId);
+                if (order == null) {
+                    ctx.attribute("error", "Ordre ikke fundet.");
+                    ctx.redirect("/orders");
+                    return;
+                }
+
+                Customer customer = CustomerMapper.getCustomerWithId(order.getCustomerId());
+                if (customer == null) {
+                    ctx.attribute("error", "Kunde ikke fundet.");
+                    ctx.redirect("/orders");
+                    return;
+                }
+
+                EmailUtil.sendOrderConfirmation(customer);
+                OrderMapper.updateStatusByOrderId(orderId, "Bekræftet");
+                ctx.render("payment-confirm.html");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                ctx.attribute("error", "Fejl ved afsendelse: " + e.getMessage());
+                ctx.redirect("/orders");
+            }
         }
     }
 }
