@@ -41,5 +41,6 @@ public class Main {
         LoginController.routes(app);
         CustomerController.routes(app);
         OrderController.routes(app);
+        PartslistController.routes(app);
     }
 }

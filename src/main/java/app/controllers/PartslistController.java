@@ -11,7 +11,7 @@ import java.util.List;
 public class PartslistController {
 
     public static void routes(Javalin app){
-        app.get("/partslist", PartslistController::partslistOverview);
+        app.get("/partslist/{orderId}", PartslistController::partslistOverview);
     }
 
     private static void partslistOverview(Context ctx) {

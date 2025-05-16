@@ -21,8 +21,7 @@
         <p>Vi har modtaget din betaling. En ordrebekræftelse bliver sendt til din e-mail inden for kort tid.</p>
         <p>Har du spørgsmål til din ordre er du altid velkommen til at kontakte os.</p>
         <p>Vi glæder os til at sende din bestilling til dig</p>
-        <!-- to do: Mangler og redirect til styklisten!!!!-->
-        <a th:href="@{/}" class="btn-primary">Se stykliste</a>
+        <a th:href="@{'/partslist/' + ${order.id}}" class="btn-primary">Se din stykliste</a>
         <a href="index.html" th:href="@{/}" class="btn-primary">Tilbage</a>
     </div>
 </main>
