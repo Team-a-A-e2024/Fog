@@ -452,6 +452,24 @@ html, body{
     justify-content: space-around;
 }
 
+.position-container {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.pos-top-right {
+    top: 1em;
+    right: 2em;
+}
+
+.pos-bottom-right {
+    bottom: 0;
+    right: 2em;
+}
+
 /* ************ Partslist ************ */
 .partslist-header {
     background-color: var(--fog-white);
