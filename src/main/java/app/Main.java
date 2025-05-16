@@ -3,7 +3,9 @@ package app;
 import app.config.*;
 import app.controllers.*;
 import app.persistence.*;
+import app.util.CheckUserUtil;
 import io.javalin.Javalin;
+import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main {
@@ -34,6 +36,16 @@ public class Main {
         PartslistMapper.setConnectionPool(connectionPool);
 
         // Routing
+        try{
+            app.beforeMatched(ctx -> {
+                var userRole = CheckUserUtil.getUserRole(ctx);
+                if (!ctx.routeRoles().contains(userRole)) { // routeRoles are provided through the Context interface
+                    throw new UnauthorizedResponse(); // request will have to be explicitly stopped by throwing an exception
+                }
+            });
+        } catch ( UnauthorizedResponse e){
+
+        }
         CarportController.routes(app);
         ErrorController.routes(app);
         LoginController.routes(app);

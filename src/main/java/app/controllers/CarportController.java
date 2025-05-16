@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.Enums.Role;
 import app.entities.Customer;
 import app.entities.Order;
 import app.entities.Partslist;
@@ -25,9 +26,9 @@ import java.util.Map;
 public class CarportController {
 
     public static void routes(Javalin app) {
-        app.get ("/",      CarportController::showForm);
-        app.post("/",      CarportController::submitForm);
-        app.get ("/confirmation", CarportController::showConfirmation);
+        app.get ("/",      CarportController::showForm, Role.ANYONE, Role.SALESREP, Role.ADMIN);
+        app.post("/",      CarportController::submitForm, Role.ANYONE, Role.SALESREP, Role.ADMIN);
+        app.get ("/confirmation", CarportController::showConfirmation, Role.ANYONE, Role.SALESREP, Role.ADMIN);
     }
 
     // GET  /carport – render an empty form
