@@ -10,6 +10,8 @@ import io.javalin.Javalin;
 import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
+import java.security.Provider;
+
 public class Main {
 
     private static final String USER = System.getenv("DB_USER");
@@ -53,5 +55,6 @@ public class Main {
         CustomerController.routes(app);
         OrderController.routes(app);
         PartslistController.routes(app);
+        ServiceController.routes(app);
     }
 }

@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.Enums.Role;
 import app.entities.Partslist;
 import app.exceptions.DatabaseException;
 import app.persistence.PartslistMapper;
@@ -11,7 +12,7 @@ import java.util.List;
 public class PartslistController {
 
     public static void routes(Javalin app){
-        app.get("/partslist/{orderId}", PartslistController::partslistOverview);
+        app.get("/partslist/{orderId}", PartslistController::partslistOverview, Role.ANYONE);
     }
 
     private static void partslistOverview(Context ctx) {

@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.Enums.Role;
 import app.entities.Customer;
 import app.entities.Order;
 import app.entities.User;
@@ -12,8 +13,8 @@ import io.javalin.http.Context;
 public class ServiceController {
 
     public static void routes(Javalin app) {
-        app.get("/service", ServiceController::showPaymentForm);
-        app.post("/payment-confirm", ServiceController::handleSendEmail);
+        app.get("/service", ServiceController::showPaymentForm, Role.ANYONE);
+        app.post("/payment-confirm", ServiceController::handleSendEmail, Role.ANYONE);
     }
 
     // Vis betalingsformularen
@@ -44,7 +45,7 @@ public class ServiceController {
             Customer customer = CustomerMapper.getCustomerWithId(order.getCustomerId());
 
             EmailUtil.sendOrderConfirmation(customer);
-            OrderMapper.updateStatusByOrderId(orderId, "Bekræftet");
+            OrderMapper.updateStatusByOrderId(orderId, "Godkendt");
 
             ctx.render("payment-confirm.html");
 
@@ -52,6 +53,8 @@ public class ServiceController {
             e.printStackTrace();
             ctx.attribute("emailError", "Kunne ikke sende bekræftelse: " + e.getMessage());
             ctx.redirect("/orders");
+            //Todo: Når en ordre er gennemført og betalt, skal man sendes videre til payment-confirm. Men man bliver sendt videre til denne error.
+            //Todo: Når der sker en error, skal kunden ikke sendes videre til orders, de skal sendes tilbage til betalingssiden med en fejlbesked.
         }
     }
 }
