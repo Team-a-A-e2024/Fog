@@ -1,9 +1,12 @@
 package app;
 
+import app.Enums.Role;
 import app.config.*;
 import app.controllers.*;
 import app.persistence.*;
+import app.util.CheckUserUtil;
 import io.javalin.Javalin;
+import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main {
@@ -34,6 +37,14 @@ public class Main {
         PartslistMapper.setConnectionPool(connectionPool);
 
         // Routing
+            app.beforeMatched(ctx -> {
+                var userRole = CheckUserUtil.getUserRole(ctx);
+                //do nothing so people are let in
+                if (ctx.routeRoles().contains(Role.ANYONE)){}
+                else if (!ctx.routeRoles().contains(userRole)) { // routeRoles are provided through the Context interface
+                    ctx.redirect("/error/403");
+                }
+            });
         CarportController.routes(app);
         ErrorController.routes(app);
         LoginController.routes(app);
