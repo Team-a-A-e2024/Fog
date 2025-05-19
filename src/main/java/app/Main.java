@@ -1,10 +1,13 @@
 package app;
 
+import app.Enums.Role;
 import app.config.*;
 import app.controllers.*;
 import app.persistence.*;
+import app.service.CarportSvgGenerator;
 import io.javalin.Javalin;
 import app.util.CheckUserUtil;
+import io.javalin.http.Context;
 import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
