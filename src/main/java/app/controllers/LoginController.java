@@ -1,10 +1,8 @@
 package app.controllers;
 
 import app.Enums.Role;
-import app.util.CheckUserUtil;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import app.util.PasswordUtil;
 import io.javalin.Javalin;

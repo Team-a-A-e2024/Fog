@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.Enums.Role;
 import app.entities.Customer;
 import app.entities.Order;
 import app.entities.User;
@@ -12,8 +13,8 @@ import io.javalin.http.Context;
 public class ServiceController {
 
     public static void routes(Javalin app) {
-        app.get("/service", ServiceController::showPaymentForm);
-        app.post("/payment-confirm", ServiceController::handleSendEmail);
+        app.get("/service", ServiceController::showPaymentForm, Role.ANYONE);
+        app.post("/payment-confirm", ServiceController::handleSendEmail, Role.ANYONE);
     }
 
     // Vis betalingsformularen

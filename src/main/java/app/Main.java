@@ -3,11 +3,12 @@ package app;
 import app.Enums.Role;
 import app.config.*;
 import app.controllers.*;
+import app.entities.User;
 import app.persistence.*;
 import app.service.CarportSvgGenerator;
 import io.javalin.Javalin;
-import app.util.CheckUserUtil;
 import io.javalin.http.Context;
+import io.javalin.http.ForbiddenResponse;
 import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -20,13 +21,12 @@ public class Main {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         // Initializing Javalin and Jetty webserver
 
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/");
-            config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
+            config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
 
@@ -39,14 +39,26 @@ public class Main {
         PartslistMapper.setConnectionPool(connectionPool);
 
         // Routing
-            app.beforeMatched(ctx -> {
-                var userRole = CheckUserUtil.getUserRole(ctx);
-                //do nothing so people are let in
-                if (ctx.routeRoles().contains(Role.ANYONE)){}
-                else if (!ctx.routeRoles().contains(userRole)) { // routeRoles are provided through the Context interface
-                    ctx.redirect("/error/403");
+        app.beforeMatched(ctx -> {
+            String path = ctx.path();
+            if (!(path.endsWith(".css") || path.endsWith(".js") || path.startsWith("/public/"))) {
+                Role userRole = Role.ANYONE;
+                User user = ctx.sessionAttribute("user");
+                if (user != null){
+                    try {
+                        userRole = Role.valueOf(user.getRole().toUpperCase());
+                    }catch (IllegalArgumentException e){
+                        e.printStackTrace();
+                    }
                 }
-            });
+                //if the route doesn't allow anyone and the user doesn't have the role required
+                if (!(ctx.routeRoles().contains(Role.ANYONE) || ctx.routeRoles().contains(userRole))) {
+                    throw new ForbiddenResponse();
+                }
+            }
+        });
+
+        ServiceController.routes(app);
         CarportController.routes(app);
         ErrorController.routes(app);
         LoginController.routes(app);
@@ -54,9 +66,10 @@ public class Main {
         OrderController.routes(app);
 
     }
-    public static void svgtest(Context ctx){
 
-        CarportSvgGenerator svg = new CarportSvgGenerator(0,0,240,660);
+    public static void svgtest(Context ctx) {
+
+        CarportSvgGenerator svg = new CarportSvgGenerator(0, 0, 240, 660);
 
         ctx.attribute("svg", svg.getSvg().toString());
         ctx.render("svgPlayground");

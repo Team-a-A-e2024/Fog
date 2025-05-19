@@ -4,9 +4,7 @@ import app.Enums.Role;
 import app.entities.Customer;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
 import app.persistence.CustomerMapper;
-import app.util.CheckUserUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
