@@ -52,10 +52,8 @@ public class ServiceController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.attribute("emailError", "Kunne ikke sende bekræftelse: " + e.getMessage());
-            ctx.redirect("/orders");
-            //Todo: Når en ordre er gennemført og betalt, skal man sendes videre til payment-confirm. Men man bliver sendt videre til denne error.
-            //Todo: Når der sker en error, skal kunden ikke sendes videre til orders, de skal sendes tilbage til betalingssiden med en fejlbesked.
+            ctx.attribute("emailError", "Vi kunne ikke sende bekræftelse, prøv igen: " + e.getMessage());
+            showPaymentForm(ctx);
         }
     }
 }
