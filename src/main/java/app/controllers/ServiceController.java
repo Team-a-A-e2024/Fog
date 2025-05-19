@@ -45,15 +45,15 @@ public class ServiceController {
             Customer customer = CustomerMapper.getCustomerWithId(order.getCustomerId());
 
             EmailUtil.sendOrderConfirmation(customer);
-            OrderMapper.updateStatusByOrderId(orderId, "Bekræftet");
+            OrderMapper.updateStatusByOrderId(orderId, "Godkendt");
 
+            ctx.attribute("orderId", orderId);
             ctx.render("payment-confirm.html");
 
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.attribute("emailError", "Kunne ikke sende bekræftelse: " + e.getMessage());
-            ctx.redirect("/orders");
+            ctx.attribute("emailError", "Vi kunne ikke sende bekræftelse, prøv igen: " + e.getMessage());
+            showPaymentForm(ctx);
         }
     }
 }
-

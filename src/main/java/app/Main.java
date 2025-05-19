@@ -4,6 +4,7 @@ import app.Enums.Role;
 import app.config.*;
 import app.controllers.*;
 import app.entities.User;
+import app.exceptions.DatabaseException;
 import app.persistence.*;
 import app.service.CarportSvgGenerator;
 import io.javalin.Javalin;
@@ -11,6 +12,7 @@ import io.javalin.http.Context;
 import io.javalin.http.ForbiddenResponse;
 import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
+import java.security.Provider;
 
 public class Main {
 
@@ -57,13 +59,13 @@ public class Main {
                 }
             }
         });
-
-        ServiceController.routes(app);
         CarportController.routes(app);
         ErrorController.routes(app);
         LoginController.routes(app);
         CustomerController.routes(app);
         OrderController.routes(app);
+        PartslistController.routes(app);
+        ServiceController.routes(app);
 
     }
 

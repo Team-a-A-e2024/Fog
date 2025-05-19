@@ -70,4 +70,18 @@ class PartslistMapperTest {
         // Assert
         assertEquals(expected, actual);
     }
+
+    @Test
+    void getPaidPartslist() throws DatabaseException {
+        //Arrange
+        Material post = new Material(1, "97x97 mm. trykimp. Stolpe", "Stk.", 42.95);
+        List<Partslist> expected = new ArrayList<>();
+        expected.add(new Partslist(1,1,"Test wood",600,post));
+
+        //Act
+        List<Partslist> actual = PartslistMapper.getPaidPartslist(1);
+
+        //Assert
+        assertEquals(expected, actual);
+    }
 }
