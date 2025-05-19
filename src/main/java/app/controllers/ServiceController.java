@@ -47,6 +47,7 @@ public class ServiceController {
             EmailUtil.sendOrderConfirmation(customer);
             OrderMapper.updateStatusByOrderId(orderId, "Godkendt");
 
+            ctx.attribute("orderId", orderId);
             ctx.render("payment-confirm.html");
 
         } catch (Exception e) {
@@ -58,4 +59,3 @@ public class ServiceController {
         }
     }
 }
-

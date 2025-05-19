@@ -46,7 +46,7 @@ public class Main {
                 //do nothing so people are let in
                 if (ctx.routeRoles().contains(Role.ANYONE)){}
                 else if (!ctx.routeRoles().contains(userRole)) { // routeRoles are provided through the Context interface
-                    ctx.redirect("/error/403");
+                    ErrorController.error403(ctx);
                 }
             });
         CarportController.routes(app);
