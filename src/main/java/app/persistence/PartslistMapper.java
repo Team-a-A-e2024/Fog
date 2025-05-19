@@ -81,7 +81,10 @@ public class PartslistMapper {
 
         String sql = "SELECT " +
                 "m.description AS material, " +
+                "m.id AS material_id, " +
+                "m.price AS material_price, " +
                 "p.length, " +
+                "p.id, " +
                 "p.quantity, " +
                 "m.unit, " +
                 "p.description " +
@@ -97,15 +100,18 @@ public class PartslistMapper {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    int partId = rs.getInt("id");
                     String materialDescription = rs.getString("material");
                     int length = rs.getInt("length");
                     int quantity = rs.getInt("quantity");
                     String unit = rs.getString("unit");
                     String partslistDescription = rs.getString("description");
+                    int materialId = rs.getInt("material_id");
+                    double materialPrice = rs.getDouble("material_price");
 
-                    Material material = new Material(materialDescription, unit);
+                    Material material = new Material(materialId ,materialDescription, unit, materialPrice);
 
-                    Partslist partslist = new Partslist(quantity, partslistDescription, length, material);
+                    Partslist partslist = new Partslist(partId, quantity, partslistDescription, length, material);
 
                     partslists.add(partslist);
                 }

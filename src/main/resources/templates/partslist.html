@@ -38,7 +38,7 @@
                 <td th:text="${part.description}"></td>
             </tr>
         </table>
-        <div class="partslist-display-box-mobile" th:each="part : ${partslist}">
+        <div class="partslist-display-box-mobile position-container" th:each="part : ${partslist}">
             <h2 th:text="@{'Materiale: ' + ${part.material.description}}">Materiale</h2>
             <h4 th:text="@{'Længde: ' + ${part.length}}">Længde</h4>
             <h4 th:text="@{'Enhed: ' + ${part.material.unit}}">Enhed</h4>
