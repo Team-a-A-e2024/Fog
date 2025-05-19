@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Material;
 import app.entities.Partslist;
 import app.exceptions.DatabaseException;
 
@@ -74,5 +75,50 @@ public class PartslistMapper {
             e.printStackTrace();
             throw new DatabaseException(e.getMessage());
         }
+    }
+    public static List<Partslist> getPaidPartslist(int orderId) throws DatabaseException {
+        List<Partslist> partslists = new ArrayList<>();
+
+        String sql = "SELECT " +
+                "m.description AS material, " +
+                "m.id AS material_id, " +
+                "m.price AS material_price, " +
+                "p.length, " +
+                "p.id, " +
+                "p.quantity, " +
+                "m.unit, " +
+                "p.description " +
+                "FROM partslist p " +
+                "JOIN orders o ON p.order_id = o.id " +
+                "JOIN materials m ON m.id = p.material_id " +
+                "WHERE o.status IN ('Godkendt', 'Leveret', 'Afsendt') AND o.id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int partId = rs.getInt("id");
+                    String materialDescription = rs.getString("material");
+                    int length = rs.getInt("length");
+                    int quantity = rs.getInt("quantity");
+                    String unit = rs.getString("unit");
+                    String partslistDescription = rs.getString("description");
+                    int materialId = rs.getInt("material_id");
+                    double materialPrice = rs.getDouble("material_price");
+
+                    Material material = new Material(materialId ,materialDescription, unit, materialPrice);
+
+                    Partslist partslist = new Partslist(partId, quantity, partslistDescription, length, material);
+
+                    partslists.add(partslist);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching partslist", e.getMessage());
+        }
+        return partslists;
     }
 }

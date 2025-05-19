@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stykliste</title>
+    <link rel="stylesheet" href="/public/css/styles.css" th:href="@{/public/css/styles.css}">
+</head>
+<body>
+<div class="partslist-background">
+    <header>
+        <div class="partslist-header">
+            <a href="partslist.html" th:href="@{/}">
+                <img src="../public/images/Fog_logo.png" alt="Fog">
+            </a>
+            <h4>Byg selv carport</h4>
+        </div>
+    </header>
+
+    <div class="partslist-box">
+        <h1>Stykliste</h1>
+    </div>
+
+    <div class="partslist-pageview">
+        <table class="partslist-table" th:if="${partslist != null}">
+            <tr>
+                <th>Materiale</th>
+                <th>Længde</th>
+                <th>Enhed</th>
+                <th>Antal</th>
+                <th>Beskrivelse</th>
+            </tr>
+            <tr th:each="part : ${partslist}">
+                <td th:text="${part.material.description}"></td>
+                <td th:text="${part.length}"></td>
+                <td th:text="${part.material.unit}"></td>
+                <td th:text="${part.quantity}"></td>
+                <td th:text="${part.description}"></td>
+            </tr>
+        </table>
+        <div class="partslist-display-box-mobile position-container" th:each="part : ${partslist}">
+            <h2 th:text="@{'Materiale: ' + ${part.material.description}}">Materiale</h2>
+            <h4 th:text="@{'Længde: ' + ${part.length}}">Længde</h4>
+            <h4 th:text="@{'Enhed: ' + ${part.material.unit}}">Enhed</h4>
+            <h4 th:text="@{'Antal: ' + ${part.quantity}}">Antal</h4>
+            <h4 th:text="@{'Beskrivelse: ' + ${part.description}}">Beskrivelse</h4>
+        </div>
+        <div>
+            <p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

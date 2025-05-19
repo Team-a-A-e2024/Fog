@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.Enums.Role;
 import app.entities.Customer;
 import app.entities.Order;
 import app.entities.User;
@@ -12,8 +13,8 @@ import io.javalin.http.Context;
 public class ServiceController {
 
     public static void routes(Javalin app) {
-        app.get("/service", ServiceController::showPaymentForm);
-        app.post("/payment-confirm", ServiceController::handleSendEmail);
+        app.get("/service", ServiceController::showPaymentForm, Role.ANYONE);
+        app.post("/payment-confirm", ServiceController::handleSendEmail, Role.ANYONE);
     }
 
     // Vis betalingsformularen
@@ -44,15 +45,15 @@ public class ServiceController {
             Customer customer = CustomerMapper.getCustomerWithId(order.getCustomerId());
 
             EmailUtil.sendOrderConfirmation(customer);
-            OrderMapper.updateStatusByOrderId(orderId, "Bekræftet");
+            OrderMapper.updateStatusByOrderId(orderId, "Godkendt");
 
+            ctx.attribute("orderId", orderId);
             ctx.render("payment-confirm.html");
 
         } catch (Exception e) {
             e.printStackTrace();
-            ctx.attribute("emailError", "Kunne ikke sende bekræftelse: " + e.getMessage());
-            ctx.redirect("/orders");
+            ctx.attribute("emailError", "Vi kunne ikke sende bekræftelse, prøv igen: " + e.getMessage());
+            showPaymentForm(ctx);
         }
     }
 }
-

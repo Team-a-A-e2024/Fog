@@ -3,11 +3,14 @@ package app;
 import app.Enums.Role;
 import app.config.*;
 import app.controllers.*;
+import app.exceptions.DatabaseException;
 import app.persistence.*;
 import app.util.CheckUserUtil;
 import io.javalin.Javalin;
 import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
+
+import java.security.Provider;
 
 public class Main {
 
@@ -28,6 +31,7 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
 
+
         // Mappers
         UserMapper.setConnectionPool(connectionPool);
         CustomerMapper.setConnectionPool(connectionPool);
@@ -42,7 +46,7 @@ public class Main {
                 //do nothing so people are let in
                 if (ctx.routeRoles().contains(Role.ANYONE)){}
                 else if (!ctx.routeRoles().contains(userRole)) { // routeRoles are provided through the Context interface
-                    ctx.redirect("/error/403");
+                    ErrorController.error403(ctx);
                 }
             });
         CarportController.routes(app);
@@ -50,5 +54,7 @@ public class Main {
         LoginController.routes(app);
         CustomerController.routes(app);
         OrderController.routes(app);
+        PartslistController.routes(app);
+        ServiceController.routes(app);
     }
 }

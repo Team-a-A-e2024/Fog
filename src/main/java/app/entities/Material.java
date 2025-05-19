@@ -21,6 +21,11 @@ public class Material {
         this.price = price;
     }
 
+    public Material(String description, String unit) {
+        this.description = description;
+        this.unit = unit;
+    }
+
     public int getId() {
         return id;
     }
