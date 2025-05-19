@@ -1,13 +1,13 @@
 package app.persistence;
 
-import app.entities.Order;                // ← importér Order!
+import app.entities.Order;
 import app.exceptions.DatabaseException;
 import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
-
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -100,6 +100,28 @@ class OrderMapperTest {
         // Act
         OrderMapper.updateOrderByObject(expected);
         Order actual = OrderMapper.getOrderByid(expected.getId());
+
+        // Assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void updateStatus() throws DatabaseException {
+        // Arrange
+        String status = "Annulleret";
+        Order expected = new Order(
+                1,
+                1,
+                1000,
+                status,
+                10 ,
+                10,
+                "Ordre til Customer1",
+                LocalDateTime.parse("2025-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+        );
+
+        // Act
+        Order actual = OrderMapper.updateStatusByOrderId(expected.getId(), status);
 
         // Assert
         assertEquals(expected, actual);

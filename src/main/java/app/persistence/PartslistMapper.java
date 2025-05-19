@@ -29,12 +29,12 @@ public class PartslistMapper {
             ps.setString(4, part.getDescription());
             ps.setInt(5, part.getLength());
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    int id = rs.getInt("id");
+            ResultSet rs = ps.executeQuery();
 
-                    return new Partslist(id, part.getQuantity(), part.getDescription(), part.getLength(), part.getMaterial());
-                }
+            if (rs.next()) {
+                int id = rs.getInt("id");
+
+                return new Partslist(id, part.getQuantity(), part.getDescription(), part.getLength(), part.getMaterial());
             }
 
         } catch (SQLException e) {

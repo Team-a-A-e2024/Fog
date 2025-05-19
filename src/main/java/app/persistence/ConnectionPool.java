@@ -100,6 +100,7 @@ public class ConnectionPool {
         config.setMinimumIdle(2);      // Ensures some connections are always available
         config.setIdleTimeout(30000);  // 30 seconds idle timeout
         config.setConnectionTimeout(30000); // Max wait time for a connection
+        config.setLeakDetectionThreshold(2000); // Warn if connection is not returned in 2 seconds
         config.setPoolName("Postgresql-Pool");
 
         // Optimizations

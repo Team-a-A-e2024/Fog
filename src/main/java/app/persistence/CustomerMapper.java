@@ -43,14 +43,14 @@ public class CustomerMapper {
             if (c.getSalesRep() == null) ps.setNull(6, Types.INTEGER);
             else ps.setInt(6, c.getSalesRep().getId());
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    rs.getInt("id");
-                    Customer customer = new Customer(rs.getInt("id"),c.getFullname(), c.getEmail(),c.getAddress(),c.getPhoneNumber(),c.getSalesRep(),c.getPostalCode());
-                    return customer;
-                } else {
-                    throw new DatabaseException("Could not register customer");
-                }
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                rs.getInt("id");
+                Customer customer = new Customer(rs.getInt("id"),c.getFullname(), c.getEmail(),c.getAddress(),c.getPhoneNumber(),c.getSalesRep(),c.getPostalCode());
+                return customer;
+            } else {
+                throw new DatabaseException("Could not register customer");
             }
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
@@ -72,33 +72,32 @@ public class CustomerMapper {
                 "WHERE (c.user_id IS NULL OR c.user_id = ?) " +
                 "AND o.status = 'Afventer';";
 
-        try {
-            Connection connec = connectionPool.getConnection();
-            PreparedStatement ps = connec.prepareStatement(sql);
+        try (Connection connec = connectionPool.getConnection();
+             PreparedStatement ps = connec.prepareStatement(sql)) {
+
             ps.setInt(1, userId);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    int customerId = rs.getInt("id");
-                    String fullname = rs.getString("fullname");
-                    String customerEmail = rs.getString("email"); // comes from c.*
-                    String address = rs.getString("address");
-                    String phoneNumber = rs.getString("phone_number");
-                    int postalCode = rs.getInt("postal_code");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int customerId = rs.getInt("id");
+                String fullname = rs.getString("fullname");
+                String customerEmail = rs.getString("email"); // comes from c.*
+                String address = rs.getString("address");
+                String phoneNumber = rs.getString("phone_number");
+                int postalCode = rs.getInt("postal_code");
 
-                    Customer customer = new Customer(customerId, fullname, customerEmail, address, phoneNumber, null, postalCode);
+                Customer customer = new Customer(customerId, fullname, customerEmail, address, phoneNumber, null, postalCode);
 
-                    int salesRepId = rs.getInt("salesrep_id");
-                    if (salesRepId != 0) {
-                        String salesRepEmail = rs.getString("salesrep_email");
-                        String salesRepPassword = rs.getString("salesrep_password");
-                        String salesRepRole = rs.getString("salesrep_role");
+                int salesRepId = rs.getInt("salesrep_id");
+                if (salesRepId != 0) {
+                    String salesRepEmail = rs.getString("salesrep_email");
+                    String salesRepPassword = rs.getString("salesrep_password");
+                    String salesRepRole = rs.getString("salesrep_role");
 
-                        User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole, null);
-                        customer.setSalesRep(salesRep);
-                    }
-                    customerList.add(customer);
+                    User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole, null);
+                    customer.setSalesRep(salesRep);
                 }
+                customerList.add(customer);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
@@ -118,32 +117,31 @@ public class CustomerMapper {
                 "LEFT JOIN users u ON c.user_id = u.id " +
                 "WHERE c.id = ? ";
 
-        try {
-            Connection connec = connectionPool.getConnection();
-            PreparedStatement ps = connec.prepareStatement(sql);
+        try (Connection connec = connectionPool.getConnection();
+             PreparedStatement ps = connec.prepareStatement(sql)) {
+
             ps.setInt(1, userId);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    String fullname = rs.getString("fullname");
-                    String customerEmail = rs.getString("email"); // comes from c.*
-                    String address = rs.getString("address");
-                    String phoneNumber = rs.getString("phone_number");
-                    int postalCode = rs.getInt("postal_code");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String fullname = rs.getString("fullname");
+                String customerEmail = rs.getString("email"); // comes from c.*
+                String address = rs.getString("address");
+                String phoneNumber = rs.getString("phone_number");
+                int postalCode = rs.getInt("postal_code");
 
-                    Customer customer = new Customer(userId, fullname, customerEmail, address, phoneNumber, null, postalCode);
+                Customer customer = new Customer(userId, fullname, customerEmail, address, phoneNumber, null, postalCode);
 
-                    int salesRepId = rs.getInt("salesrep_id");
-                    if (salesRepId != 0) {
-                        String salesRepEmail = rs.getString("salesrep_email");
-                        String salesRepPassword = rs.getString("salesrep_password");
-                        String salesRepRole = rs.getString("salesrep_role");
+                int salesRepId = rs.getInt("salesrep_id");
+                if (salesRepId != 0) {
+                    String salesRepEmail = rs.getString("salesrep_email");
+                    String salesRepPassword = rs.getString("salesrep_password");
+                    String salesRepRole = rs.getString("salesrep_role");
 
-                        User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole, null);
-                        customer.setSalesRep(salesRep);
-                    }
-                    return customer;
+                    User salesRep = new User(salesRepId, salesRepEmail, salesRepPassword, salesRepRole, null);
+                    customer.setSalesRep(salesRep);
                 }
+                return customer;
             }
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
@@ -153,9 +151,9 @@ public class CustomerMapper {
 
     public static void assignSalesRepToCostumer(int customerId, int salesRepId) throws DatabaseException {
         String sql = "UPDATE customers SET user_id = ? WHERE id = ?;";
-        try {
-            Connection connec = connectionPool.getConnection();
-            PreparedStatement ps = connec.prepareStatement(sql);
+        try (Connection connec = connectionPool.getConnection();
+             PreparedStatement ps = connec.prepareStatement(sql)) {
+
             ps.setInt(1, salesRepId);
             ps.setInt(2, customerId);
             ps.executeUpdate();

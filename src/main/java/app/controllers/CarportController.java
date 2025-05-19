@@ -1,8 +1,10 @@
 package app.controllers;
 
+import app.Enums.Role;
 import app.entities.Customer;
 import app.entities.Order;
 import app.entities.Partslist;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.CustomerMapper;
 import app.persistence.MaterialMapper;
@@ -24,13 +26,15 @@ import java.util.Map;
 public class CarportController {
 
     public static void routes(Javalin app) {
-        app.get ("/",      CarportController::showForm);
-        app.post("/",      CarportController::submitForm);
-        app.get ("/confirmation", CarportController::showConfirmation);
+        app.get ("/",      CarportController::showForm, Role.ANYONE);
+        app.post("/",      CarportController::submitForm, Role.ANYONE);
+        app.get ("/confirmation", CarportController::showConfirmation, Role.ANYONE);
     }
 
     // GET  /carport – render an empty form
     private static void showForm(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+        ctx.attribute("user", user);
         ctx.render("carport-form.html");
     }
 
@@ -62,7 +66,7 @@ public class CarportController {
         Order order = new Order(
                 customer.getId(),
                 0.0,
-                "afventer",
+                "Afventer",
                 parseInt(ctx.formParam("widthCm")),
                 parseInt(ctx.formParam("lengthCm")),
                 ctx.formParam("comments"),
@@ -95,6 +99,8 @@ public class CarportController {
     }
 
     private static void showConfirmation(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+        ctx.attribute("user", user);
         ctx.render("carport-confirm.html");
     }
 

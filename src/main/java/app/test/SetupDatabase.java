@@ -1,19 +1,17 @@
 package app.test;
 
-import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
-import org.thymeleaf.processor.comment.ICommentStructureHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SetupDatabase {
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
-    private static final String URL = "jdbc:postgresql://localhost:5432/%s?currentSchema=test";
-    private static final String DB = "fog";
+    private static final String USER = System.getenv("DB_USER");
+    private static final String PASSWORD = System.getenv("DB_PASSWORD");
+    private static final String URL = System.getenv("DB_URL") + "test";
+    private static final String DB = System.getenv("DB");
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 

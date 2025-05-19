@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Byg selv carport</title>
-    <link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
+    <link href="/public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
 <header>
@@ -13,7 +13,14 @@
             <img src="../public/images/Fog_logo.png" alt="Fog">
         </a>
         <h4>Byg selv carport</h4>
-
+        <div th:if="${user != null}" class="customer-overview-dropdown">
+            <button class="customer-profile-dropdown" th:text="${user.email.substring(0,1).toUpperCase()}">A</button>
+            <div class="customer-dropdown-content">
+                <a th:href="@{/customer-overview}">Kunder</a>
+                <a th:href="@{/orders}">Ordrer</a>
+                <a th:href="@{/logout}">Log ud</a>
+            </div>
+        </div>
     </div>
 </header>
 <main class="container">

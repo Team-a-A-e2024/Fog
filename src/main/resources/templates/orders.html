@@ -2,7 +2,8 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Kunder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordrer</title>
     <link rel="stylesheet" href="/public/css/styles.css" th:href="@{/public/css/styles.css}">
 </head>
 <body>
@@ -13,44 +14,67 @@
                 <img src="../public/images/Fog_logo.png" alt="Fog">
             </a>
             <h4>Byg selv carport</h4>
-            <div class="customer-overview-dropdown">
-                <button class="customer-profile-dropdown" th:text="${email.substring(0,1).toUpperCase()}">A</button>
+            <div th:if="${user != null}" class="customer-overview-dropdown">
+                <button class="customer-profile-dropdown" th:text="${user.email.substring(0,1).toUpperCase()}">A</button>
                 <div class="customer-dropdown-content">
                     <a th:href="@{/customer-overview}">Kunder</a>
-                    <a th:href="@{/}">Ordre</a>
+                    <a th:href="@{/orders}">Ordrer</a>
                     <a th:href="@{/logout}">Log ud</a>
                 </div>
             </div>
         </div>
     </header>
     <div class="customer-box">
-        <h1>Order</h1>
+        <h1>Ordrer</h1>
     </div>
     <div class="customer-pageview">
         <table class="customer-table" th:if="${orders != null}">
-            <th>Rediger</th>
-            <th>Oprettet</th>
-            <th>Id</th>
-            <th>Kunde</th>
-            <th>Status</th>
-            <th>Længde</th>
-            <th>Bredde</th>
-            <th>Pris</th>
-            <th>Bemærkning</th>
+            <tr>
+                <th>Rediger</th>
+                <th>Oprettet</th>
+                <th>Id</th>
+                <th>Kunde</th>
+                <th>Status</th>
+                <th>Længde</th>
+                <th>Bredde</th>
+                <th>Pris</th>
+                <th>Bemærkning</th>
+            </tr>
             <tr th:each="order : ${orders}">
                 <td><a th:href="@{/orders/manageOrder{id}(id=${order.id})}">
                     <img class="table-link-image" src="../public/images/edit_icon.png" alt="rediger">
                 </a></td>
-                <td th:text="${order.createdAt}">Oprettet</td>
+                <td th:text="${order.getCreatedAtLocalDate()}">Oprettet</td>
                 <td th:text="${order.id}">ID</td>
                 <td th:text="${order.customerid}">Kunde</td>
                 <td th:text="${order.status}">Status</td>
-                <td th:text="${order.lengthCm}">Længde</td>
-                <td th:text="${order.widthCm}">Bredde</td>
-                <td th:text="${order.total}">Pris</td>
+                <td th:text="${order.lengthCm} + 'cm'">Længde</td>
+                <td th:text="${order.widthCm} + 'cm'">Bredde</td>
+                <td th:text="${#strings.replace(order.total.toString(), '.', ',')} + ' kr.'">Pris</td>
                 <td th:text="${order.comments}">Bemærkning</td>
             </tr>
         </table>
+        <div th:if="${orders != null}">
+            <div class="customer-display-box-mobile position-container" th:each="order : ${orders}">
+                <a th:href="@{/orders/manageOrder{id}(id=${order.id})}">
+                    <img class="table-link-image" src="../public/images/edit_icon.png" alt="rediger">
+                </a>
+                <p th:text="${order.getCreatedAtLocalDate()}">11/11/2022</p>
+                <h2 th:text="@{'ID: ' + ${order.id}}">ID: 1</h2>
+                <b><p th:text="@{'Kunde ID: ' + ${order.customerid}}">Kunde ID: 1</p></b>
+                <p th:text="@{'Bemærkning: ' + ${order.customerid}}">Bemærkning: Hundehus</p>
+                <div class="absolute pos-top-right">
+                    <p>
+                        <div class="align-right" th:text="@{${order.lengthCm} + 'cm'}">Længde: 780cm</div>
+                        <div class="align-right" th:text="@{${order.widthCm} + 'cm'}">Bredde: 600cm</div>
+                        <div class="align-right" th:text="${#strings.replace(order.total.toString(), '.', ',')} + ' kr.'">Pris: 9999,95 kr.</div>
+                    </p>
+                </div>
+                <div class="absolute pos-bottom-right">
+                    <h3 th:text="@{${order.status}}">Annulleret</h3>
+                </div>
+            </div>
+        </div>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </div>
 </div>
