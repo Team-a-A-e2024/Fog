@@ -68,12 +68,4 @@ public class Main {
         ServiceController.routes(app);
 
     }
-
-    public static void svgtest(Context ctx) {
-
-        CarportSvgGenerator svg = new CarportSvgGenerator(0, 0, 240, 660);
-
-        ctx.attribute("svg", svg.getSvg().toString());
-        ctx.render("svgPlayground");
-    }
 }
