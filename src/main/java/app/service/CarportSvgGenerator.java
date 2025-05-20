@@ -28,7 +28,7 @@ public class CarportSvgGenerator {
         drawArrowWithText(0,width+50, length, width+50,"" + length);
     }
 
-    public void drawTopPoles(int width, int length){
+    private void drawTopPoles(int width, int length){
         drawTopSinglePole(frontmargin, sidemargin);
         drawTopSinglePole(frontmargin, width-sidemargin);
         drawTopSinglePole(length-backmargin, sidemargin);
@@ -68,11 +68,11 @@ public class CarportSvgGenerator {
         drawArrowWithText(frontmargin,width+20,length-backmargin, width+20,"" + deltaLength);
     }
 
-    public void drawTopSinglePole(int x, int y){
+    private void drawTopSinglePole(int x, int y){
         svg.addRectangle(x - poleSize/2 + offsetX,y - poleSize/2 + offsetY,poleSize,poleSize,"stroke:black; stroke-width:1; fill:white;");
     }
 
-    public void drawTopBeams(int width, int length){
+    private void drawTopBeams(int width, int length){
         if(length-backmargin > postAtBeamExtension){
             int deltalength = length - postAtBeamExtension;
             drawTopSingleBeam(postAtBeamExtension, sidemargin, deltalength);
@@ -85,11 +85,11 @@ public class CarportSvgGenerator {
         drawTopSingleBeam(0, width-sidemargin, length);
     }
 
-    public void drawTopSingleBeam(float x, float y, int length){
+    private void drawTopSingleBeam(float x, float y, int length){
         svg.addRectangle(x + offsetX,y + offsetY,rafterwidth,length,"stroke:black; stroke-width:1; fill:none;");
     }
 
-    public void drawTopRafters(int width, int length){
+    private void drawTopRafters(int width, int length){
 
         int count = length/rafterSpacing;
 
@@ -101,19 +101,11 @@ public class CarportSvgGenerator {
         drawTopSingleRafter(length, width);
     }
 
-    public void drawTopSingleRafter(int x, int width){
+    private void drawTopSingleRafter(int x, int width){
         svg.addRectangle(x + offsetX, offsetY, width, rafterwidth,"stroke:black; stroke-width:1; fill:white;");
     }
 
-    public Svg getSvg() {
-        return svg;
-    }
-
-    public void setSvg(Svg svg) {
-        this.svg = svg;
-    }
-
-    public void drawArrowWithText(int startX, int startY, int endX, int endY, String text){
+    private void drawArrowWithText(int startX, int startY, int endX, int endY, String text){
         svg.addArrow(startX + offsetX, startY + offsetY, endX + offsetX, endY + offsetY,"stroke:black; stroke-width:1;");
 
         //vector
@@ -129,5 +121,9 @@ public class CarportSvgGenerator {
         float y2 = y1/v1Length;
 
         svg.addText((float) (x1)/2f + startX + offsetX + (-y2 * 10),(float) (y1)/2f + startY + offsetX + (x2 * 10),- (int)angle,"color:black;",text);
+    }
+
+    public Svg getSvg() {
+        return svg;
     }
 }
