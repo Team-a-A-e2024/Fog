@@ -8,10 +8,10 @@ import java.util.List;
 
 public class PostCalculationStrategy implements ICalculationStrategy {
     private int length;
-    private int postLength = 300;
-    private int firstPost = 100;
-    private int maxDistanceBetweenPosts = 310;
-    private int postAtBeamExtension = 600;
+    public static final int postLength = 300;
+    public static final int firstPost = 100;
+    public static final int maxDistanceBetweenPosts = 310;
+    public static final int postAtBeamExtension = 600;
 
     @Override
     public List<Partslist> calculate(int length, int width, Material material) {

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RaftersCalculationStrategy implements ICalculationStrategy {
     private int length;
-    private int rafterSpacing = 55;
+    public static final int rafterSpacing = 55;
 
     @Override
     public List<Partslist> calculate(int length, int width, Material material) {

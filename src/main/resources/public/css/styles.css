@@ -514,13 +514,24 @@ html, body{
     color: var(--fog-white);
 }
 
-.partslist-display-box-mobile {
+.partslist-display-box-mobile, .svg-container {
     background-color: var(--fog-white);
     margin: 2em auto;
     border-radius: 25px;
     padding: 2em;
     color: var(--fog-blue);
 }
+
+.svg-container{
+    max-width: 80em;
+}
+
+svg {
+    margin: auto;
+    display: block;
+    max-height: 40em;
+}
+
 
 @media screen and (max-width: 600px) {
     .partslist-table {

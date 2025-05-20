@@ -7,8 +7,8 @@ import java.util.List;
 
 public class BeamCalculationStrategy implements ICalculationStrategy {
     private int length;
-    private int maxBeamLength = 600;
-    private int minBeamLength = 360;
+    public static final int maxBeamLength = 600;
+    public static final int minBeamLength = 360;
 
     @Override
     public List<Partslist> calculate(int length, int width, Material material)  {

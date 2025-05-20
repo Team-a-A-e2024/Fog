@@ -48,6 +48,14 @@
         <div>
             <p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p>
         </div>
+
+        <div class="Svg-container">
+            <div class="svg-container" th:utext="${svg}">
+
+            </div>
+        </div>
+
+
     </div>
 </div>
 </body>

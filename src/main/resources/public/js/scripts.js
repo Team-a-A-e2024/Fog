@@ -23,5 +23,3 @@ document.addEventListener('DOMContentLoaded', function () {
     cardRadio.addEventListener('change', toggleFields);
     mobileRadio.addEventListener('change', toggleFields);
 });
-
-
