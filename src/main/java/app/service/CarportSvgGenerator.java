@@ -20,7 +20,7 @@ public class CarportSvgGenerator {
 
     //size of the carport, 1 = 1cm
     public CarportSvgGenerator(int x, int y, int width, int length){
-        svg = new Svg(x,y,"0 0 " + (length + offsetX + margin) + " " + (width + offsetY + margin) + "\"" ,"100%");
+        svg = new Svg(x,y,"0 0 " + (length + offsetX + margin) + " " + (width + offsetY + margin) + "\"");
         drawTopPoles(width,length);
         drawTopBeams(width,length);
         drawTopRafters(width,length);

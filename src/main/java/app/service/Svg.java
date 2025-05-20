@@ -4,7 +4,7 @@ public class Svg
 {
     private static final String SVG_TEMPLATE = "<svg version=\"1.1\"\n" +
             "     x=\"%d\" y=\"%d\"\n" +
-            "     viewBox=\"%s\"  width=\"%s\" \n" +
+            "     viewBox=\"%s\" \n" +
             "     preserveAspectRatio=\"xMinYMin\">";
 
     private static final String SVG_ARROW_DEFS = "<defs>\n" +
@@ -24,9 +24,9 @@ public class Svg
 
     private StringBuilder svg = new StringBuilder();
 
-    public Svg(int x, int y, String viewBox, String width)
+    public Svg(int x, int y, String viewBox)
     {
-        svg.append(String.format(SVG_TEMPLATE, x, y, viewBox, width));
+        svg.append(String.format(SVG_TEMPLATE, x, y, viewBox));
         svg.append(SVG_ARROW_DEFS);
     }
 
