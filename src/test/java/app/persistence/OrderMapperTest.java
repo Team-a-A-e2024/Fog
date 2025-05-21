@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -106,6 +108,21 @@ class OrderMapperTest {
         // Act
         OrderMapper.updateOrderByObject(expected);
         Order actual = OrderMapper.getOrderByid(expected.getId());
+
+        // Assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getListOfOrders() throws DatabaseException {
+        // Arrange
+        List<Order> expected = new ArrayList<>();
+        expected.add(new Order(1,1,1000,"Godkendt",10,10,"Ordre til Customer1",(LocalDate.of(2025,1,1)).atStartOfDay()));
+        expected.add(new Order(2,2,1000,"Godkendt",10,10,"Ordre til Customer2",(LocalDate.of(2025,1,2)).atStartOfDay()));
+        expected.add(new Order(3,4,1000,"Afventer",10,10,"Ordre til Customer4",(LocalDate.of(2025,1,3)).atStartOfDay()));
+
+        // Act
+        List<Order> actual = OrderMapper.getListofOrders();
 
         // Assert
         assertEquals(expected, actual);

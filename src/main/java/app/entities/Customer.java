@@ -88,14 +88,10 @@ public class Customer {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return id == customer.id && phoneNumber == customer.phoneNumber && postalCode == customer.postalCode && Objects.equals(fullname, customer.fullname) && Objects.equals(email, customer.email) && Objects.equals(address, customer.address) && Objects.equals(salesRep, customer.salesRep);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, fullname, email, address, phoneNumber, salesRep, postalCode);
+        return id == customer.id && postalCode == customer.postalCode && Objects.equals(fullname, customer.fullname) && Objects.equals(email, customer.email) && Objects.equals(address, customer.address) && Objects.equals(phoneNumber, customer.phoneNumber) && Objects.equals(salesRep, customer.salesRep);
     }
 
     @Override

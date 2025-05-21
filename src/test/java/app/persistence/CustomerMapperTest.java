@@ -44,6 +44,18 @@ class CustomerMapperTest {
     }
 
     @Test
+    void testGetCustomerWithId () throws DatabaseException {
+        //arrange
+        User user = new User(3,"test2","Test2","salesman",null);
+        Customer expected = new Customer(2,"Customer2","test2@test.dk","testaddress2","13345678",user,1234);
+         //act
+        Customer actual = CustomerMapper.getCustomerWithId(expected.getId());
+        //assert
+        assertEquals(expected,actual);
+
+    }
+
+    @Test
         //Test if customers without a sales representative (user_id = null) are returned correctly
     void testCustomersWithoutSalesRep() throws DatabaseException {
         int userId = 2;
