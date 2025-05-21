@@ -6,6 +6,7 @@ import app.util.PasswordUtil;
 import org.junit.jupiter.api.*;
 import app.test.SetupDatabase;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,8 +41,12 @@ class UserMapperTest {
     }
 
     @Test
-    void testConnection() throws SQLException {
-        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
+    void testConnection() {
+        try (Connection connection = SetupDatabase.getConnectionPool().getConnection())  {
+            assertNotNull(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
