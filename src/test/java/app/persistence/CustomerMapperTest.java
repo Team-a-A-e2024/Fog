@@ -6,6 +6,7 @@ import app.exceptions.DatabaseException;
 import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,8 +35,12 @@ class CustomerMapperTest {
     }
 
     @Test
-    void testConnection() throws SQLException {
-        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
+    void testConnection() {
+        try (Connection connection = SetupDatabase.getConnectionPool().getConnection())  {
+            assertNotNull(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

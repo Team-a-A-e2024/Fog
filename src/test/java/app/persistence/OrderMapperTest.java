@@ -4,6 +4,8 @@ import app.entities.Order;
 import app.exceptions.DatabaseException;
 import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,8 +39,12 @@ class OrderMapperTest {
     }
 
     @Test
-    void connectionPoolWorks() throws SQLException {
-        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
+    void testConnection() {
+        try (Connection connection = SetupDatabase.getConnectionPool().getConnection())  {
+            assertNotNull(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

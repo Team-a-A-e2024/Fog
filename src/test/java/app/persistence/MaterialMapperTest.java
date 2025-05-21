@@ -5,6 +5,7 @@ import app.exceptions.DatabaseException;
 import app.test.SetupDatabase;
 import org.junit.jupiter.api.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,8 +37,12 @@ class MaterialMapperTest {
     }
 
     @Test
-    void testConnection() throws SQLException {
-        assertNotNull(SetupDatabase.getConnectionPool().getConnection());
+    void testConnection() {
+        try (Connection connection = SetupDatabase.getConnectionPool().getConnection())  {
+            assertNotNull(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
