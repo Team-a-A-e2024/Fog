@@ -52,7 +52,7 @@ class UserMapperTest {
     @Test
     void createUser() throws DatabaseException {
         // Arrange
-        User expected = new User(6, "test", "test", "salesman", new Date(12,12,12));
+        User expected = new User(6, "test", "test", "SalesRep", new Date(12,12,12));
 
         // Act
         User actual = UserMapper.addUserByObject(expected);
@@ -70,7 +70,7 @@ class UserMapperTest {
         assertNotNull(user);
         assertEquals(email, user.getEmail());
         assertEquals("Test1", user.getPassword());
-        assertEquals("salesman", user.getRole());
+        assertEquals("SalesRep", user.getRole());
     }
 
     @Test
@@ -91,7 +91,7 @@ class UserMapperTest {
 
         assertNotNull(user);
         assertEquals(email, user.getEmail());
-        assertEquals("salesman", user.getRole());
+        assertEquals("SalesRep", user.getRole());
         assertTrue(PasswordUtil.checkPlainPassword(password,user.getPassword()));
     }
 

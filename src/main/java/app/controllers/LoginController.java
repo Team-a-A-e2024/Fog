@@ -73,7 +73,7 @@ public class LoginController {
         String password2 = ctx.formParam("password-repeat");
 
         if (password.equals(password2)) {
-            if (password.length() < 51 && password.length() > 15) {
+            if (password.length() < 51 && password.length() > 7) {
                 User user = ctx.sessionAttribute("user");
                 user.setPassword(PasswordUtil.hashPassword(password));
                 user.setPasswordChangeDate(Date.valueOf(LocalDate.now()));

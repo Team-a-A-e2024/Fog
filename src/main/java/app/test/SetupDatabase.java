@@ -90,10 +90,10 @@ public class SetupDatabase {
             stmt.execute("INSERT INTO test.users (id, email, password, role, password_changed_date) " +
                     "VALUES " +
                     "(DEFAULT, 'admin', 'admin', 'admin', null), " +
-                    "(DEFAULT, 'test1', 'Test1', 'salesman', null), " +
-                    "(DEFAULT, 'test2', 'Test2', 'salesman', null), " +
-                    "(DEFAULT, 'test3', 'Test3', 'salesman', null), " +
-                    "(DEFAULT, 'test4', 'Test4', 'salesman', null);");
+                    "(DEFAULT, 'test1', 'Test1', 'SalesRep', null), " +
+                    "(DEFAULT, 'test2', 'Test2', 'SalesRep', null), " +
+                    "(DEFAULT, 'test3', 'Test3', 'SalesRep', null), " +
+                    "(DEFAULT, 'test4', 'Test4', 'SalesRep', null);");
 
             // Insert test data into customers
             stmt.execute("INSERT INTO test.customers (id, fullname, email, address, phone_number, user_id, postal_code) " +

@@ -4,15 +4,10 @@ import app.Enums.Role;
 import app.config.*;
 import app.controllers.*;
 import app.entities.User;
-import app.exceptions.DatabaseException;
 import app.persistence.*;
-import app.service.CarportSvgGenerator;
 import io.javalin.Javalin;
-import io.javalin.http.Context;
 import io.javalin.http.ForbiddenResponse;
-import io.javalin.http.UnauthorizedResponse;
 import io.javalin.rendering.template.JavalinThymeleaf;
-import java.security.Provider;
 
 public class Main {
 
@@ -27,7 +22,7 @@ public class Main {
         // Initializing Javalin and Jetty webserver
 
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/");
+            config.staticFiles.add("/public");
             config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
@@ -43,7 +38,7 @@ public class Main {
         // Routing
         app.beforeMatched(ctx -> {
             String path = ctx.path();
-            if (!(path.endsWith(".css") || path.endsWith(".js") || path.startsWith("/public/"))) {
+            if (!(path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".png") || path.startsWith("/public/"))) {
                 Role userRole = Role.ANYONE;
                 User user = ctx.sessionAttribute("user");
                 if (user != null){
